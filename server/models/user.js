@@ -1,8 +1,8 @@
 'use strict';
 
 module.exports = (sequelize, type) => {
-    return sequelize.define('user', {
-        id: {
+    return sequelize.define('User', {
+        user_id: {
           type: type.INTEGER,
           primaryKey: true,
           autoIncrement: true
