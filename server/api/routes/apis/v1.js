@@ -11,7 +11,7 @@ let router = express.Router();
 // router.use('/dashboard', dashboardController);
 // router.use('/user', userController);
 
-router.use('./register', registerController);
+router.use('/register', registerController);
 
 
 module.exports = router;
