@@ -13,5 +13,8 @@ module.exports = (sequelize, type) => {
         email: type.STRING,
         type: type.STRING
 
+    },
+    {
+        timestamps: false;
     })
 }
