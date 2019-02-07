@@ -1,10 +1,5 @@
 let mysql  = require('mysql');
-let config = {
-  host    : 'localhost',
-  user    : 'p_s19_2',
-  password: 'zqz5v2',
-  database: 'p_s19_2_db'
-};
+let db = require('./configs/db');
 
 
 const express = require('express')
