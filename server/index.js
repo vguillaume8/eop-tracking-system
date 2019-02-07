@@ -1,14 +1,13 @@
 let mysql  = require('mysql');
 let db = require('./configs/db');
-
-
+let config = require('./configs/config');
 const express = require('express')
 const app = express()
-const port = 10020
+
 
 app.get('/', (req, res) => res.send('Hello World!'))
 
-app.listen(port, () => console.log(`Example app listening on port ${port}!`))
+app.listen(config.port, () => console.log(`Example app listening on port ${config.port}!`))
 
 
 let connection = mysql.createConnection(config);
