@@ -10,7 +10,8 @@ function init(server) {
   });
 
   server.get('/', function (req, res) {
-    res.redirect('/home');
+    //res.redirect('/home');
+    res.send("Home reached");
   });
 
   server.use('/api', apiRoute);
