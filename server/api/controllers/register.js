@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-c//onst registerService = require('../../services/authentication/register');
+//onst registerService = require('../../services/authentication/register');
 
 let router = express.Router();
 
