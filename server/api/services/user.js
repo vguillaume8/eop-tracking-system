@@ -8,6 +8,14 @@ const httpResponse = {
       success: false,
       message: 'User not found.'
     },
+    onCouldNotRetreive: {
+        success: false,
+        message: 'Could not retreive pillars'
+    },
+    onPillarNotFound: {
+        success: false,
+        message: 'Pillars not found.'
+    },
     onCouldNotSave: {
         success: false,
         message: 'Could Not Save'
@@ -31,9 +39,26 @@ function updatePillar(req, res){
     
 }
 
+function getPillar(req, res){
+    let student_id = req.params.userId;
+    Pillar.findOne({student_id: student_id}, function(err, pillar){
+        if(err){
+            res.send(httpResponse.onCouldNotRetreive);
+        }
+
+        if(!pillar){
+            res.send(httpResponse.onPillarNotFound);
+        }
+
+        res.send(pillar);
+        //res.send(pillar);
+    });
+}
+
 function retrieveUser(req, res){
     let user_id = req.params.userId;
-    User.findById(user_id, function(err, user){
+    console.log(user_id);
+    User.findOne({n_id: user_id}, function(err, user){
 
         if(err){
             res.send(httpResponse.onUserNotFound);
@@ -47,5 +72,6 @@ function retrieveUser(req, res){
 
 module.exports = {
     retrieve: retrieveUser,
-    updatePillar: updatePillar
+    updatePillar: updatePillar,
+    getPillar: getPillar
 };
