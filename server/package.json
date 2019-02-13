@@ -22,6 +22,7 @@
     "jsonwebtoken": "^8.4.0",
     "logger": "0.0.1",
     "mongoose": "^5.4.11",
+    "mongoose-double": "0.0.1",
     "morgan": "^1.9.1",
     "mysql2": "^1.6.4",
     "passport": "^0.4.0",

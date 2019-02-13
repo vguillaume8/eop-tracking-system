@@ -1,4 +1,5 @@
 const User = require('../../models/user');
+const Pillar = require('../../models/pillar');
 
 // http response messages to send to the clinet
 const httpResponses = {
@@ -37,6 +38,63 @@ function registerUser(request, response) {
      if (error) {
         return response.json(httpResponses.onUserSaveError);
       }
+
+
+      let pillar = {
+        student_id: n_id,
+        SelfActulization: {
+          Morals: 0.5,
+          Perception: 0.5,
+          Gratitude: 0.5,
+          Happiness: 0.5,
+          Social: 0.5,
+          Other: 0.5 
+        },
+        Emotional: {
+          Attitude: 0.5,
+          Feelings: 0.5,
+          Empathy: 0.5,
+          Coping: 0.5,
+          Insight: 0.5,
+          Management: 0.5
+        },
+        Community: {
+          Physical: 0.5,
+          Service: 0.5,
+          Culture: 0.5,
+          Social: 0.5
+        },
+        Intellectual: {
+          Thinking: 0.5,
+          Current: 0.5,
+          Experiences: 0.5,
+          Organization: 0.5,
+          Learning: 0.5
+        },
+        Health: {
+          Physical: 0.5,
+          Nutritional: 0.5,
+          Hygiene: 0.5,
+          Sleep: 0.5 
+        },
+        ProfessionalAcademic: {
+          Major: 0.5,
+          Specialization: 0.5,
+          Satisfaction: 0.5,
+          Persona: 0.5,
+          Ethic: 0.5,
+          Skills: 0.5
+        }
+      }
+      
+
+
+      let newPillar = new Pillar(pillar);
+      newPillar.save(error => {
+        if (error) {
+          return response.json(httpResponses.onUserSaveError);
+        }
+       });
       response.json(httpResponses.onUserSaveSuccess);
     });
   }

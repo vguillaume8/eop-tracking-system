@@ -48,6 +48,11 @@ export default {
         sendPost(slug){
             this.$http.post(`http://localhost:3000/api/v1${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
                 console.log(result.body.status);
+                if(result.body.staus == true){
+                  alert("User was sucessfully created");
+                }else{
+                  alert(result.body.message);
+                }
             });
         }
     }
