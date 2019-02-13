@@ -11,5 +11,5 @@ router.get('/', function(req, res){
     res.send("Register Endpoint reached")
 });
 
-router.post('/', registerService.registerUser);
+router.post('/', registerService.register);
 module.exports = router;

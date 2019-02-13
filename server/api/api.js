@@ -1,6 +1,7 @@
 'use strict';
 
-const Sequelize = require('sequelize');
+const mongoose = require('mongoose');
+const connection = mongoose.connection;
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
@@ -29,6 +30,10 @@ module.exports = function() {
     server.use(cookieParser());
     server.use(logger('dev'));
     server.use(passport.initialize());
+    mongoose.connect(db.database);
+    connection.on('connected', function(){
+      console.log("DB connected");
+    });
     //const sequelize = new Sequelize(db.database, db.username, db.password, db);
     //require('../configs/passport')(passport);
 

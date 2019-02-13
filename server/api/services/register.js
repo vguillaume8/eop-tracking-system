@@ -1,31 +1,55 @@
 const User = require('../../models/user');
 
 
-function registerUser(req, res){
-    console.log("User");
-    let email = req.body.email;
-    let firstname = req.body.firstname;
-    let lastname = req.body.lasname;
-    let password = req.body.password;
-    let type = req.body.type;
+const httpResponses = {
+  onSamePhoneValidationError: {
+    success: false,
+    message: 'There is already an account under that phone number',
+    status: 400
+  },
+  onValidPhoneSuccess: {
+    success: true,
+    message: 'Phone number is valid for registration',
+    status: 200
+  },
+  onValidationError: {
+    success: false,
+    message: 'Please enter email and password.'
+  },
+  onUserSaveError: {
+    success: false,
+    message: 'That email address already exists.'
+  },
+  onUserSaveSuccess: {
+    success: true,
+    message: 'Successfully created new user.'
+  }
+};
 
-    models.User.build({ 
-        password: password,
-        first_name: firstname,
-        last_name: lastname,
-        email: email,
-        type: type
-    })
-      .save()
-      .catch(error => {
-        console.log('uh oh something wasnt right!');
-        console.log(error);
-        // Ooops, do some error-handling
-      })
-      res.send("User was registered");
+// Register new users
+function registerUser(request, response) {
+  let { n_id, firstname, lastname, email, password } = request.body;
 
+  if (!email || !password) {
+    response.json(httpResponses.onValidationError);
+  }else {
+    let newUser = new User({
+      n_id: n_id,
+      firstname: firstname,
+      lastname: lastname,
+      email: email,
+      password: password
+  });
+   // Attempt to save the user
+   newUser.save(error => {
+     if (error) {
+        return response.json(httpResponses.onUserSaveError);
+      }
+      response.json(httpResponses.onUserSaveSuccess);
+    });
+  }
 }
 
 module.exports = {
-    registerUser: registerUser
+  register: registerUser
 };

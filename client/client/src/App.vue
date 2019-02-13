@@ -1,6 +1,7 @@
 <template>
   <div id="app" class="container">
     <div class="display-3">
+       <a class="btn btn-sm btn-danger logout" v-on:click="logout">Logout</a>
       <img alt="Vue logo" src="./assets/logo.png" id="logo">
       
       
@@ -12,6 +13,11 @@
 
 <style lang="scss">
 @import "../node_modules/bootstrap/scss/bootstrap.scss";
+// for registration page
+@import url("https://fonts.googleapis.com/css?family=Nunito");
+@import url("https://use.fontawesome.com/releases/v5.0.6/css/all.css");
+@import "./css/style.css";
+
 #logo { height: 50px;}
 </style>
 
@@ -22,6 +28,14 @@ export default {
   name: 'home',
   components: {
     Nav
+  },
+  methods: {
+    logout(){
+      localStorage.removeItem('user');
+      localStorage.removeItem('jwt');
+      this.$router.push('/login');
+      //location.reload();
+    }
   }
 }
 </script>

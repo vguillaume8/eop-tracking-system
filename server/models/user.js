@@ -1,20 +1,76 @@
-'use strict';
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
-module.exports = (sequelize, type) => {
-    return sequelize.define('User', {
-        user_id: {
-          type: type.INTEGER,
-          primaryKey: true,
-          autoIncrement: true
-        },
-        password: type.STRING,
-        first_name: type.STRING,
-        last_name: type.STRING,
-        email: type.STRING,
-        type: type.STRING
+const UserSchema = new mongoose.Schema({
+  n_id: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  firstname: {
+      type: String,
+      lowercase: true,
+      required: true
+  },
+  lastname: {
+      type: String,
+      lowercase: true,
+      required: true
+  },
+  email: {
+    type: String,
+    lowercase: true,
+    unique: true,
+    required: true
+  },
+  password: {
+    type: String,
+    required: true
+  },
+  students:[{
+      n_id: String
+  }],
+  role: {
+    type: String,
+    enum: ['student', 'advisor', 'admin'],
+    default: 'student'
+  }
+});
 
-    },
-    {
-        timestamps: false
-    })
-}
+UserSchema.pre('save', function(next) {
+  let user = this;
+
+  if (this.isModified('password') || this.isNew) {
+    bcrypt.genSalt(10, (err, salt) => {
+      if (err) {
+        console.log(err);
+        return next(err);
+      }
+
+      bcrypt.hash(user.password, salt, (err, hash) => {
+        if (err) {
+          console.log(err);
+          return next(err);
+        }
+
+        user.password = hash;
+        next();
+      });
+    });
+  } else {
+    return next();
+  }
+});
+
+// Create method to compare password input to password saved in database
+UserSchema.methods.comparePassword = function(pw, cb) {
+  bcrypt.compare(pw, this.password, function(err, isMatch) {
+    if (err) {
+      return cb(err);
+    }
+
+    cb(null, isMatch);
+  });
+};
+
+module.exports = mongoose.model('User', UserSchema);
