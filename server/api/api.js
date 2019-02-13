@@ -10,9 +10,7 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors');
 
 module.exports = function() {
-  let server = express(),
-    create,
-    start;
+  let server = express(), create, start;
 
   create = function(config, db) {
     let routes = require('./routes/route');
@@ -34,10 +32,9 @@ module.exports = function() {
     connection.on('connected', function(){
       console.log("DB connected");
     });
-    //const sequelize = new Sequelize(db.database, db.username, db.password, db);
-    //require('../configs/passport')(passport);
+    
 
-    server.use('/uploads', express.static('uploads'));
+    //server.use('/uploads', express.static('uploads'));
 
     //server.set('views', server.get('viewDir'));
 

@@ -5,7 +5,7 @@ const passport = require('passport');
 const db = require('../../configs/db');
 const User = require('../../models/user');
 
-const httpres = {
+const httpResponses = {
   onUserNotFound: {
     success: false,
     message: 'User not found.'
@@ -16,15 +16,15 @@ const httpres = {
   }
 }
 
+// attemps to login user
 function loginUser(req, res) { 
   let { email, password } = req.body;
-  User.findOne({
-    email: email
-  }, function(error, user) {
-    if (error) throw error;
 
+  User.findOne({email: email}, function(error, user) {
+    if (error) throw error;
+    // returns error if no user is found
     if (!user) {
-      return res.send(httpres.onUserNotFound);
+      return res.send(httpResponses.onUserNotFound);
     }
 
     // Check if password matches
@@ -36,7 +36,7 @@ function loginUser(req, res) {
         return res.json({ success: true, token: 'JWT ' + token, user: user });
       }
 
-      res.send(httpres.onAuthenticationFail);
+      res.send(httpResponses.onAuthenticationFail);
     });
   });
 };

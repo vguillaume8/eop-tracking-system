@@ -1,17 +1,7 @@
 const User = require('../../models/user');
 
-
+// http response messages to send to the clinet
 const httpResponses = {
-  onSamePhoneValidationError: {
-    success: false,
-    message: 'There is already an account under that phone number',
-    status: 400
-  },
-  onValidPhoneSuccess: {
-    success: true,
-    message: 'Phone number is valid for registration',
-    status: 200
-  },
   onValidationError: {
     success: false,
     message: 'Please enter email and password.'
@@ -30,9 +20,11 @@ const httpResponses = {
 function registerUser(request, response) {
   let { n_id, firstname, lastname, email, password } = request.body;
 
+  // if there is no valid email or password
   if (!email || !password) {
     response.json(httpResponses.onValidationError);
   }else {
+    // creates user object with request body
     let newUser = new User({
       n_id: n_id,
       firstname: firstname,
