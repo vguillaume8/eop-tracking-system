@@ -14,6 +14,10 @@ const httpResponses = {
   onUserSaveSuccess: {
     success: true,
     message: 'Successfully created new user.'
+  },
+  onCouldNotRegister: {
+    success: false,
+    message: "Could not register user"
   }
 };
 
@@ -92,7 +96,7 @@ function registerUser(request, response) {
       let newPillar = new Pillar(pillar);
       newPillar.save(error => {
         if (error) {
-          return response.json(httpResponses.onUserSaveError);
+          return response.json(httpResponses.onCouldNotRegister);
         }
        });
       response.json(httpResponses.onUserSaveSuccess);

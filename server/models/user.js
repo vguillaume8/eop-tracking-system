@@ -27,9 +27,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true
   },
-  students:[{
-      n_id: String
-  }],
+  students: [String],
   role: {
     type: String,
     enum: ['student', 'advisor', 'admin'],

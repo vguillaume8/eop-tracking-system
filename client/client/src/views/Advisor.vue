@@ -1,3 +1,95 @@
 <template>
-    <h1> Advisor Page </h1>
+    <div>
+        <h1> Advisor Page </h1>
+        <h4> Add Student <input v-model="studentToAdd"> <a class="btn btn-success" @click.prevent="addStudent()"> Add Student </a> </h4>
+        <h4> Current Students </h4>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">N-Number</th>
+                    <th scope="col" >Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="s in students" :key="s.id" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">
+                    <td>{{s.firstname + " " + s.lastname}}</td>
+                    <td>{{s.n_id}}</td>
+                    <td>{{s.email}}</td>
+                </tr>
+            </tbody>
+        </table>      
+    </div>
 </template>
+
+
+<script>
+export default {
+    name: "Advisor",
+    data(){
+        return{
+            studentIdList: [],
+            students: [],
+            studentToAdd: "",
+            SelfActulizationProgress: 0.0,
+            totalSteps: 24
+        }
+    },
+    async mounted(){
+        await this.getAdvisorStudents();
+        await this.getUserData();
+    },
+    methods: { 
+         async getUserData(){
+            // get list of all  users
+            this.students = [];
+            for(var i = 0; i < this.studentIdList.length; i++){
+                let currentId = this.studentIdList[i];
+                await this.$http.get(`http://localhost:3000/api/v1/user/${currentId}`).then(result => {
+                    if(!this.students.includes(result.body.id)){
+                        this.students.push(result.body);
+                    }
+                    
+                });
+            }
+            this.$forceUpdate();
+        },
+        // gets list of advisor students
+        async getAdvisorStudents(){
+            let advisor = JSON.parse(localStorage.getItem('user'));
+            let advisorId = advisor.n_id;
+            await this.$http.get(`http://localhost:3000/api/v1/advisor/student/${advisorId}`).then(result => {
+                if(result.body.success == true){
+                    this.studentIdList = result.body.students;
+                }else{
+                    alert(result.body.message);
+                }
+            })
+        },
+        // runs when advisor adds a new student to their list
+        async addStudent(){ 
+            let advisor = JSON.parse(localStorage.getItem('user'));
+            let advisorId = advisor.n_id;
+            let data = {id: this.studentToAdd};
+            await this.$http.post(`http://localhost:3000/api/v1/advisor/student/${advisorId}`, data ).then(result => {
+                if(result.body.success == true){
+                    alert(result.body.message);
+                }else{
+                    alert(result.body.message);
+                }
+            });
+            this.getAdvisorStudents();
+            this.getUserData();
+            this.$forceUpdate();
+        },
+
+        showStudent(studentId, studentFirst, studentLast){
+            let student = {n_id: studentId, name: studentFirst.charAt(0).toUpperCase() + studentFirst.slice(1) + " " + studentLast.charAt(0).toUpperCase() + studentLast.slice(1)}
+            localStorage.setItem('student', JSON.stringify(student));
+            this.$router.push('/profile');
+            
+        }
+    }
+   
+}
+</script>

@@ -25,6 +25,11 @@ let router = new Router({
       }
     }, 
     {
+      path: '/hi',
+      name: 'hi',
+      component: () => import(/* webpackCHunkName: "log" */ './views/hi.vue'),
+    },
+    {
       path: '/register',
       name: 'register',
       component: () => import(/* webpackChunkName: "log" */ './views/Register.vue'),
@@ -45,7 +50,8 @@ let router = new Router({
       name: 'admin',
       component: () => import(/* webpackChunkName: "log" */ './views/Admin.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        adminAuth: true
       }
     },
     {
@@ -54,12 +60,18 @@ let router = new Router({
       component: () => import(/* webpackChunkName: "log" */ './views/Advisor.vue'),
       meta: {
         requiresAuth: true
-      }
+        
+      },
+      
     }
   ]
 })
 
 router.beforeEach((to, from, next) => {
+  // let isUserAdmin = false;
+  // let user = JSON.parse(localStorage.getItem('user'));
+  // if(user.role == 'admin') isUserAdmin = true
+  
   if(to.matched.some(record => record.meta.requiresAuth)) {
       if (localStorage.getItem('jwt') == null) {
           next({
@@ -69,11 +81,11 @@ router.beforeEach((to, from, next) => {
       } else {
           let user = JSON.parse(localStorage.getItem('user'))
           if(to.matched.some(record => record.meta.is_admin)) {
-              if(user.is_admin == 1){
+              if(user.role === 'admin'){
                   next()
               }
               else{
-                  next({ name: 'userboard'})
+                  next({ name: '/profile'})
               }
           }else {
               next()

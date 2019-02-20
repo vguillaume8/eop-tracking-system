@@ -61,7 +61,7 @@ export default {
                             }else if(userType == 'admin'){
                                 this.$router.push('/admin');
                             }else{
-                                this.$router.push('/home');
+                                this.$router.push('/profile');
                             }
                         }
                     }

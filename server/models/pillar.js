@@ -61,5 +61,5 @@ const PillarSchema = new mongoose.Schema({
 
 });
   
-  
+
   module.exports = mongoose.model('Pillar', PillarSchema);
