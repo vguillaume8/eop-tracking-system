@@ -3,14 +3,16 @@ import App from './App.vue'
 import router from './router'
 import VModal from 'vue-js-modal'
 import VueResource from 'vue-resource'
-import VueGoodTable from 'vue-good-table';
+import BootstrapVue from 'bootstrap-vue'
 
 
 
 
 Vue.use(VueResource);
 Vue.use(VModal);
-Vue.use(VueGoodTable);
+Vue.use(BootstrapVue)
+import "bootstrap/dist/css/bootstrap.min.css"
+import "bootstrap-vue/dist/bootstrap-vue.css"
 Vue.config.productionTip = false
 
 new Vue({
