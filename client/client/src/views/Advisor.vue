@@ -12,10 +12,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="s in students" :key="s.id" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">
-                    <td>{{s.firstname + " " + s.lastname}}</td>
-                    <td>{{s.n_id}}</td>
-                    <td>{{s.email}}</td>
+                <tr v-for="s in students" :key="s.id" >
+                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.firstname + " " + s.lastname}}</td>
+                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.n_id}}</td>
+                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.email}}</td>
+                    <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
                 </tr>
             </tbody>
         </table>      
@@ -78,8 +79,8 @@ export default {
                     alert(result.body.message);
                 }
             });
-            this.getAdvisorStudents();
-            this.getUserData();
+            await this.getAdvisorStudents();
+            await this.getUserData();
             this.$forceUpdate();
         },
 
@@ -88,6 +89,24 @@ export default {
             localStorage.setItem('student', JSON.stringify(student));
             this.$router.push('/profile');
             
+        },
+        
+        async deleteStudentFromList(studentId){
+            let advisor = JSON.parse(localStorage.getItem('user'));
+            let advisorId = advisor.n_id;
+            let data = {id: studentId};
+            await this.$http.delete(`http://localhost:3000/api/v1/advisor/student/${advisorId}?student=${studentId}`).then(result => {
+                if(result.body.success == true){
+                    alert(result.body.message);
+                }else{
+                    alert(result.body.message);
+                }
+            
+            });
+            
+            await this.getAdvisorStudents();
+            await this.getUserData();
+            this.$forceUpdate();
         }
     }
    

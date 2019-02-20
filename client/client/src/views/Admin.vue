@@ -2,13 +2,32 @@
     <div>
         <h1> Admin Page </h1>
         <p> {{ message }} </p>
-        <ul class="list-group list-group-flush">
+         <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Role</th>
+                    <th scope="col" >Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="m in message" :key="m.id">
+                    <td>{{m.firstname + " " + m.lastname}}</td>
+                    <td>{{m.role}}</td>
+                    <td>{{m.email}}</td>
+                    <a class="btn btn-success" @click.prevent="changeRole(m.n_id)">Change Role </a>
+                </tr>
+            </tbody>
+        </table>     
+        <!-- <ul class="list-group list-group-flush">
+
+
                     <li v-for="m in message" :key="m.id"
                     class="list-group-item">{{m.firstname + " " + m.lastname + " " + m.role}}
                     <a class="btn btn-success" @click.prevent="changeRole(m.n_id)">Change Role </a>
                     </li>
                     
-        </ul>
+        </ul> -->
 
         <modal name="role-modal" id="role-modal" class="modal-body" height="auto">
           <select v-model="selected">

@@ -23,6 +23,14 @@ const httpResponse = {
   onCouldNotRetrieve: {
       success: false,
       message: "Could not retrieve data"
+  },
+  onCouldNotDeleteStudent: {
+      success: false,
+      message: "Could not delete student"
+  },
+  onStudentDeleteSuccess: {
+      success: true,
+      message: "Student was successfully deleted"
   }
 };
 
@@ -48,7 +56,7 @@ function addStudent(req, res){
          
                      User.findOneAndUpdate({n_id: req.params.userId}, {$push: {students: req.body.id}}, function(err, user){
                          if(err){
-                             throw err;
+                             res.send(http.onCouldNotAddStudent);
                          } 
                          res.send(httpResponse.onStudentAddSuccess);
                      });
@@ -62,7 +70,19 @@ function addStudent(req, res){
    
 };
 
+function deleteStudent(req, res){
+    console.log(req.query.student);
+    User.findOneAndUpdate({n_id: req.params.userId}, {$pull: {students: req.query.student}}, function(err, user){
+        if(err){
+            res.send(httpResponse.onCouldNotDeleteStudent);
+        }else{
+            res.send(httpResponse.onStudentDeleteSuccess);
+        }
+    });
+}
+
 module.exports = {
     addStudent: addStudent,
-    getStudents: getStudents
+    getStudents: getStudents,
+    deleteStudent: deleteStudent
 }
