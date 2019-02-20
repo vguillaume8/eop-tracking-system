@@ -7,29 +7,29 @@
                 <p>{{ SelfActulizationProgress }}%</p>
             </radial-progress-bar>
 
-            <radial-progress-bar :diameter="200" :completed-steps="completedSteps" :total-steps="totalSteps">
+            <radial-progress-bar :diameter="200" :completed-steps="EmotionalProgress" :total-steps="totalSteps">
                 <p>Emotional: </p>
-                <p>{{ completedSteps }}%</p>
+                <p>{{ EmotionalProgress }}%</p>
             </radial-progress-bar>
 
-            <radial-progress-bar :diameter="200" :completed-steps="completedSteps" :total-steps="totalSteps">
+            <radial-progress-bar :diameter="200" :completed-steps="CommunityProgress" :total-steps="totalSteps">
                 <p>Community: </p>
-                <p>{{ completedSteps }}%</p>
+                <p>{{ CommunityProgress }}%</p>
             </radial-progress-bar>
 
-            <radial-progress-bar :diameter="200" :completed-steps="completedSteps" :total-steps="totalSteps">
+            <radial-progress-bar :diameter="200" :completed-steps="IntellectualProgress" :total-steps="totalSteps">
                 <p>Intellectual: </p>
-                <p>{{ completedSteps }}%</p>
+                <p>{{ IntellectualProgress }}%</p>
             </radial-progress-bar>
                 
-            <radial-progress-bar :diameter="200" :completed-steps="completedSteps" :total-steps="totalSteps">
+            <radial-progress-bar :diameter="200" :completed-steps="HealthProgress" :total-steps="totalSteps">
                 <p>Health: </p>
-                <p>{{ completedSteps }}%</p>
+                <p>{{ HealthProgress }}%</p>
             </radial-progress-bar>
             
-            <radial-progress-bar :diameter="200" :completed-steps="completedSteps" :total-steps="totalSteps">
+            <radial-progress-bar :diameter="200" :completed-steps="ProfessionalProgress" :total-steps="totalSteps">
                 <p>Professional / Academic: </p>
-                <p>{{ completedSteps }}%</p>
+                <p>{{ ProfessionalProgress }}%</p>
             </radial-progress-bar>
     </div>
 </template>
@@ -45,6 +45,11 @@ export default {
             message: {},
             pillar: {},
             SelfActulizationProgress: 0.0,
+            EmotionalProgress: 0.0,
+            CommunityProgress: 0.0,
+            IntellectualProgress: 0.0,
+            HealthProgress: 0.0,
+            ProfessionalProgress: 0.0,
       totalSteps: 24
             
         }
@@ -80,6 +85,11 @@ export default {
                 result.body.SelfActulization.Other;
                 sum = sum / 4;
                 this.SelfActulizationProgress  = sum;
+                this.EmotionalProgress = sum;
+                this.CommunityProgress = sum;
+                this.IntellectualProgress = sum,
+                this.HealthProgress = sum,
+                this.ProfessionalProgress = sum,
                 this.$forceUpdate();
             })
         }
