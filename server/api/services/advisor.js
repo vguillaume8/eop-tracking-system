@@ -31,6 +31,10 @@ const httpResponse = {
   onStudentDeleteSuccess: {
       success: true,
       message: "Student was successfully deleted"
+  },
+  onCouldNotUnassign:{
+      success: false,
+      message: "Could not unassign student from advisor"
   }
 };
 
@@ -43,40 +47,52 @@ function getStudents(req, res){
 
 function addStudent(req, res){
 
-   User.find({n_id: req.body.id}, function(err, user){
+   User.findOneAndUpdate({n_id: req.body.id}, {advisor: req.query.name},{new: true}, function(err, user){
+       console.log(user);
         if(err) res.send(httpResponse.onCouldNotAddStudent);
-        if(user.length < 1){
-            res.send(httpResponse.onStudentDoesNotExist);
+        if(user != null){
+            if(user.length < 1){
+                res.send(httpResponse.onStudentDoesNotExist);
+            }else{
+                User.find({ n_id: req.params.userId}, function(err, user){
+                    if(err) res.send(httpResponse.onCouldNotAddStudent);
+                    let students = user[0].students;
+             
+                    if(!students.includes(req.body.id)){
+             
+                         User.findOneAndUpdate({n_id: req.params.userId}, {$push: {students: req.body.id}}, function(err, user){
+                             if(err){
+                                 res.send(http.onCouldNotAddStudent);
+                             } 
+                             res.send(httpResponse.onStudentAddSuccess);
+                         });
+                    }else{
+                        res.send(httpResponse.onStudentAlreadyExists);
+                    }
+                })
+            }
         }else{
-            User.find({ n_id: req.params.userId}, function(err, user){
-                if(err) res.send(httpResponse.onCouldNotAddStudent);
-                let students = user[0].students;
-         
-                if(!students.includes(req.body.id)){
-         
-                     User.findOneAndUpdate({n_id: req.params.userId}, {$push: {students: req.body.id}}, function(err, user){
-                         if(err){
-                             res.send(http.onCouldNotAddStudent);
-                         } 
-                         res.send(httpResponse.onStudentAddSuccess);
-                     });
-                }else{
-                    res.send(httpResponse.onStudentAlreadyExists);
-                }
-            })
+            res.send(httpResponse.onStudentDoesNotExist);
         }
+        
    })
    
    
 };
 
 function deleteStudent(req, res){
-    console.log(req.query.student);
     User.findOneAndUpdate({n_id: req.params.userId}, {$pull: {students: req.query.student}}, function(err, user){
         if(err){
             res.send(httpResponse.onCouldNotDeleteStudent);
         }else{
-            res.send(httpResponse.onStudentDeleteSuccess);
+            User.findOneAndUpdate({n_id: req.query.student}, {advisor: "Not Assigned"}, function(err, user){
+                if(err){
+                  res.send(httpResponse.onCouldNotUnassign);
+                }else{
+                    res.send(httpResponse.onStudentDeleteSuccess);
+                }
+            })
+            
         }
     });
 }

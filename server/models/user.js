@@ -28,6 +28,10 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   students: [String],
+  advisor: {
+    type: String,
+    default: 'Not Assigned'
+  },
   role: {
     type: String,
     enum: ['student', 'advisor', 'admin'],
