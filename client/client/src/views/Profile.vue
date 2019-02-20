@@ -3,37 +3,37 @@
         <div>
             <h1> {{ student.name + "'s profile" }} </h1>
             <p> {{ pillar }} </p>
-                <radial-progress-bar :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
+                <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
                     <p > Self Actulization: </p>
                     <p>{{ SelfActulization }}%</p>
                     <a class="btn btn-primary" @click.prevent="openPillar('SelfActulization')"> Open Pillar </a>
                 </radial-progress-bar>
 
-                <radial-progress-bar :diameter="200" :completed-steps="Emotional" :total-steps="totalSteps">
+                <radial-progress-bar innerStrokeColor="#C5CDBD" :diameter="200" :completed-steps="Emotional" :total-steps="totalSteps">
                     <p>Emotional: </p>
                     <p>{{ Emotional }}%</p>
                     <a class="btn btn-primary" @click.prevent="openPillar('Emotional')"> Open Pillar </a>
                 </radial-progress-bar>
 
-                <radial-progress-bar :diameter="200" :completed-steps="Community" :total-steps="totalSteps">
+                <radial-progress-bar  innerStrokeColor="#D5BDBD" :diameter="200" :completed-steps="Community" :total-steps="totalSteps">
                     <p>Community: </p>
                     <p>{{ Community }}%</p>
                     <a class="btn btn-primary" @click.prevent="openPillar('Community')"> Open Pillar </a>
                 </radial-progress-bar>
 
-                <radial-progress-bar :diameter="200" :completed-steps="Intellectual" :total-steps="totalSteps">
+                <radial-progress-bar innerStrokeColor="#C7BDBD" :diameter="200" :completed-steps="Intellectual" :total-steps="totalSteps">
                     <p>Intellectual: </p>
                     <p>{{ Intellectual }}%</p>
                     <a class="btn btn-primary" @click.prevent="openPillar('Intellectual')"> Open Pillar </a>
                 </radial-progress-bar>
                     
-                <radial-progress-bar :diameter="200" :completed-steps="Health" :total-steps="totalSteps">
+                <radial-progress-bar innerStrokeColor="#C5BEBD" :diameter="200" :completed-steps="Health" :total-steps="totalSteps">
                     <p>Health: </p>
                     <p>{{ Health }}%</p>
                     <a class="btn btn-primary" @click.prevent="openPillar('Health')"> Open Pillar </a>
                 </radial-progress-bar>
                 
-                <radial-progress-bar :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
+                <radial-progress-bar innerStrokeColor="#C1BDBD" :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
                     <p>Professional / Academic: </p>
                     <p>{{ ProfessionalAcademic}}%</p>
                     <a class="btn btn-primary" @click.prevent="openPillar('ProfessionalAcademic')"> Open Pillar </a>
@@ -41,28 +41,21 @@
         </div>
 
         <modal name="pillar-modal" id='pillar-modal' height="auto" :scrollable="true">
-                <div>
-                    
-                <div v-for="bar in bars" :key="bar" class="row mb-1">
-                
+                <div v-for="bar in bars" :key="bar.id" class="row mb-1">
                     <div class="col-sm-10 pt-1">
                         <div class="col-sm-2">{{ bar.name }}:</div>
                         <a class="btn btn-danger" @click.prevent="decrementPillar(bar.name)">-</a>
                         <a class="btn btn-primary" @click.prevent="incrementPillar(bar.name)">+</a>
                         <b-progress height="2rem">
-                        <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant" >
-                        {{bar.level}}
-                        <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
-                        
-                        </b-progress-bar>
-                        
+                            <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
+                                {{bar.level}}
+                                <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
+                            </b-progress-bar>
                         </b-progress>
-                        
                     </div>
                 </div>
-            </div>
-
         </modal>
+        <span v-if="hover">This is a secret message.</span>
     </div>
 </template>
 
@@ -70,12 +63,14 @@
 <script>
 import RadialProgressBar from 'vue-radial-progress'
 export default {
-    name: 'EOP',
+    name: 'Profile',
     data () {
         return {
+            pillar: {},
             bars: [],
             student: JSON.parse(localStorage.getItem('student')),
-            message: {},
+
+            // Dynamic Data
             SelfActulization: 0.0,
             Emotional: 0.0,
             Community: 0.0,
@@ -83,18 +78,16 @@ export default {
             Health: 0.0,
             ProfessionalAcademic: 0.0,
             currentType: "",
-            totalSteps: 100
-            
+            totalSteps: 100,
+
+            hover: false
         }
     },
-     components: {
-    RadialProgressBar
-  },
+    components: {
+        RadialProgressBar
+    },
     mounted(){
         this.getUserData();
-        
-
-
     },
     methods: {
         getUserData(){
@@ -103,11 +96,10 @@ export default {
             if(user.role != 'student'){
                 user = JSON.parse(localStorage.getItem('student'));
             }
-            
             // retrieve user data
             this.$http.get(`http://localhost:3000/api/v1/user/${user.n_id}`).then(result => {
-            this.message = result.body;
-            this.$forceUpdate();
+                this.message = result.body;
+                this.$forceUpdate();
             });
 
             // retrieve pillar data

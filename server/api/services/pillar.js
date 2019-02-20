@@ -172,6 +172,7 @@ function increment(req, res){
             let type = req.query.type;
             let meta = req.query.meta;
             let value = (pillar[type])[meta] + .1;
+            value = Math.round(value * 100) / 100;
             if(value > 4){
                 res.send(httpResponse.onMaxValue);
             }else{
@@ -200,6 +201,7 @@ function decrement(req, res){
             let type = req.query.type;
             let meta = req.query.meta;
             let value = (pillar[type])[meta] - .1;
+            value = Math.round(value * 100) / 100
             if(value < 0){
                 res.send(httpResponse.onMinValue);
             }else{

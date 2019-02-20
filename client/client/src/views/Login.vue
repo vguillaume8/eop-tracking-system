@@ -8,7 +8,7 @@
     <div id="form">
       <form @submit.prevent="sendPost('/login')">
         <label for="email">HawkMail</label>
-        <input type="text" id="email" v-model="input.email" placeholder="me@hawkmail.newpaltz.edy" autocomplete="off">
+        <input type="email" id="email" v-model="input.email" placeholder="me@hawkmail.newpaltz.edy" autocomplete="off">
 
         <label for="password">Password</label>&nbsp;
         <i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>

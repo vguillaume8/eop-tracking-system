@@ -3,66 +3,35 @@
         <h1> Admin Page </h1>
         <p> {{ message }} </p>
         <h4> Advisor </h4>
-        <div class="div-contain">
-         <table class="table table-hover">
-            <thead>
-                <tr>
-                    <!-- <th scope="col"> Select User</th> -->
-                    <th scope="col">Name</th>
-                    <th scope="col">Role</th>
-                    <th scope="col" >Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="m in message" :key="m.id">
-                    <!-- <input type="checkbox" name="vehicle1" value="Bike"> -->
-                    <td>{{m.firstname + " " + m.lastname}}</td>
-                    <td>{{m.role}}</td>
-                    <td>{{m.email}}</td>
-                    <a class="btn btn-success" @click.prevent="changeRole(m.n_id)">Change Role </a>
-                </tr>
-            </tbody>
-        </table>    
+        <div>
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <!-- <th scope="col"> Select User</th> -->
+                        <th scope="col">Name</th>
+                        <th scope="col">Role</th>
+                        <th scope="col" >Email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="m in message" :key="m.id">
+                        <!-- <input type="checkbox" name="vehicle1" value="Bike"> -->
+                        <td>{{m.firstname + " " + m.lastname}}</td>
+                        <td>{{m.role}}</td>
+                        <td>{{m.email}}</td>
+                        <a class="btn btn-success" @click.prevent="changeRole(m.n_id)">Change Role </a>
+                    </tr>
+                </tbody>
+            </table>    
         </div>
-        <!-- <div class="div-contain right">
-        <h4> Student </h4>
-         <table class="table table-hover ">
-            <thead>
-                <tr>
-                    <th scope="col"> Select User</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Role</th>
-                    <th scope="col" >Email</th> 
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="m in message" :key="m.id">
-                    <input type="checkbox" name="vehicle1" value="Bike">
-                    <td>{{m.firstname + " " + m.lastname}}</td>
-                    <td>{{m.role}}</td>
-                    <td>{{m.email}}</td>
-                    <a class="btn btn-success" @click.prevent="changeRole(m.n_id)">Change Role </a>
-                </tr>
-            </tbody>
-        </table>   
-        </div> -->
-         <!-- <ul class="list-group list-group-flush">
 
-
-                    <li v-for="m in message" :key="m.id"
-                    class="list-group-item">{{m.firstname + " " + m.lastname + " " + m.role}}
-                    <a class="btn btn-success" @click.prevent="changeRole(m.n_id)">Change Role </a>
-                    </li>
-                    
-        </ul> -->
-
-        <modal name="role-modal" id="role-modal" class="modal-body" height="auto">
-          <select v-model="selected">
-              <option value="">Select a role...</option>
-       <option v-for="r in roles" :key="r.value" v-bind:value="{ value: r.value, text: r.name }">
-         {{ r.name }}
-       </option>
-   </select>
+        <modal name="role-modal" id="role-modal" height="auto">
+            <select v-model="selected">
+                <option value="">Select a role...</option>
+                <option v-for="r in roles" :key="r.value" v-bind:value="{ value: r.value, text: r.name }">
+                    {{ r.name }}
+                </option>
+            </select>
             <a class=" btn btn-success" @click.prevent="sendPost()"> Change </a>
         </modal>
     </div>
@@ -106,7 +75,7 @@ export default {
         async sendPost(){
             let role = this.selected.value;
             role= {role};
-              let txt = null;
+              
                this.$modal.hide('role-modal');
               if (confirm("Do you want to change this role?")) {
                  await this.$http.post(`http://localhost:3000/api/v1/user/role/${this.userIDToChangeRole}`, role).then(result => {
@@ -131,29 +100,3 @@ export default {
 }
 </script>
 
-
-<style>
-/* .div-contain {
-  height: 200px;
-  width: 30%;
-  background-color: powderblue;
-  float:left;
-  position: relative;
-}
-
-.right {
-    
-    width: 30%;
-    position: relative;
-}
-
-.action-footer {
-    box-sizing: border-box;
-}
-
-html {
-  display:flex;
-  width:100%;
-  height:100%;
-} */
-</style>

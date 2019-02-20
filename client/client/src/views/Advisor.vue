@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1> Advisor Page </h1>
+        <h1> Advisor Page: Welcome Back {{capitalize(user.firstname, user.lastname)}} </h1>
         <h4> Add Student <input v-model="studentToAdd"> <a class="btn btn-success" @click.prevent="addStudent()"> Add Student </a> </h4>
         <h4> Current Students </h4>
         <table class="table table-hover">
@@ -14,10 +14,11 @@
             </thead>
             <tbody>
                 <tr v-for="s in students" :key="s.id" >
-                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.firstname + " " + s.lastname}}</td>
-                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.n_id}}</td>
-                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.email}}</td>
-                    <td @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)">{{s.advisor}}</td>
+                    <td>{{capitalize(s.firstname, s.lastname)}}</td>
+                    <td>{{s.n_id}}</td>
+                    <td>{{s.email}}</td>
+                    <td>{{s.advisor}}</td>
+                    <a class="btn btn-primary" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)"> Go to Profile </a>
                     <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
                 </tr>
             </tbody>
@@ -31,6 +32,7 @@ export default {
     name: "Advisor",
     data(){
         return{
+            user: JSON.parse(localStorage.getItem('user')),
             studentIdList: [],
             students: [],
             studentToAdd: "",
@@ -45,7 +47,6 @@ export default {
     methods: { 
          async getUserData(){
             // get list of all  users
-            let advisor = JSON.parse(localStorage.getItem('user'));
             this.students = [];
             
             for(var i = 0; i < this.studentIdList.length; i++){
@@ -79,7 +80,7 @@ export default {
             let advisor = JSON.parse(localStorage.getItem('user'));
             let advisorId = advisor.n_id;
             let data = {id: this.studentToAdd};
-            await this.$http.post(`http://localhost:3000/api/v1/advisor/student/${advisorId}?name=${advisor.firstname.charAt(0).toUpperCase() + advisor.firstname.slice(1) + " " + advisor.lastname.charAt(0).toUpperCase() + advisor.lastname.slice(1)}`, data ).then(result => {
+            await this.$http.post(`http://localhost:3000/api/v1/advisor/student/${advisorId}?name=${this.capitalize(advisor.firstname, advisor.lastname)}`, data ).then(result => {
                 if(result.body.success == true){
                     alert(result.body.message);
                 }else{
@@ -92,7 +93,7 @@ export default {
         },
 
         showStudent(studentId, studentFirst, studentLast){
-            let student = {n_id: studentId, name: studentFirst.charAt(0).toUpperCase() + studentFirst.slice(1) + " " + studentLast.charAt(0).toUpperCase() + studentLast.slice(1)}
+            let student = {n_id: studentId, name: this.capitalize(studentFirst, studentLast)}
             localStorage.setItem('student', JSON.stringify(student));
             this.$router.push('/profile');
             
@@ -101,7 +102,6 @@ export default {
         async deleteStudentFromList(studentId){
             let advisor = JSON.parse(localStorage.getItem('user'));
             let advisorId = advisor.n_id;
-            let data = {id: studentId};
             await this.$http.delete(`http://localhost:3000/api/v1/advisor/student/${advisorId}?student=${studentId}`).then(result => {
                 if(result.body.success == true){
                     alert(result.body.message);
@@ -114,6 +114,10 @@ export default {
             await this.getAdvisorStudents();
             await this.getUserData();
             this.$forceUpdate();
+        },
+
+        capitalize(firstname, lastname){
+            return firstname.charAt(0).toUpperCase() + firstname.slice(1) + " " + lastname.charAt(0).toUpperCase() + lastname.slice(1);
         }
     }
    

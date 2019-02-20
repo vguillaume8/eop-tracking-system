@@ -28,7 +28,7 @@
 
 <script>
 export default {
-    name: 'EOP Tracking',
+    name: 'Register',
     data(){
         return {
             input : {
@@ -47,9 +47,9 @@ export default {
     methods: {
         sendPost(slug){
             this.$http.post(`http://localhost:3000/api/v1${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
-                console.log(result.body.status);
-                if(result.body.staus == true){
+                if(result.body.success == true){
                   alert("User was sucessfully created");
+                  this.$router.push('/login');
                 }else{
                   alert(result.body.message);
                 }
