@@ -6,4 +6,4 @@ Online Tracking System for SUNY New Paltz EOP department.
 
 - Login System
 - Node.js backend, Vue.js frontend.
-- MySQL database
+- MongoDB database
