@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1> Advisor Page: Welcome Back {{capitalize(user.firstname, user.lastname)}} </h1>
-        <h4> Add Student <input v-model="studentToAdd"> <a class="btn btn-success" @click.prevent="addStudent()"> Add Student </a> </h4>
+        <h4> Add Student <input v-model="studentToAdd"> <button type="submit" class="btn btn-success"  @click.prevent="addStudent()"> Add Student </button> </h4>
         <h4> Current Students </h4>
         <table class="table table-hover">
             <thead>
@@ -22,7 +22,8 @@
                     <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
                 </tr>
             </tbody>
-        </table>      
+        </table>   
+           
     </div>
 </template>
 
