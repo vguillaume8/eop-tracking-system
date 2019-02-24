@@ -42,6 +42,7 @@
 
 
 <script>
+import api from '../../dev.config.js';
 export default {
     name: 'EOP',
     data () {
@@ -63,7 +64,7 @@ export default {
     methods: {
         getUsers(){
             // get list of all  users
-            this.$http.get(`http://localhost:3000/api/v1/user/`).then(result => {
+            this.$http.get(`${api.api}/user/`).then(result => {
                 this.message = result.body;
                 this.selected = result.body.role;
                 this.$forceUpdate();
@@ -79,7 +80,7 @@ export default {
               
                this.$modal.hide('role-modal');
               if (confirm("Do you want to change this role?")) {
-                 await this.$http.post(`http://localhost:3000/api/v1/user/role/${this.userIDToChangeRole}`, role).then(result => {
+                 await this.$http.post(`${api.api}/user/role/${this.userIDToChangeRole}`, role).then(result => {
                      if(result.body.success == true){
                          alert("User's role was updated!");
                      }else{

@@ -23,6 +23,7 @@
 
 
 <script>
+import api from '../../dev.config.js';
 export default {
     name: 'EOP',
     data () {
@@ -43,7 +44,7 @@ export default {
     },
     methods: {
         sendPost(slug){
-            this.$http.post(`http://localhost:3000/api/v1${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
+            this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
                if(result.body.success == true){
 
                    let userType = result.body.user.role;

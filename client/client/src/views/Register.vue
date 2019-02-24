@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import api from '../../dev.config.js';
 export default {
     name: 'Register',
     data(){
@@ -46,7 +47,7 @@ export default {
     },
     methods: {
         sendPost(slug){
-            this.$http.post(`http://localhost:3000/api/v1${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
+            this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
                 if(result.body.success == true){
                   alert("User was sucessfully created");
                   this.$router.push('/login');

@@ -23,12 +23,12 @@
                 </tr>
             </tbody>
         </table>   
-           
     </div>
 </template>
 
 
 <script>
+import api from '../../dev.config.js';
 export default {
     name: "Advisor",
     data(){
@@ -52,7 +52,7 @@ export default {
             
             for(var i = 0; i < this.studentIdList.length; i++){
                 let currentId = this.studentIdList[i];
-                await this.$http.get(`http://localhost:3000/api/v1/user/${currentId}`).then(result => {
+                await this.$http.get(`${api.api}/user/${currentId}`).then(result => {
                     if(!this.students.includes(result.body.id)){
                         //if((result.body.advisor.trim())== (advisor.firstname.charAt(0).toUpperCase() + advisor.firstname.slice(1) + advisor.lastname.charAt(0).toUpperCase() + advisor.lastname.slice(1)).trim()){
                             this.students.push(result.body);
@@ -68,7 +68,7 @@ export default {
         async getAdvisorStudents(){
             let advisor = JSON.parse(localStorage.getItem('user'));
             let advisorId = advisor.n_id;
-            await this.$http.get(`http://localhost:3000/api/v1/advisor/student/${advisorId}`).then(result => {
+            await this.$http.get(`${api.api}/advisor/student/${advisorId}`).then(result => {
                 if(result.body.success == true){
                     this.studentIdList = result.body.students;
                 }else{
@@ -81,7 +81,7 @@ export default {
             let advisor = JSON.parse(localStorage.getItem('user'));
             let advisorId = advisor.n_id;
             let data = {id: this.studentToAdd};
-            await this.$http.post(`http://localhost:3000/api/v1/advisor/student/${advisorId}?name=${this.capitalize(advisor.firstname, advisor.lastname)}`, data ).then(result => {
+            await this.$http.post(`${api.api}/advisor/student/${advisorId}?name=${this.capitalize(advisor.firstname, advisor.lastname)}`, data ).then(result => {
                 if(result.body.success == true){
                     alert(result.body.message);
                 }else{
@@ -103,7 +103,7 @@ export default {
         async deleteStudentFromList(studentId){
             let advisor = JSON.parse(localStorage.getItem('user'));
             let advisorId = advisor.n_id;
-            await this.$http.delete(`http://localhost:3000/api/v1/advisor/student/${advisorId}?student=${studentId}`).then(result => {
+            await this.$http.delete(`${api.api}/advisor/student/${advisorId}?student=${studentId}`).then(result => {
                 if(result.body.success == true){
                     alert(result.body.message);
                 }else{

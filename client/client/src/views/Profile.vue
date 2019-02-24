@@ -61,6 +61,7 @@
 
 
 <script>
+import api from '../../dev.config.js';
 import RadialProgressBar from 'vue-radial-progress'
 export default {
     name: 'Profile',
@@ -97,13 +98,13 @@ export default {
                 user = JSON.parse(localStorage.getItem('student'));
             }
             // retrieve user data
-            this.$http.get(`http://localhost:3000/api/v1/user/${user.n_id}`).then(result => {
+            this.$http.get(`${api.api}/user/${user.n_id}`).then(result => {
                 this.message = result.body;
                 this.$forceUpdate();
             });
 
             // retrieve pillar data
-            this.$http.get(`http://localhost:3000/api/v1/pillar/${user.n_id}`).then(result => {
+            this.$http.get(`${api.api}/pillar/${user.n_id}`).then(result => {
                 this.pillar = result.body;
                 this.SelfActulization = Math.round(result.body.SelfActulization * 100) / 100;
                 this.Emotional = Math.round(result.body.Emotional * 100) / 100;
@@ -118,7 +119,7 @@ export default {
 
         openPillar(type){
             let student = JSON.parse(localStorage.getItem('student'));
-            this.$http.get(`http://localhost:3000/api/v1/pillar/meta/${student.n_id}?type=${type}`).then(result => {
+            this.$http.get(`${api.api}/pillar/meta/${student.n_id}?type=${type}`).then(result => {
                 if(result.body.success == true){
                     this.bars = result.body.metaArray;
                 }else{
@@ -130,7 +131,7 @@ export default {
         },
         async incrementPillar(meta){
             let student = JSON.parse(localStorage.getItem('student'));
-            await this.$http.post(`http://localhost:3000/api/v1/pillar/meta/increment/${student.n_id}?type=${this.currentType}&meta=${meta}`,).then(result => {
+            await this.$http.post(`${api.api}/pillar/meta/increment/${student.n_id}?type=${this.currentType}&meta=${meta}`,).then(result => {
                 if(result.body.success == true){
                     //alert(result.body.message);
                 }else{
@@ -144,7 +145,7 @@ export default {
 
         async decrementPillar(meta){
             let student = JSON.parse(localStorage.getItem('student'));
-            await this.$http.post(`http://localhost:3000/api/v1/pillar/meta/decrement/${student.n_id}?type=${this.currentType}&meta=${meta}`,).then(result => {
+            await this.$http.post(`${api.api}/pillar/meta/decrement/${student.n_id}?type=${this.currentType}&meta=${meta}`,).then(result => {
                 if(result.body.success == true){
                     //alert(result.body.message);
                 }else{
