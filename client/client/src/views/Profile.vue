@@ -61,7 +61,7 @@
 
 
 <script>
-import api from '../../dev.config.js';
+import api from '../../configs/dev.config.js';
 import RadialProgressBar from 'vue-radial-progress'
 export default {
     name: 'Profile',

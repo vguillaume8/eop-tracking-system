@@ -42,7 +42,7 @@
 
 
 <script>
-import api from '../../dev.config.js';
+import api from '../../configs/dev.config.js';
 export default {
     name: 'EOP',
     data () {

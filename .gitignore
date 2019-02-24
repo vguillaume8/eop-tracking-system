@@ -1,4 +1,4 @@
 server/node_modules
 client/client/node_modules
-client/client/dev.config.js
+client/client/configs
 server/configs
