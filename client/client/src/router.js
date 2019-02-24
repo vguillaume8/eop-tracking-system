@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 
 Vue.use(Router)
 
@@ -11,17 +10,18 @@ let router = new Router({
     {
       path: '/',
       name: 'home',
-      component: Home,
-      meta: {
-          requiresAuth: true
-      }
+      component: () => import('./views/Home.vue')
+      // meta: {
+      //     requiresAuth: true
+      // }
     },
     {
       path: '/profile',
       name: 'profile',
       component: () => import(/* webpackCHunkName: "log" */ './views/Profile.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        is_advisor: true
       }
     }, 
     {
@@ -51,7 +51,7 @@ let router = new Router({
       component: () => import(/* webpackChunkName: "log" */ './views/Admin.vue'),
       meta: {
         requiresAuth: true,
-        adminAuth: true
+        is_admin: true
       }
     },
     {
@@ -59,7 +59,8 @@ let router = new Router({
       name: 'advisor',
       component: () => import(/* webpackChunkName: "log" */ './views/Advisor.vue'),
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        is_advisor: true
         
       },
       
@@ -80,23 +81,31 @@ router.beforeEach((to, from, next) => {
           })
       } else {
           let user = JSON.parse(localStorage.getItem('user'))
+
           if(to.matched.some(record => record.meta.is_admin)) {
               if(user.role === 'admin'){
                   next()
+              }else{
+                  next({ name: 'profile'})
               }
-              else{
-                  next({ name: '/profile'})
-              }
-          }else {
-              next()
           }
+          else if(to.matched.some(record => record.meta.is_advisor)){
+            if(user.role === 'advisor'){
+              next()
+            }else{
+              next({ name: 'profile'})
+            }
+          }
+           else {
+               next()
+           }
       }
   } else if(to.matched.some(record => record.meta.guest)) {
       if(localStorage.getItem('jwt') == null){
           next()
       }
       else{
-          next({ name: 'home'})
+          next('/')
       }
   }else {
       next() 

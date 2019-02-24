@@ -25,7 +25,7 @@
 <script>
 import api from '../../configs/dev.config.js';
 export default {
-    name: 'EOP',
+    name: 'Login',
     data () {
         return {
             showRegister: false,
@@ -62,7 +62,7 @@ export default {
                             }else if(userType == 'admin'){
                                 this.$router.push('/admin');
                             }else{
-                                this.$router.push('/profile');
+                                this.$router.push('/');
                             }
                         }
                     }
