@@ -152,7 +152,7 @@ function getMetaPillar(req, res){
             }
             console.log('Ran');
             res.json({success: true, metaArray: metaPillarArray,
-                      //description: Description.getDescription(type)
+                      description: Description.getDescription(type)
             });
         }
       

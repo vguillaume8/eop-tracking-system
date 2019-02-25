@@ -171,7 +171,6 @@ function getDescription(type){
                     Exemplary: "Consistent internal monitoring/ability to recongize and adapt to new emotional patterns",
                 },
             ]
-        case y:
           // code block
           break;
         default:

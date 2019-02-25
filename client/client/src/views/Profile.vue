@@ -46,6 +46,7 @@
                         <div class="col-sm-2">{{ bar.name }}:</div>
                         <a class="btn btn-danger" @click.prevent="decrementPillar(bar.name)">-</a>
                         <a class="btn btn-primary" @click.prevent="incrementPillar(bar.name)">+</a>
+                         <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>
                         <b-progress height="2rem">
                             <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
                                 {{bar.level}}
@@ -54,6 +55,11 @@
                         </b-progress>
                     </div>
                 </div>
+        </modal>
+
+        <modal name="pillar-desc" id='pillar-desc' height="auto" :scrollable="true">
+           <h1> {{pillarDescription.name}} </h1>
+           <p>{{ pillarDescription }} </p>
         </modal>
         <span v-if="hover">This is a secret message.</span>
     </div>
@@ -70,6 +76,8 @@ export default {
             pillar: {},
             bars: [],
             student: JSON.parse(localStorage.getItem('student')),
+            pillarDescriptionData: {},
+            pillarDescription: "",
 
             // Dynamic Data
             SelfActulization: 0.0,
@@ -122,6 +130,7 @@ export default {
             this.$http.get(`${api.api}/pillar/meta/${student.n_id}?type=${type}`).then(result => {
                 if(result.body.success == true){
                     this.bars = result.body.metaArray;
+                    this.pillarDescriptionData = result.body.description;
                 }else{
                     alert(result.body.message);
                 }
@@ -155,6 +164,20 @@ export default {
             await this.getUserData();
             await this.openPillar(this.currentType);
             this.$forceUpdate();
+        },
+
+        showPillarDesc(name, level){
+            //console.log(this.pillarDescriptionData[2]);
+    
+            for(var i = 0; i< this.pillarDescriptionData.length; i++){
+                if(this.pillarDescriptionData[i].name == name){
+                    this.pillarDescription = this.pillarDescriptionData[i][level];
+                    console.log(level);
+                }
+            }
+            
+            this.$modal.show('pillar-desc');
+            
         }
     }
 }
