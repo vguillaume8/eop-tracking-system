@@ -97,7 +97,7 @@ export default {
             this.getUsers();
             this.$forceUpdate();
         },
-        editUser(id){
+        editUser(){
             this.$modal.show('user-modal');
         }
     

@@ -35,6 +35,10 @@ const httpResponse = {
   onCouldNotUnassign:{
       success: false,
       message: "Could not unassign student from advisor"
+  },
+  onNotAStudent: {
+      success: false,
+      message: "This user is not a student"
   }
 };
 
@@ -54,22 +58,27 @@ function addStudent(req, res){
             if(user.length < 1){
                 res.send(httpResponse.onStudentDoesNotExist);
             }else{
-                User.find({ n_id: req.params.userId}, function(err, user){
-                    if(err) res.send(httpResponse.onCouldNotAddStudent);
-                    let students = user[0].students;
-             
-                    if(!students.includes(req.body.id)){
-             
-                         User.findOneAndUpdate({n_id: req.params.userId}, {$push: {students: req.body.id}}, function(err, user){
-                             if(err){
-                                 res.send(http.onCouldNotAddStudent);
-                             } 
-                             res.send(httpResponse.onStudentAddSuccess);
-                         });
-                    }else{
-                        res.send(httpResponse.onStudentAlreadyExists);
-                    }
-                })
+                if(user.role != 'student'){
+                    res.send(httpResponse.onNotAStudent);
+                }else{
+                    User.find({ n_id: req.params.userId}, function(err, user){
+                        if(err) res.send(httpResponse.onCouldNotAddStudent);
+                        let students = user[0].students;
+                 
+                        if(!students.includes(req.body.id)){
+                 
+                             User.findOneAndUpdate({n_id: req.params.userId}, {$push: {students: req.body.id}}, function(err, user){
+                                 if(err){
+                                     res.send(http.onCouldNotAddStudent);
+                                 } 
+                                 res.send(httpResponse.onStudentAddSuccess);
+                             });
+                        }else{
+                            res.send(httpResponse.onStudentAlreadyExists);
+                        }
+                    })
+                }
+               
             }
         }else{
             res.send(httpResponse.onStudentDoesNotExist);
