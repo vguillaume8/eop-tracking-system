@@ -8,37 +8,37 @@ function getDescription(type){
                 {
                     name: 'Morals',
                     Beginner: "Evaluate internal process for making choices. Identify core values and personal code of ethics",
-                    Developing: "",
-                    Accomplished: "",
-                    Exemplary: "",
+                    Developing: "Recognition of personal values as they relate to family and personal ethics",
+                    Accomplished: "Understanding of cognitive dissonance and integration of new information into personal ethics",
+                    Exemplary: "Consistent attention to impact of new understanding of self and others on personal values and consideration of values in decision making",
                 },
                 {
                     name: 'Perception',
-                    Beginner: "",
-                    Developing: "",
-                    Accomplished: "",
-                    Exemplary: "",
+                    Beginner: "Recognition of variations in pereception of people and situations",
+                    Developing: "Understanding of personal truth and how perception can be different in each instance for each person",
+                    Accomplished: "Application of self-awareness to clarify perceptions and adapt to new information",
+                    Exemplary: "Consistent ability to judge situations and people with clarity and honesty, flexiible and adaptable",
                 },
                 {
                     name: 'Gratitude',
-                    Beginner: "",
-                    Developing: "",
-                    Accomplished: "",
-                    Exemplary: "",
+                    Beginner: "Recognition of the positive aspects of everydat situations and people",
+                    Developing: "Creating internal process to seek gratitude",
+                    Accomplished: "Regularly finding gratitude",
+                    Exemplary: "Acceptance of responsibility and ownership of role in finding gratitude consistently",
                 },
                 {
                     name: 'Happiness',
-                    Beginner: "",
-                    Developing: "",
-                    Accomplished: "",
-                    Exemplary: "",
+                    Beginner: "Recognize personal challenges, strengths, and internal drives and motivations",
+                    Developing: "Creating patterns that offer positive drives and passions to shape outlook",
+                    Accomplished: "Consistently able to recognize and make choices that support personal growth and positive self-regard",
+                    Exemplary: "Generalized feeling of positive joy even in face of adversity",
                 },
                 {
                     name: 'Social',
-                    Beginner: "",
-                    Developing: "",
-                    Accomplished: "",
-                    Exemplary: "",
+                    Beginner: "Recognition of importance of positive caring relationships and detrimental relationships",
+                    Developing: "Creating mutually supportive positive relationships while building healthy boundaries in negative relationships",
+                    Accomplished: "Regular acts of kindness and compassion and ability to rely on kindness and caring of others",
+                    Exemplary: "Caring about the wellbeing of others and acting out of that care",
                 },
                 {
                     name: 'Other',
@@ -48,6 +48,44 @@ function getDescription(type){
                     Exemplary: "",
                 },
               
+            ]
+        case 'Intellectual':
+            return [
+                {
+                    name: 'Thinking',
+                    Beginner: "Acknowledge your personal perspective",
+                    Developing: "Gain tools to acknowledge perspectives outside your own",
+                    Accomplished: "Refine the tools you have and deconstruct own perspective",
+                    Exemplary: "Can see various perspectives and asses their validity"
+                },
+                {
+                    name: 'Current',
+                    Beginner: "Familiar with various sources",
+                    Developing: "Validate the sources, seek more",
+                    Accomplished: "Regulary check more than one source",
+                    Exemplary: "Being confident in disseminating information"
+                },
+                {
+                    name: 'Experiences',
+                    Beginner: "Understand your level of exposure",
+                    Developing: "Expand your exposure to a variety of creative outlets",
+                    Accomplished: "Has a well developed knowledge and appreciation of the arts",
+                    Exemplary: "An active participant/observed of arts on a regular basis"
+                },
+                {
+                    name: 'Organization',
+                    Beginner: "Has a clear understanding of your organizational level",
+                    Developing: "Research and try methods for organization that fit with your strengths and weakness",
+                    Accomplished: "Implementation of various methods across different aspects of your life",
+                    Exemplary: "Implementation and utilization consistently across all aspects of your life"
+                },
+                {
+                    name: "Learning",
+                    Beginner: "Awareness of your own learning process",
+                    Developing: "Familiarize yourself with the different learning styles and techniques",
+                    Accomplished: "Actively use the various learning techniques in order to integrate new information into your world view",
+                    Exemplary: "Sharing and dissemination of what is learned"
+                }
             ]
         case 'ProfessionalAcademic':
             return [
@@ -171,6 +209,37 @@ function getDescription(type){
                     Exemplary: "Consistent internal monitoring/ability to recongize and adapt to new emotional patterns",
                 },
             ]
+            case 'Health':
+                return [
+                    {
+                        name: 'Physical',
+                        Beginner: "Recognition of the need for regular physical activity",
+                        Developing: "Creating patterns of activity that are safe and enjoyable",
+                        Accomplished: "Maintaining regular physical activity and seeking new activities",
+                        Exemplary: "Enjoying consistent physical activity that is part of ongoing lifestyle management"
+                    },
+                    {
+                        name: 'Nutritional',
+                        Beginner: "Awareness of the nutritional content of food and recognition of own eating patterns",
+                        Developing: "Conscious choices that balance nutritional deficiencies and hydration deficits",
+                        Accomplished: "Balanced management of food and water intake with attention to nutritional needs",
+                        Exemplary: "Consistent healthy approach to nutrition and choices that support good health"
+                    },
+                    {
+                        name: 'Hygiene',
+                        Beginner: "Ability to reflect on hygiene pratices and indentification of personal standards and choices",
+                        Developing: "Decesions about personal hygiene made with thought to long term effects, ie: infections, stress levels, preventative care, and STD's",
+                        Accomplished: "Regular self checks and preventive care for continued maintenance of personal hygiene",
+                        Exemplary: "Consistent conscious patterns of self checks and integration of new information about hygiene best pratices"
+                    },
+                    {
+                        name: 'Sleep',
+                        Beginner: "Acknowledgement of necessity of sleep and reflection on sleep patterns",
+                        Developing: "Conscious effort to build positive sleep patterns",
+                        Accomplished: "Regular positive sleep patterns",
+                        Exemplary: "Consistent positive sleep patterns and ability to seek support if patterns degenerate"
+                    }
+                ]
           // code block
           break;
         default:
