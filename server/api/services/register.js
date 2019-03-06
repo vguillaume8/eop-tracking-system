@@ -1,25 +1,6 @@
 const User = require('../../models/user');
 const Pillar = require('../../models/pillar');
-
-// http response messages to send to the clinet
-const httpResponses = {
-  onValidationError: {
-    success: false,
-    message: 'Please enter email and password.'
-  },
-  onUserSaveError: {
-    success: false,
-    message: 'That email address already exists.'
-  },
-  onUserSaveSuccess: {
-    success: true,
-    message: 'Successfully created new user.'
-  },
-  onCouldNotRegister: {
-    success: false,
-    message: "Could not register user"
-  }
-};
+const httpResponses = require('../responses/httpresponses');
 
 // Register new users
 function registerUser(request, response) {
@@ -28,6 +9,14 @@ function registerUser(request, response) {
   // if there is no valid email or password
   if (!email || !password) {
     response.json(httpResponses.onValidationError);
+  }
+
+  if(!email.includes("hawkmail.newpaltz.edu")){
+    response.json(httpResponses.onNotValidHawkmail);
+  }
+  // check if its a valid N-ID
+  if(!n_id.includes("N") || n_id.length != 9){
+    response.json(httpResponses.onNotValidID);
   }else {
     // creates user object with request body
     let newUser = new User({
@@ -52,7 +41,8 @@ function registerUser(request, response) {
           Gratitude: 0.5,
           Happiness: 0.5,
           Social: 0.5,
-          Other: 0.5 
+          Autonomy: 0.5 ,
+          Communication: 0.5
         },
         Emotional: {
           Attitude: 0.5,

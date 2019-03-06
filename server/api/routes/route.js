@@ -1,7 +1,6 @@
 'use strict';
 
 const apiRoute = require('./apis');
-// const errorRoute = require('./error');
 
 function init(server) {
   server.get('*', function (req, res, next) {
@@ -10,13 +9,11 @@ function init(server) {
   });
 
   server.get('/', function (req, res) {
-    //res.redirect('/home');
     res.send("Home reached");
   });
 
   server.use('/api', apiRoute);
-  //server.use('/home', homeRoute);
-  // server.use('/error', errorRoute);
+
 }
 
 module.exports = {

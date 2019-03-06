@@ -28,6 +28,7 @@ const UserSchema = new mongoose.Schema({
     required: true
   },
   students: [String],
+  year: String,
   advisor: {
     type: String,
     default: 'Not Assigned'

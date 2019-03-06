@@ -97,8 +97,11 @@ export default {
             this.getUsers();
             this.$forceUpdate();
         },
-        editUser(){
-            this.$modal.show('user-modal');
+        editUser(id){
+          let editUserId = {id: id}
+          localStorage.setItem('editUserId', JSON.stringify(editUserId));
+          this.$router.push('edituser');
+          this.$modal.show('user-modal');
         }
     
     }

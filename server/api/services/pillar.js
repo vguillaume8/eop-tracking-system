@@ -2,45 +2,7 @@
 const User = require('../../models/user');
 const Pillar = require('../../models/pillar');
 const Description = require('../data/description');
-
-
-const httpResponse = {
-    onUserNotFound: {
-      success: false,
-      message: 'User not found.'
-    },
-    onCouldNotRetreive: {
-        success: false,
-        message: 'Could not retreive data'
-    },
-    onPillarNotFound: {
-        success: false,
-        message: 'Pillars not found.'
-    },
-    onCouldNotSave: {
-        success: false,
-        message: 'Could Not Save'
-    },
-    onSaveSucess: {
-        success: true,
-        message: "Updated Successfully"
-    },
-    onDataSucess: {
-        success: true
-    },
-    onCouldNotUpdate: {
-        success: false,
-        message: "Could not update"
-    },
-    onMaxValue: {
-        success: false,
-        message: "Max Value exceeded"
-    },
-    onMinValue: {
-        success: false,
-        message: "Min Value exceeded"
-    }
-};
+const httpResponse = require('../responses/httpresponses');
 
 function updatePillar(req, res){
     let newPillar = new Pillar(req.body);

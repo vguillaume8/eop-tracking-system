@@ -62,8 +62,16 @@ let router = new Router({
         requiresAuth: true,
         is_advisor: true
         
-      },
-      
+      }
+    },
+    {
+      path: '/edituser',
+      name: 'edituser',
+      component: () => import(/* webpackChunkName: "log" */ './views/EditUser.vue'),
+      meta: {
+        requiresAuth: true,
+        is_admin: true
+      }
     }
   ]
 })

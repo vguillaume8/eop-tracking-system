@@ -7,6 +7,7 @@ let router = express.Router();
 
 router.get('/:userId', userService.retrieve);
 router.get('/', userService.getUsers);
+router.post('/:userId', userService.updateUser);
 router.post('/role/:userId', userService.changeRole);
 
 module.exports = router;

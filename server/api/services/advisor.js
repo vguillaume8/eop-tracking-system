@@ -1,48 +1,9 @@
 'use strict';
 const User = require('../../models/user');
-
-
-
-const httpResponse = {
-  onCouldNotAddStudent: {
-      success: false,
-      message: "Could not add student"
-  },
-  onStudentAddSuccess: {
-      success: true,
-      message: "Student was added successfully"
-  },
-  onStudentAlreadyExists: {
-      success: false,
-      message: "Student already exists in your list"
-  },
-  onStudentDoesNotExist: {
-      success: false,
-      message: "This student does not exist"
-  },
-  onCouldNotRetrieve: {
-      success: false,
-      message: "Could not retrieve data"
-  },
-  onCouldNotDeleteStudent: {
-      success: false,
-      message: "Could not delete student"
-  },
-  onStudentDeleteSuccess: {
-      success: true,
-      message: "Student was successfully deleted"
-  },
-  onCouldNotUnassign:{
-      success: false,
-      message: "Could not unassign student from advisor"
-  },
-  onNotAStudent: {
-      success: false,
-      message: "This user is not a student"
-  }
-};
+const httpResponse = require('../responses/httpresponses');
 
 function getStudents(req, res){
+    
     User.find({n_id: req.params.userId}, function(err, user){
         if(err) res.send(httpResponse.onCouldNotRetrieve);
         res.json({success: true, students: user[0].students});

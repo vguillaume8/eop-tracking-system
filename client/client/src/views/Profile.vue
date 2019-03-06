@@ -43,7 +43,7 @@
         <modal name="pillar-modal" id='pillar-modal' height="auto" :scrollable="true">
                 <div v-for="bar in bars" :key="bar.id" class="row mb-1">
                     <div class="col-sm-10 pt-1">
-                        <div class="col-sm-2">{{ bar.name }}:</div>
+                        <div class="col-sm-2">{{ bar.name}}:</div>
                         <a class="btn btn-danger" @click.prevent="decrementPillar(bar.name)">-</a>
                         <a class="btn btn-primary" @click.prevent="incrementPillar(bar.name)">+</a>
                          <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>
