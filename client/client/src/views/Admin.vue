@@ -1,7 +1,6 @@
 <template>
     <div>
         <h1> Admin Page </h1>
-        <p> {{ message }} </p>
         <h4> Advisor </h4>
         <div>
             <table class="table table-hover">
