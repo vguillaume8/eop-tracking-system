@@ -1,10 +1,10 @@
 <template>
 
 <div id="app">
-    
   <div id="login">
     <div id="description">
       <h1>Edit User</h1>
+      <a class="btn btn-danger" @click.prevent="deleteUser(userData.n_id)"> Delete User </a>
     </div>
     <div id="form">
       <form>
@@ -52,15 +52,31 @@ export default {
                     if(result.body.success == true){
                         alert("User's information was updated!");
                         this.userData = result.body.user;
-                        this.$forceUpdate();
+                        this.$router.push('/admin');
                     }else{
                         alert(result.body.message);
                     }
                 })
             }else{
-                alert("User's information was not changed ")
+                alert("User's information was not changed");
             }
             
+        },
+
+        deleteUser(n_id){
+            if(confirm("Do you want to delete this User?")){
+                this.$http.delete(`http://localhost:3000/api/v1/user/${n_id}`).then(result => {
+
+                    if(result.body.success == true){
+                        alert("User account was deleted!");
+                        this.$router.push('/admin');
+                    }else{
+                        alert(result.body.methods);
+                    }
+                })
+            }else{
+                alert("User's information was not changed");
+            }
         }
     }
 }
