@@ -1,29 +1,29 @@
 <template>
-    <div>
-        <h1> Advisor Page: Welcome Back {{capitalize(user.firstname, user.lastname)}} </h1>
-        <h4> Add Student <input v-model="studentToAdd"> <button type="submit" class="btn btn-success"  @click.prevent="addStudent()"> Add Student </button> </h4>
-        <h4> Current Students </h4>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th scope="col">Name</th>
-                    <th scope="col">N-Number</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Advisor</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr v-for="s in students" :key="s.id" >
-                    <td>{{capitalize(s.firstname, s.lastname)}}</td>
-                    <td>{{s.n_id}}</td>
-                    <td>{{s.email}}</td>
-                    <td>{{s.advisor}}</td>
-                    <a class="btn btn-primary" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)"> Go to Profile </a>
-                    <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
-                </tr>
-            </tbody>
-        </table>   
-    </div>
+<div>
+    <h1> Advisor Page: Welcome Back {{capitalize(user.firstname, user.lastname)}} </h1>
+    <h4> Add Student <input v-model="studentToAdd"> <button type="submit" class="btn btn-success"  @click.prevent="addStudent()"> Add Student </button> </h4>
+    <h4> Current Students </h4>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Name</th>
+                <th scope="col">N-Number</th>
+                <th scope="col">Email</th>
+                <th scope="col">Advisor</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr v-for="s in students" :key="s.id" >
+                <td>{{capitalize(s.firstname, s.lastname)}}</td>
+                <td>{{s.n_id}}</td>
+                <td>{{s.email}}</td>
+                <td>{{s.advisor}}</td>
+                <a class="btn btn-primary" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)"> Go to Profile </a>
+                <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
+            </tr>
+        </tbody>
+    </table>   
+</div>
 </template>
 
 
@@ -41,12 +41,14 @@ export default {
             totalSteps: 24
         }
     },
+
     async mounted(){
         await this.getAdvisorStudents();
         await this.getUserData();
     },
+
     methods: { 
-         async getUserData(){
+        async getUserData(){
             // get list of all  users
             this.students = [];
             
@@ -54,16 +56,14 @@ export default {
                 let currentId = this.studentIdList[i];
                 await this.$http.get(`${api.api}/user/${currentId}`).then(result => {
                     if(!this.students.includes(result.body.id)){
-                        //if((result.body.advisor.trim())== (advisor.firstname.charAt(0).toUpperCase() + advisor.firstname.slice(1) + advisor.lastname.charAt(0).toUpperCase() + advisor.lastname.slice(1)).trim()){
-                            this.students.push(result.body);
-                      //  }
-                        
-                    }
-                    
+                        this.students.push(result.body);                
+                    } 
                 });
             }
+
             this.$forceUpdate();
         },
+
         // gets list of advisor students
         async getAdvisorStudents(){
             let advisor = JSON.parse(localStorage.getItem('user'));
@@ -76,6 +76,7 @@ export default {
                 }
             })
         },
+
         // runs when advisor adds a new student to their list
         async addStudent(){ 
             let advisor = JSON.parse(localStorage.getItem('user'));
@@ -88,6 +89,7 @@ export default {
                     alert(result.body.message);
                 }
             });
+
             await this.getAdvisorStudents();
             await this.getUserData();
             this.$forceUpdate();
@@ -97,7 +99,6 @@ export default {
             let student = {n_id: studentId, name: this.capitalize(studentFirst, studentLast)}
             localStorage.setItem('student', JSON.stringify(student));
             this.$router.push('/profile');
-            
         },
         
         async deleteStudentFromList(studentId){
@@ -109,7 +110,6 @@ export default {
                 }else{
                     alert(result.body.message);
                 }
-            
             });
 
             await this.getAdvisorStudents();
@@ -121,6 +121,5 @@ export default {
             return firstname.charAt(0).toUpperCase() + firstname.slice(1) + " " + lastname.charAt(0).toUpperCase() + lastname.slice(1);
         }
     }
-   
 }
 </script>

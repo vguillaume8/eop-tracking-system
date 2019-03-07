@@ -1,39 +1,6 @@
 'use strict';
 const User = require('../../models/user');
-const Pillar = require('../../models/pillar');
 const httpResponse = require('../responses/httpresponses');
-
-// function updatePillar(req, res){
-//     let newPillar = new Pillar(req.body);
-
-//     newPillar.findOneAndUpdate({student_id: req.params.userId}, function(err, pillar){
-//         if(err){
-//             res.send(httpResponse.onCouldNotSave);
-//         }
-
-//         res.send(httpResponse.onSaveSucess);
-//     })
-    
-// }
-
-// function getPillar(req, res){
-//     let student_id = req.params.userId;
-//      Pillar.findOne({student_id: student_id}, function(err, pillar){
-        
-//         if(err){
-//             res.send(httpResponse.onCouldNotRetreive);
-//         }
-
-//         if(!pillar){
-//             res.send(httpResponse.onPillarNotFound);
-//         }else{
-//             res.send(pillar);
-//         }
-      
-//     });
-    
-   
-// }
 
 function updateUser(req, res){
     let user_id = req.params.userId;
@@ -74,18 +41,25 @@ function getUsers(req, res){
 }
 
 function changeRole(req, res){
-     console.log(req.params.userId);
-    let data = {role: req.params.role}
     User.findOneAndUpdate({n_id: req.params.userId}, req.body, function(err, user){
-        if(err) res.send("error");
+        if(err) res.send(httpResponse.onCouldNotUpdate);
         res.send(httpResponse.onSaveSucess);
     })
     
+}
+
+function deleteUser(req, res){
+    User.findOneAndDelete({n_id: req.params.userId}, function(err, user){
+
+        if(err) res.send(httpResponse.onCouldNotDeleteStudent);
+        res.send(httpResponse.onSaveSucess);
+    })
 }
 
 module.exports = {
     retrieve: retrieveUser,
     getUsers: getUsers,
     changeRole: changeRole,
-    updateUser: updateUser
+    updateUser: updateUser,
+    deleteUser: deleteUser
 };

@@ -1,5 +1,4 @@
 'use strict';
-const User = require('../../models/user');
 const Pillar = require('../../models/pillar');
 const Description = require('../data/description');
 const httpResponse = require('../responses/httpresponses');
@@ -30,7 +29,7 @@ function getPillar(req, res){
         }else{
           
             let pillarPercentages = {
-                SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 4,
+                SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 3.4482,
                 Emotional: Object.values(pillar.Emotional).reduce(getSum) * 4,
                 Community: Object.values(pillar.Community).reduce(getSum) * 6,
                 Intellectual: Object.values(pillar.Intellectual).reduce(getSum) * 5,
@@ -42,10 +41,6 @@ function getPillar(req, res){
             
             res.send(pillarPercentages);
         }
-        
-        
-        
-        //res.send(pillar);
     });
     
    

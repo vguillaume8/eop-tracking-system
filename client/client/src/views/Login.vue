@@ -9,11 +9,9 @@
       <form @submit.prevent="sendPost('/login')">
         <label for="email">HawkMail</label>
         <input type="email" id="email" v-model="input.email" placeholder="me@hawkmail.newpaltz.edy" autocomplete="off">
-
         <label for="password">Password</label>&nbsp;
         <i class="fas" :class="[passwordIcon]" @click="hidePassword = !hidePassword"></i>
         <input :type="passwordType" id="password" v-model="input.password" placeholder="**********">
-
         <button type="submit">Log in</button>
       </form>
     </div>
@@ -25,65 +23,68 @@
 <script>
 import api from '../../configs/dev.config.js';
 export default {
-    name: 'Login',
-    data () {
-        return {
-            showRegister: false,
-            input: {
-                    
-            },
-        }
-    },
-    computed: {
-      passwordType() {
-        return this.hidePassword ? 'password' : 'text'
-      },
-      passwordIcon() {
-        return this.hidePassword ? 'fa-eye' : 'fa-eye-slash'
-      }
-    },
-    methods: {
-        sendPost(slug){
-            this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
-               if(result.body.success == true){
-
-                   let userType = result.body.user.role;
-                   localStorage.setItem('user', JSON.stringify(result.body.user));
-                   localStorage.setItem('jwt', result.body.token);
-                   
-                   if(localStorage.getItem('jwt') != null){
-                       this.$emit('loggedIn');
-                       
-                       if(this.$route.params.nextUrl != null){
-                           this.$router.push(this.$route.params.nextUrl)
-                        }else {
-                            if(userType == 'advisor'){
-                                this.$router.push('/advisor');
-                            }else if(userType == 'admin'){
-                                this.$router.push('/admin');
-                            }else{
-                                this.$router.push('/');
-                            }
-                        }
-                    }
-                   alert("You have successfully logged in to your account");
-               }else{
-                   alert(result.body.message);
-               }
-               
-            })
-        },
-        logout(){ 
-            localStorage.removeItem('user');
-        }
-        
+  name: 'Login',
+  data () {
+    return {
+      showRegister: false,
+      input: {},
     }
+  },
+
+  computed: {
+    passwordType() {
+      return this.hidePassword ? 'password' : 'text'
+    },
+      
+    passwordIcon() {
+      return this.hidePassword ? 'fa-eye' : 'fa-eye-slash'
+    }
+  },
+    
+  methods: {
+    sendPost(slug){
+      this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
+        if(result.body.success == true){
+          let userType = result.body.user.role;
+          localStorage.setItem('user', JSON.stringify(result.body.user));
+          localStorage.setItem('jwt', result.body.token);
+          
+          if(localStorage.getItem('jwt') != null){
+            this.$emit('loggedIn');
+            
+            if(this.$route.params.nextUrl != null){
+              this.$router.push(this.$route.params.nextUrl)
+            }else {
+              
+              if(userType == 'advisor'){
+                this.$router.push('/advisor');
+              }else if(userType == 'admin'){
+                this.$router.push('/admin');
+              }else{
+                this.$router.push('/');
+              }
+            }
+          }
+          
+          alert("You have successfully logged in to your account");
+        }else{
+          alert(result.body.message);
+        }
+               
+      })
+    },
+        
+    logout(){ 
+      localStorage.removeItem('user');
+    }
+
+  }
 }
 </script>
 
 
 <style scoped>
-    .logout{
-        float: right;
-    }
+.logout{
+  float: right;
+}
 </style>

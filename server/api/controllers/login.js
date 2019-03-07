@@ -7,4 +7,10 @@ let router = express.Router();
 
 router.post('/', loginService.login);
 
+
+router.get('*', function(req, res){
+    res.send("Error go back");
+});
+
+
 module.exports = router;

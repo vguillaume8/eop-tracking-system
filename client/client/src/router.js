@@ -10,10 +10,10 @@ let router = new Router({
     {
       path: '/',
       name: 'home',
-      component: () => import('./views/Home.vue')
-      // meta: {
-      //     requiresAuth: true
-      // }
+      component: () => import('./views/Home.vue'),
+      meta: {
+        requiresAuth: true
+      }
     },
     {
       path: '/profile',
@@ -24,11 +24,6 @@ let router = new Router({
         is_advisor: true
       }
     }, 
-    {
-      path: '/hi',
-      name: 'hi',
-      component: () => import(/* webpackCHunkName: "log" */ './views/hi.vue'),
-    },
     {
       path: '/register',
       name: 'register',

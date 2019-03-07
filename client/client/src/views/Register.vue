@@ -1,7 +1,5 @@
 <template>
-
-<div id="app">
-    
+<div id="app">  
   <div id="login">
     <div id="description">
       <h1>Register</h1>
@@ -29,38 +27,35 @@
 <script>
 import api from '../../configs/dev.config.js';
 export default {
-    name: 'Register',
-    data(){
-        return {
-            input : {
-                
-            }
-        }
+  name: 'Register',
+  data(){
+    return {
+      input : {}
+    }
+  },
+
+  computed: {
+    passwordType() {
+      return this.hidePassword ? 'password' : 'text'
     },
-    computed: {
-      passwordType() {
-        return this.hidePassword ? 'password' : 'text'
-      },
       passwordIcon() {
         return this.hidePassword ? 'fa-eye' : 'fa-eye-slash'
       }
     },
+
     methods: {
-        sendPost(slug){
-            this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
-                if(result.body.success == true){
-                  alert("User was sucessfully created");
-                  this.$router.push('/login');
-                }else{
-                  alert(result.body.message);
-                }
-            });
-        }
+      sendPost(slug){
+        this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
+          if(result.body.success == true){
+            alert("User was sucessfully created");
+            this.$router.push('/login');
+          }else{
+            alert(result.body.message);
+          }
+        });
+      }
     }
     
 }
 </script>
 
-<style scoped>
-
-</style>

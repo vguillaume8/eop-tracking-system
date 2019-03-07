@@ -13,7 +13,6 @@ function getStudents(req, res){
 function addStudent(req, res){
 
    User.findOneAndUpdate({n_id: req.body.id}, {advisor: req.query.name},{new: true}, function(err, user){
-       console.log(user);
         if(err) res.send(httpResponse.onCouldNotAddStudent);
         if(user != null){
             if(user.length < 1){
@@ -34,6 +33,7 @@ function addStudent(req, res){
                                  } 
                                  res.send(httpResponse.onStudentAddSuccess);
                              });
+
                         }else{
                             res.send(httpResponse.onStudentAlreadyExists);
                         }
@@ -56,6 +56,7 @@ function deleteStudent(req, res){
             res.send(httpResponse.onCouldNotDeleteStudent);
         }else{
             User.findOneAndUpdate({n_id: req.query.student}, {advisor: "Not Assigned"}, function(err, user){
+                
                 if(err){
                   res.send(httpResponse.onCouldNotUnassign);
                 }else{

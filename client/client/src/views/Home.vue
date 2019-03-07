@@ -1,5 +1,5 @@
 <template>
-    <h1>Welcome Back {{user.firstname}} </h1>
+<h1>Welcome Back {{user.firstname}} </h1>
 </template>
 
 
@@ -11,9 +11,7 @@ export default {
     data () {
         return {
             user: JSON.parse(localStorage.getItem('user')),
-
-        }
-        
+        }   
     }
 }
 </script>
