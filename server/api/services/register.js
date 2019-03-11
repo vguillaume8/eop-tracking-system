@@ -82,6 +82,7 @@ function registerUser(request, response) {
         let newPillar = new Pillar(pillar);
         newPillar.save(error => {
           if (error) {
+            console.log(error);
             return response.json(httpResponses.onCouldNotRegister);
           }else{
             response.json(httpResponses.onUserSaveSuccess);

@@ -54,7 +54,9 @@ function deleteUser(req, res){
         if(err) res.send(httpResponse.onCouldNotDeleteStudent);
         res.send(httpResponse.onSaveSucess);
     })
-}
+};
+
+
 
 module.exports = {
     retrieve: retrieveUser,

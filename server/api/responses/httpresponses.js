@@ -131,4 +131,24 @@ module.exports = {
         success: true,
         message: "Updated Successfully"
     },
+
+    // Comment responses
+    onCouldNotPostComment: {
+        success: false,
+        message: 'Could not post comment'
+    },
+    onCommentPostSuccess: {
+        success: true,
+        message: 'Comment was posted successfully'
+    },
+    onCouldNotDeleteComment: {
+        success: false,
+        message: 'Could not delete comment'
+    },
+    onDeleteCommentSuccess: {
+        success: true,
+        message: 'Comment was successfully deleted'
+    }
+    
+    
 };
