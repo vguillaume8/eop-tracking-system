@@ -23,7 +23,7 @@
                 <td>{{s.n_id}}</td>
                 <td>{{s.email}}</td>
                 <td>{{s.advisor}}</td>
-                <a class="btn btn-primary" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)"> Go to Profile </a>
+                <a class="btn btn-primary" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)"> Progression </a>
                 <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
             </tr>
         </tbody>
@@ -48,6 +48,7 @@ export default {
             totalSteps: 24
         }
     },
+
 
     async mounted(){
         await this.getAdvisorStudents();

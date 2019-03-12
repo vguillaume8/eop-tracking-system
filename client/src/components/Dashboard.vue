@@ -3,7 +3,7 @@
     <mdb-card class="mb-4">
       <mdb-card-body class="d-sm-flex justify-content-between">
         <h4 class="mb-sm-0 pt-2">
-          <a href="https://mdbootstrap.com/material-design-for-bootstrap/" target="_blank">Home Page</a><span>/</span><span>Dashboard</span>
+          <a href="">Home Page</a><span>/</span><span>Dashboard</span>
         </h4>
         <form class="d-flex md-form justify-content-center" style="margin:0;" @submit.prevent="search()">
           <input aria-label="Search" class="form-control" placeholder="Type your query" type="search" v-model="input.search" />

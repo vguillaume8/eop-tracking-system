@@ -44,7 +44,7 @@
                   <div class="col-lg-4">
                     
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form3" class="form-control form-control-sm" v-model="userData.email" placeholder="Hawk Mail">
+                      <input type="text" id="form3" class="form-control form-control-sm" v-model="userData.firstname" placeholder="First Name">
                       <label for="form6" class=""></label>
                     </div>
 
@@ -55,7 +55,7 @@
                   <div class="col-lg-4">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form4" class="form-control form-control-sm" v-model="userData.year">
+                      <input type="text" id="form4" class="form-control form-control-sm" v-model="userData.lastname">
                       <label for="form4" class="disabled"></label>
                     </div>
 
@@ -72,7 +72,7 @@
                   <div class="col-md-6">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form5" class="form-control form-control-sm" v-model="userData.firstname" placeholder="First Name">
+                      <input type="email" id="email" class="form-control form-control-sm" v-model="userData.email" placeholder="HawkMail">
                       <label for="form5" class=""></label>
                     </div>
 
@@ -83,7 +83,7 @@
                   <div class="col-md-6">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form5" class="form-control form-control-sm" v-model="userData.lastname" placeholder="Last Name">
+                      <input type="text" id="form5" class="form-control form-control-sm" v-model="userData.year" placeholder="Year">
                       <label for="form5" class=""></label>
                     </div>
 
@@ -100,8 +100,8 @@
                   <div class="col-md-12">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form6" class="form-control form-control-sm">
-                      <label for="form6" class="">Address</label>
+                      <input type="text" id="address" class="form-control form-control-sm" v-model="userData.address" placeholder="Address">
+                      <label for="form6" class=""></label>
                     </div>
 
                   </div>
@@ -117,8 +117,8 @@
                   <div class="col-lg-4 col-md-12">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form7" class="form-control form-control-sm">
-                      <label for="form7" class="">City</label>
+                      <input type="text" id="city" class="form-control form-control-sm" v-model="userData.city" placeholder="City">
+                      <label for="form7" class=""></label>
                     </div>
 
                   </div>
@@ -128,8 +128,8 @@
                   <div class="col-lg-4 col-md-6">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form8" class="form-control form-control-sm">
-                      <label for="form8" class="">Country</label>
+                      <input type="text" id="state" class="form-control form-control-sm" v-model="userData.state" placeholder="State">
+                      <label for="form8" class=""></label>
                     </div>
 
                   </div>
@@ -139,8 +139,8 @@
                   <div class="col-lg-4 col-md-6">
 
                     <div class="md-form form-sm mb-0">
-                      <input type="text" id="form9" class="form-control form-control-sm">
-                      <label for="form9" class="">Postal Code</label>
+                      <input type="text" id="postal" class="form-control form-control-sm" v-model="userData.zip" placeholder="Postal Code">
+                      <label for="form9" class=""></label>
                     </div>
 
                   </div>
@@ -159,10 +159,11 @@
 
                     <!--Basic textarea-->
                     <div class="md-form mb-0">
-                      <textarea type="text" id="form10" class="md-textarea form-control" rows="3"></textarea>
-                      <label for="form10">Basic textarea</label>
+                      <textarea type="text" id="form10" class="md-textarea form-control" rows="3" placeholder="Bio" v-model="userData.bio"></textarea>
+                      <label for="form10"></label>
                     </div>
                   <button class="btn btn-primary" type="submit" @click.prevent="updateUser(userData.n_id)">Save</button>
+                  <button class="btn btn-danger" type="submit" @click.prevent="changePassword(userData.n_id)">Change Password?</button>
 
                   </div>
                   <!-- Grid column -->
@@ -195,9 +196,9 @@
                 <h3 class="mb-3 font-weight-bold"><strong>{{userData.firstname + " " + userData.lastname}}</strong></h3>
                 <h6 class="font-weight-bold cyan-text mb-4">{{userData.year}}</h6>
 
-                <p class="mt-4 text-muted">discription</p>
+                <p class="mt-4 text-muted">{{userData.bio}}</p>
                 
-                <a class="btn btn-info btn-rounded waves-effect waves-light"> Email</a>
+                <a class="btn btn-info btn-rounded waves-effect waves-light" v-bind:href="'mailto:' + userData.email"> Email</a>
 
               </div>
 
@@ -214,16 +215,56 @@
       <!--Section: Team v.1-->
 
     </div>
+
+       <mdb-modal size="lg" v-if="passwordModal" @close="passwordModal = false">
+        <mdb-modal-header>
+            <mdb-modal-title>{{"Do you want to change " + userData.firstname + "'s password?"}}</mdb-modal-title>
+        </mdb-modal-header>
+        <mdb-modal-body>
+          <div class="form-group row">
+    <!-- Default input -->
+    <label for="password" class="col-sm-2 col-form-label">New Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" v-model="password.new" id="password" placeholder="**********">
+    </div>
+  </div>
+  <!-- Grid row -->
+
+  <!-- Grid row -->
+  <div class="form-group row">
+    <!-- Default input -->
+    <label for="confirm" class="col-sm-2 col-form-label">Confirm Password</label>
+    <div class="col-sm-10">
+      <input type="password" class="form-control" v-model="password.confirm" id="confirm" placeholder="**********">
+    </div>
+  </div>
+        </mdb-modal-body> 
+        <mdb-modal-footer>
+          <mdb-btn color="primary" @click.native="submitPasswordChange()">Yes</mdb-btn>
+          <mdb-btn color="secondary" @click.native="passwordModal = false">Close</mdb-btn>
+        </mdb-modal-footer>
+    </mdb-modal>
   </section>
 </template>
 
 <script>
+import {mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbBtn} from 'mdbvue'
 export default {
     name: "EditUser",
     data(){
         return{
-            userData: {}
+            userData: {},
+            passwordModal: false,
+            password: {}
         }
+    },
+    components: {
+      mdbModal,
+      mdbModalHeader,
+      mdbModalTitle,
+      mdbModalBody,
+      mdbModalFooter,
+      mdbBtn
     },
 
     mounted(){
@@ -260,6 +301,7 @@ export default {
                 this.$http.delete(`http://localhost:3000/api/v1/user/${n_id}`).then(result => {
                     if(result.body.success == true){
                         alert("User account was deleted!");
+                        this.passwordModal = false;
                         this.$router.push('/admin');
                     }else{
                         alert(result.body.methods);
@@ -268,6 +310,24 @@ export default {
             }else{
                 alert("User's information was not changed");
             }
+        },
+
+        changePassword(n_id){
+          this.passwordModal = true;
+
+        },
+        async submitPasswordChange(){
+          this.userData.password = this.password.new;
+          await this.$http.post(`http://localhost:3000/api/v1/user/${this.userData.n_id}`, this.userData).then(result => {
+            if(result.body.success == true){
+                alert("User's password was changed!");
+                this.userData = result.body.user;
+                this.$router.push('/admin');
+            }else{
+                alert(result.body.message);
+            }
+          })
+
         }
     }
 }

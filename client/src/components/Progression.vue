@@ -1,86 +1,132 @@
 <template>
 <div>
     <div>
-        <h1> {{ student.name + "'s profile" }} </h1>
-        <a class="btn btn-primary" @click.prevent="openComment()"> View Comments </a> 
-        <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
-            <p> Self Actulization: </p>
-            <p>{{ SelfActulization }}% </p>
-            <a class="btn btn-primary" @click.prevent="openPillar('SelfActulization')"> Open Pillar </a>
-        </radial-progress-bar>
+        <h1 align="center"> {{ student.name + "'s profile" }} </h1>
+        <h2 align="center"> <a  class="btn btn-primary" @click.prevent="openComment()"> View Comments </a> </h2>
+        <mdb-container>
+             <mdb-row>
 
-        <radial-progress-bar innerStrokeColor="#C5CDBD" :diameter="200" :completed-steps="Emotional" :total-steps="totalSteps">
-            <p>Emotional: </p>
-            <p>{{ Emotional }}%</p>
-            <a class="btn btn-primary" @click.prevent="openPillar('Emotional')"> Open Pillar </a>
-        </radial-progress-bar>
-
-        <radial-progress-bar  innerStrokeColor="#D5BDBD" :diameter="200" :completed-steps="Community" :total-steps="totalSteps">
-            <p>Community: </p>
-            <p>{{ Community }}%</p>
-            <a class="btn btn-primary" @click.prevent="openPillar('Community')"> Open Pillar </a>
-        </radial-progress-bar>
-
-        <radial-progress-bar innerStrokeColor="#C7BDBD" :diameter="200" :completed-steps="Intellectual" :total-steps="totalSteps">
-            <p>Intellectual: </p>
-            <p>{{ Intellectual }}%</p>
-            <a class="btn btn-primary" @click.prevent="openPillar('Intellectual')"> Open Pillar </a>
-        </radial-progress-bar>
-                    
-        <radial-progress-bar innerStrokeColor="#C5BEBD" :diameter="200" :completed-steps="Health" :total-steps="totalSteps">
-            <p>Health: </p>
-            <p>{{ Health }}%</p>
-            <a class="btn btn-primary" @click.prevent="openPillar('Health')"> Open Pillar </a>
-        </radial-progress-bar>
+                <mdb-col col="4">
+                    <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
+                        <p> Self Actulization: </p>
+                        <p>{{ SelfActulization }}% </p>
+                        <a class="btn btn-primary" @click.prevent="openPillar('SelfActulization')"> Open Pillar </a>
+                    </radial-progress-bar>
+                </mdb-col>
                 
-        <radial-progress-bar innerStrokeColor="#C1BDBD" :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
-            <p>Professional / Academic: </p>
-            <p>{{ ProfessionalAcademic}}%</p>
-            <a class="btn btn-primary" @click.prevent="openPillar('ProfessionalAcademic')"> Open Pillar </a>
-        </radial-progress-bar>
+                <mdb-col col="4">
+                    <radial-progress-bar innerStrokeColor="#C5CDBD" :diameter="200" :completed-steps="Emotional" :total-steps="totalSteps">
+                        <p>Emotional: </p>
+                        <p>{{ Emotional }}%</p>
+                        <a class="btn btn-primary" @click.prevent="openPillar('Emotional')"> Open Pillar </a>
+                    </radial-progress-bar>
+                </mdb-col>
+
+                <mdb-col col="4">
+                    <radial-progress-bar  innerStrokeColor="#D5BDBD" :diameter="200" :completed-steps="Community" :total-steps="totalSteps">
+                        <p>Community: </p>
+                        <p>{{ Community }}%</p>
+                        <a class="btn btn-primary" @click.prevent="openPillar('Community')"> Open Pillar </a>
+                    </radial-progress-bar>
+                </mdb-col>
+
+            </mdb-row>
+
+            <mdb-row>
+                <mdb-col sm="4">
+                    <radial-progress-bar innerStrokeColor="#C7BDBD" :diameter="200" :completed-steps="Intellectual" :total-steps="totalSteps">
+                        <p>Intellectual: </p>
+                        <p>{{ Intellectual }}%</p>
+                        <a class="btn btn-primary" @click.prevent="openPillar('Intellectual')"> Open Pillar </a>
+                    </radial-progress-bar>
+                </mdb-col>
+
+                <mdb-col sm="4">              
+                    <radial-progress-bar innerStrokeColor="#C5BEBD" :diameter="200" :completed-steps="Health" :total-steps="totalSteps">
+                        <p>Health: </p>
+                        <p>{{ Health }}%</p>
+                        <a class="btn btn-primary" @click.prevent="openPillar('Health')"> Open Pillar </a>
+                    </radial-progress-bar>
+                </mdb-col>
+
+                <mdb-col sm="4">             
+                    <radial-progress-bar innerStrokeColor="#C1BDBD" :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
+                        <p>Professional / Academic: </p>
+                        <p>{{ ProfessionalAcademic}}%</p>
+                        <a class="btn btn-primary" @click.prevent="openPillar('ProfessionalAcademic')"> Open Pillar </a>
+                    </radial-progress-bar>
+                </mdb-col>
+
+            </mdb-row>
+
+        </mdb-container>
     </div>
 
-    <modal name="pillar-modal" id='pillar-modal' height="auto" :scrollable="true">
-        <div v-for="bar in bars" :key="bar.id" class="row mb-1">
-            <div class="col-sm-10 pt-1">
-                <div class="col-sm-2">{{ bar.name}}:</div>
-                <a class="btn btn-danger" @click.prevent="decrementPillar(bar.name)">-</a>
-                <a class="btn btn-primary" @click.prevent="incrementPillar(bar.name)">+</a>
-                <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>
-                        
-                <b-progress height="2rem">
-                    <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
+    <mdb-modal size="lg" v-if="pillarModal" @close="pillarModal = false">
+        <mdb-modal-header>
+            <mdb-modal-title>{{pillarType}}</mdb-modal-title>
+        </mdb-modal-header>
+        <mdb-modal-body>
+            <div v-for="bar in bars" :key="bar.id" class="row mb-1">
+                <div class="col-sm-10 pt-1">
+                    <div class="col-sm-2">{{ bar.name}}:</div>
+                    <a class="btn btn-danger" @click.prevent="decrementPillar(bar.name)">-</a>
+                    <a class="btn btn-primary" @click.prevent="incrementPillar(bar.name)">+</a>
+                    <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>     
+                    <b-progress height="2rem">
+                        <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
                         {{bar.level}}
                         <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
-                    </b-progress-bar>
-                </b-progress>
-            </div>
-        </div>
-    </modal>
-
-    <modal name="pillar-desc" id='pillar-desc' height="auto" :scrollable="true">
-        <h1> {{pillarDescription.name}} </h1>
-        <p>{{ pillarDescription }} </p>
-    </modal> 
-
-    <modal name="student-comments" id="student-comments" height="auto" :scrollable="true">
-        <h1> Comments </h1>
-        <ul v-for="c in comments" :key="c.id">
-            <div class="card" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title">{{c.date}}</h5>
-                    <h6 class="card-subtitle mb-2 text-muted">{{c.advisor_name}}</h6>
-                    <p class="card-text">{{c.comment}}</p>
-                    <a class="btn btn-danger" @click.prevent="deleteComment(c._id)">Delete</a>
+                        </b-progress-bar>
+                    </b-progress>
                 </div>
             </div>
-        </ul>
-        <form @submit.prevent="submitComment()"> 
-            <input class="form-control form-control-large" v-model="commentData.comment" placeholder="New Comment">    
-            <button type="reset" class="btn btn-success"> Submit </button>
-        </form>
+        </mdb-modal-body>
+        <mdb-modal-footer>
+            <mdb-btn color="secondary" @click.native="pillarModal = false">Close</mdb-btn>
+        </mdb-modal-footer>
+    </mdb-modal>
 
-    </modal>
+    <mdb-modal size="lg" v-if="pillarDesc" @close="pillarDesc = false">
+        <mdb-modal-header>
+            <mdb-modal-title>{{pillarLevel}}</mdb-modal-title>
+        </mdb-modal-header>
+        <mdb-modal-body>
+            <h1> {{pillarDescription.name}} </h1>
+            <p>{{ pillarDescription }} </p>
+        </mdb-modal-body> 
+        <mdb-modal-footer>
+            <mdb-btn color="secondary" @click.native="pillarDesc = false">Close</mdb-btn>
+        </mdb-modal-footer>
+    </mdb-modal>
+
+
+
+    <mdb-modal size="lg" v-if="pillarComments" @close="pillarComments = false">
+        <mdb-modal-header>
+            <mdb-modal-title>Comments</mdb-modal-title>
+        </mdb-modal-header>
+        <mdb-modal-body>
+            <ul v-for="c in comments" :key="c.id">
+                
+                <div class="card" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title">{{c.date}}</h5>
+                        <h6 class="card-subtitle mb-2 text-muted">{{c.advisor_name}}</h6>
+                        <p class="card-text">{{c.comment}}</p>
+                        <a class="btn btn-danger" @click.prevent="deleteComment(c._id)">Delete</a>
+                    </div>
+                </div>
+            </ul>
+            <form @submit.prevent="submitComment()"> 
+                <input class="form-control form-control-large" v-model="commentData.comment" placeholder="New Comment">    
+                <button type="reset" class="btn btn-success"> Submit </button>
+            </form>
+        </mdb-modal-body> 
+        <mdb-modal-footer>
+            <mdb-btn color="secondary" @click.native="pillarComments = false">Close</mdb-btn>
+        </mdb-modal-footer>
+    </mdb-modal>
 
 </div>
 </template>
@@ -89,6 +135,7 @@
 <script>
 import api from '../../configs/dev.config.js';
 import RadialProgressBar from 'vue-radial-progress'
+import {mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue'
 export default {
     name: 'Profile',
     data () {
@@ -112,12 +159,26 @@ export default {
             hover: false,
 
             commentData: {},
-            comments: []
+            comments: [],
+            pillarModal: false,
+            pillarDesc: false,
+            pillarComments: false,
+            pillarLevel: "",
+            pillarType: ""
         }
     },
 
     components: {
-        RadialProgressBar
+        RadialProgressBar,
+        mdbModal,
+        mdbModalHeader,
+        mdbModalTitle,
+        mdbModalBody,
+        mdbModalFooter,
+        mdbBtn,
+        mdbContainer,
+        mdbCol,
+        mdbRow
     },
 
     mounted(){
@@ -158,13 +219,14 @@ export default {
                 if(result.body.success == true){
                     this.bars = result.body.metaArray;
                     this.pillarDescriptionData = result.body.description;
+                    this.pillarType = type;
                 }else{
                     alert(result.body.message);
                 }
             })
 
             this.currentType = type;
-            this.$modal.show('pillar-modal');
+            this.pillarModal = true
         },
 
         async incrementPillar(meta){
@@ -199,15 +261,16 @@ export default {
             for(var i = 0; i< this.pillarDescriptionData.length; i++){
                 if(this.pillarDescriptionData[i].name == name){
                     this.pillarDescription = this.pillarDescriptionData[i][level];
+                    this.pillarLevel = level;
                 }
             }
             
-            this.$modal.show('pillar-desc');
+            this.pillarDesc = true;
         },
 
         openComment(){
             this.getComments();
-            this.$modal.show('student-comments');
+            this.pillarComments = true;
         },
 
         async submitComment(){
@@ -253,3 +316,5 @@ export default {
     }
 }
 </script>
+
+

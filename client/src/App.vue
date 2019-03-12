@@ -49,19 +49,14 @@
       </div>
       <ftr color="primary-color-dark" class="text-center font-small darken-2">
         <div class="pt-4">
-          <mdb-btn outline="white" tag="a" href="https://mdbootstrap.com/docs/vue/getting-started/download/" target="_blank">Link 1 <mdb-icon icon="download" class="ml-2"/></mdb-btn>
-          <mdb-btn outline="white" tag="a" href="https://mdbootstrap.com/education/bootstrap/" target="_blank">Link 2 <mdb-icon icon="graduation-cap" class="ml-2"/></mdb-btn>
+          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/pillar-img">Pillar Description (READ ONLY)<mdb-icon icon="download" class="ml-2"/></mdb-btn>
+          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/pillar-word">Pillar Description (Editable) <mdb-icon icon="download" class="ml-2"/></mdb-btn>
         </div>
         <hr class="my4"/>
         <div class="pb-4">
-          <a href="#"><mdb-icon fab icon="facebook-square" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="twitter" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="youtube" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="google-plus" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="dribbble" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="pinterest" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="github" class="mr-3"/></a>
-          <a href="#"><mdb-icon fab icon="codepen" class="mr-3"/></a>
+          <a href="https://www.facebook.com/EOP.at.SUNY.NewPaltz/" target="_blank"><mdb-icon fab icon="facebook-square" class="mr-3"/></a>
+          <a href="https://twitter.com/newpaltz" target="_blank"><mdb-icon fab icon="twitter" class="mr-3"/></a>
+          <a href="https://www.linkedin.com/groups/156076/" target="_blank"><mdb-icon fab icon="linkedin" class="mr-3"/></a>
         </div>
         <p class="footer-copyright mb-0 py-3 text-center">
           &copy; {{new Date().getFullYear()}} Copyright: <a href=""> </a>
@@ -76,6 +71,8 @@
 import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavItem, mdbNavbarNav, mdbNavbarToggler, mdbBtn, mdbIcon, mdbListGroup, mdbListGroupItem, mdbCardBody, mdbFooter, waves } from 'mdbvue'
 import Dashboard from './components/Dashboard'
 import Profile from './components/Profile'
+import api from '../configs/dev.config.js';
+
 
 
 export default {
@@ -112,6 +109,14 @@ export default {
       localStorage.removeItem('jwt');
       this.$router.push('/login');
       //location.reload();
+    },
+
+    downloadFile(file){
+      this.$http.get(`${api.api}/download/${file}`).then(result => {
+        if(result.body.success == false){
+          alert(result.body.message)
+        }
+      })
     }
   },
   mixins: [waves]
