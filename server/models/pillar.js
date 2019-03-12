@@ -16,7 +16,8 @@ const PillarSchema = new mongoose.Schema({
         Gratitude: SchemaTypes.Double,
         Happiness: SchemaTypes.Double,
         Social: SchemaTypes.Double,
-        Other: SchemaTypes.Double // was cut off on paper, ask eop
+        Autonomy: SchemaTypes.Double,
+        Communication: SchemaTypes.Double
     },
 
     Emotional: {

@@ -1,46 +1,7 @@
 'use strict';
-const User = require('../../models/user');
 const Pillar = require('../../models/pillar');
 const Description = require('../data/description');
-
-
-const httpResponse = {
-    onUserNotFound: {
-      success: false,
-      message: 'User not found.'
-    },
-    onCouldNotRetreive: {
-        success: false,
-        message: 'Could not retreive data'
-    },
-    onPillarNotFound: {
-        success: false,
-        message: 'Pillars not found.'
-    },
-    onCouldNotSave: {
-        success: false,
-        message: 'Could Not Save'
-    },
-    onSaveSucess: {
-        success: true,
-        message: "Updated Successfully"
-    },
-    onDataSucess: {
-        success: true
-    },
-    onCouldNotUpdate: {
-        success: false,
-        message: "Could not update"
-    },
-    onMaxValue: {
-        success: false,
-        message: "Max Value exceeded"
-    },
-    onMinValue: {
-        success: false,
-        message: "Min Value exceeded"
-    }
-};
+const httpResponse = require('../responses/httpresponses');
 
 function updatePillar(req, res){
     let newPillar = new Pillar(req.body);
@@ -68,7 +29,7 @@ function getPillar(req, res){
         }else{
           
             let pillarPercentages = {
-                SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 4,
+                SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 3.4482,
                 Emotional: Object.values(pillar.Emotional).reduce(getSum) * 4,
                 Community: Object.values(pillar.Community).reduce(getSum) * 6,
                 Intellectual: Object.values(pillar.Intellectual).reduce(getSum) * 5,
@@ -80,10 +41,6 @@ function getPillar(req, res){
             
             res.send(pillarPercentages);
         }
-        
-        
-        
-        //res.send(pillar);
     });
     
    

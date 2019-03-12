@@ -43,8 +43,7 @@ module.exports = function() {
   };
 
   start = function() {
-    let hostname = server.get('hostname'),
-      port = server.get('port');
+    let hostname = server.get('hostname'), port = server.get('port');
 
     server.listen(port, function () {
       console.log('Express server listening on - http://' + hostname + ':' + port);

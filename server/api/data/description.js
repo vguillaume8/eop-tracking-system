@@ -6,6 +6,9 @@ function getDescription(type){
         case 'SelfActulization':
             return [
                 {
+                    description: "The building and recognition of our sense of self, our values, and how we practice them in the world."
+                },
+                {
                     name: 'Morals',
                     Beginner: "Evaluate internal process for making choices. Identify core values and personal code of ethics",
                     Developing: "Recognition of personal values as they relate to family and personal ethics",
@@ -41,16 +44,26 @@ function getDescription(type){
                     Exemplary: "Caring about the wellbeing of others and acting out of that care",
                 },
                 {
-                    name: 'Other',
-                    Beginner: "",
-                    Developing: "",
-                    Accomplished: "",
-                    Exemplary: "",
+                    name: 'Autonomy',
+                    Beginner: "Recognition of reliance on authority and reassurance of others",
+                    Developing: "Seeking ways to rely on own judgments and accepting responsibility for choices",
+                    Accomplished: "Consistent pattern of seeking outside information but using internal process of self-reliance",
+                    Exemplary: "Resourceful and independent comfortable in company and solitude",
                 },
+                {
+                    name: 'Communication',
+                    Beginner: "Self-reflection of communication strengths and challenges",
+                    Developing: "Seeking support and information to develop stronger communication skills",
+                    Accomplished: "Regularly able to express self clearly and listen with respect to others",
+                    Exemplary: "Consistent clear communication and ongoing integration of new skills",
+                }
               
             ]
         case 'Intellectual':
             return [
+                {
+                    description: "Clear, informed thinking creates a foundation for positive growth and adjustment to new ideas."
+                },
                 {
                     name: 'Thinking',
                     Beginner: "Acknowledge your personal perspective",
@@ -89,6 +102,9 @@ function getDescription(type){
             ]
         case 'ProfessionalAcademic':
             return [
+                {
+                    description: "Our academic standards and practices translate into our professional persona."
+                },
                 {
                     name: 'Major',
                     Beginner: "Acknowledgeing one's personal vaules and beliefs",
@@ -136,6 +152,9 @@ function getDescription(type){
         case 'Community':
             return [
                 {
+                    description: "Learning to be a part of your community is integral to contributing to its well-being."
+                },
+                {
                     name: 'Physcial',
                     Beginner: "Recognizing your place in your environment ",
                     Developing: "Acknowledging your impact in/with your environment",
@@ -166,6 +185,9 @@ function getDescription(type){
             ]
         case 'Emotional':
             return [
+                {
+                    description: "Humans have emotions, learning how to accept and manage your emotions is important."
+                },
                 {
                     name: "Attitude",
                     Beginner: "Knows the difference between a positive and a negative attitude",
@@ -211,6 +233,9 @@ function getDescription(type){
             ]
             case 'Health':
                 return [
+                    {
+                        description: "Our physical well-being is our responsibility and the key to the longevity of our success."
+                    },
                     {
                         name: 'Physical',
                         Beginner: "Recognition of the need for regular physical activity",

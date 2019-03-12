@@ -7,36 +7,44 @@ const UserSchema = new mongoose.Schema({
     unique: true,
     required: true
   },
+
   firstname: {
       type: String,
       lowercase: true,
       required: true
   },
+
   lastname: {
       type: String,
       lowercase: true,
       required: true
   },
+
   email: {
     type: String,
     lowercase: true,
     unique: true,
     required: true
   },
+
   password: {
     type: String,
     required: true
   },
+
   students: [String],
+  year: String,
   advisor: {
     type: String,
     default: 'Not Assigned'
   },
+
   role: {
     type: String,
     enum: ['student', 'advisor', 'admin'],
     default: 'student'
   }
+
 });
 
 
@@ -44,7 +52,7 @@ const UserSchema = new mongoose.Schema({
 UserSchema.pre('save', function(next) {
   let user = this;
 
-  if (this.isModified('password') || this.isNew) {
+  if(this.isModified('password') || this.isNew) {
     bcrypt.genSalt(10, (err, salt) => {
       if (err) {
         console.log(err);
@@ -59,21 +67,26 @@ UserSchema.pre('save', function(next) {
 
         user.password = hash;
         next();
+
       });
+
     });
-  } else {
+
+  }else {
     return next();
   }
+
 });
 
 // Create method to compare password input to password saved in database
 UserSchema.methods.comparePassword = function(pw, cb) {
   bcrypt.compare(pw, this.password, function(err, isMatch) {
-    if (err) {
+    if(err){
       return cb(err);
     }
 
     cb(null, isMatch);
+    
   });
 };
 

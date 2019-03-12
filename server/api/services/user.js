@@ -1,64 +1,18 @@
 'use strict';
 const User = require('../../models/user');
-const Pillar = require('../../models/pillar');
+const httpResponse = require('../responses/httpresponses');
 
+function updateUser(req, res){
+    let user_id = req.params.userId;
+    let userData = req.body;
 
-const httpResponse = {
-    onUserNotFound: {
-      success: false,
-      message: 'User not found.'
-    },
-    onCouldNotRetreive: {
-        success: false,
-        message: 'Could not retreive data'
-    },
-    onPillarNotFound: {
-        success: false,
-        message: 'Pillars not found.'
-    },
-    onCouldNotSave: {
-        success: false,
-        message: 'Could Not Save'
-    },
-    onSaveSucess: {
-        success: true,
-        message: "Updated Successfully"
-    },
-};
-
-function updatePillar(req, res){
-    let newPillar = new Pillar(req.body);
-
-    newPillar.findOneAndUpdate({student_id: req.params.userId}, function(err, pillar){
+    User.findOneAndUpdate({n_id: user_id}, userData, {new: true}, function(err, user){
         if(err){
-            res.send(httpResponse.onCouldNotSave);
-        }
-
-        res.send(httpResponse.onSaveSucess);
-    })
-    
-}
-
-function getPillar(req, res){
-    let student_id = req.params.userId;
-     Pillar.findOne({student_id: student_id}, function(err, pillar){
-        
-        if(err){
-            res.send(httpResponse.onCouldNotRetreive);
-        }
-
-        if(!pillar){
-            res.send(httpResponse.onPillarNotFound);
+            res.json(httpResponse.onCouldNotUpdate);
         }else{
-            res.send(pillar);
+            res.json({success:true, user:user})
         }
-      
-        
-        
-        //res.send(pillar);
-    });
-    
-   
+    })
 }
 
 function retrieveUser(req, res){
@@ -87,19 +41,27 @@ function getUsers(req, res){
 }
 
 function changeRole(req, res){
-     console.log(req.params.userId);
-    let data = {role: req.params.role}
     User.findOneAndUpdate({n_id: req.params.userId}, req.body, function(err, user){
-        if(err) res.send("error");
+        if(err) res.send(httpResponse.onCouldNotUpdate);
         res.send(httpResponse.onSaveSucess);
     })
     
 }
 
+function deleteUser(req, res){
+    User.findOneAndDelete({n_id: req.params.userId}, function(err, user){
+
+        if(err) res.send(httpResponse.onCouldNotDeleteStudent);
+        res.send(httpResponse.onSaveSucess);
+    })
+};
+
+
+
 module.exports = {
     retrieve: retrieveUser,
-    updatePillar: updatePillar,
-    getPillar: getPillar,
     getUsers: getUsers,
-    changeRole: changeRole
+    changeRole: changeRole,
+    updateUser: updateUser,
+    deleteUser: deleteUser
 };

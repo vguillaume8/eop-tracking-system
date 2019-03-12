@@ -4,17 +4,7 @@ const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const db = require('../../configs/db');
 const User = require('../../models/user');
-
-const httpResponses = {
-  onUserNotFound: {
-    success: false,
-    message: 'User not found.'
-  },
-  onAuthenticationFail: {
-    success: false,
-    message: 'Passwords did not match.'
-  }
-}
+const httpResponses = require('../responses/httpresponses');
 
 // attemps to login user
 function loginUser(req, res) { 
