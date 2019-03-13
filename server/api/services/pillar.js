@@ -31,9 +31,9 @@ function getPillar(req, res){
             let pillarPercentages = {
                 SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 3.4482,
                 Emotional: Object.values(pillar.Emotional).reduce(getSum) * 4,
-                Community: Object.values(pillar.Community).reduce(getSum) * 6,
-                Intellectual: Object.values(pillar.Intellectual).reduce(getSum) * 5,
-                Health: Object.values(pillar.Health).reduce(getSum) * 6,
+                Community: Object.values(pillar.Community).reduce(getSum) * 5.8821,
+                Intellectual: Object.values(pillar.Intellectual).reduce(getSum) * 4.762,
+                Health: Object.values(pillar.Health).reduce(getSum) * 5.8821,
                 ProfessionalAcademic: Object.values(pillar.ProfessionalAcademic).reduce(getSum) * 4,
             }
             
