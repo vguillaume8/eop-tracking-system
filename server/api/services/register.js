@@ -9,7 +9,7 @@ function registerUser(request, response) {
   // if there is no valid email or password
   if (!email || !password) {
     response.json(httpResponses.onValidationError);
-  }else if(!email.includes("hawkmail.newpaltz.edu")){
+  }else if(!email.includes("newpaltz.edu")){
     response.json(httpResponses.onNotValidHawkmail);
   }
   // check if its a valid N-ID

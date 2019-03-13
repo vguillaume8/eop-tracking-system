@@ -34,6 +34,11 @@ const UserSchema = new mongoose.Schema({
 
   students: [String],
   year: String,
+  bio: String,
+  address: String,
+  city: String,
+  zip: String,
+  state: String,
   advisor: {
     type: String,
     default: 'Not Assigned'

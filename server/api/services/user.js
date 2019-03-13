@@ -1,18 +1,42 @@
 'use strict';
+const bcrypt = require('bcrypt');
 const User = require('../../models/user');
+const Pillar = require('../../models/pillar');
+const Comment = require('../../models/comment');
 const httpResponse = require('../responses/httpresponses');
 
 function updateUser(req, res){
-    let user_id = req.params.userId;
-    let userData = req.body;
+        let user_id = req.params.userId;
+        let userData = req.body;
+        let password = userData.password;
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) {
+              
+            }
+      
+            bcrypt.hash(password, salt, (err, hash) => {
+              if (err) {
+                console.log(err);
+                
+              }
+      
+              userData.password = hash;
+              User.findOneAndUpdate({n_id: user_id}, userData, {new: true}, function(err, user){
+                if(err){
+                    res.json(httpResponse.onCouldNotUpdate);
+                }else{
+                    res.json({success:true, user:user})
+                }
+            })
+              
+      
+            });
+      
+        });
+    
+    
+   
 
-    User.findOneAndUpdate({n_id: user_id}, userData, {new: true}, function(err, user){
-        if(err){
-            res.json(httpResponse.onCouldNotUpdate);
-        }else{
-            res.json({success:true, user:user})
-        }
-    })
 }
 
 function retrieveUser(req, res){
@@ -52,7 +76,18 @@ function deleteUser(req, res){
     User.findOneAndDelete({n_id: req.params.userId}, function(err, user){
 
         if(err) res.send(httpResponse.onCouldNotDeleteStudent);
-        res.send(httpResponse.onSaveSucess);
+
+        Pillar.findOneAndDelete({n_id: req.params.userId}, function(err, pillar){
+            if(err) res.send(httpResponse.onCouldNotDeleteStudent);
+
+            Comment.deleteMany({n_id: req.params.userId}, function(err, comment){
+                if(err) res.send(httpResponse.onCouldNotDeleteStudent);
+                res.send(httpResponse.onSaveSucess);
+            })
+        })
+
+
+       
     })
 };
 
