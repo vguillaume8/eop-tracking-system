@@ -25,7 +25,14 @@ const CommentSchema = new mongoose.Schema({
     comment: {
         type: String,
         required: true
-    }
+    },
+
+    selfact: Boolean,
+    emotional: Boolean,
+    community: Boolean,
+    intellectual: Boolean,
+    health: Boolean,
+    prof: Boolean
    
 
 });

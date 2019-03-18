@@ -111,6 +111,12 @@
                 
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
+                        <a class="badge badge-default" v-if="c.selfact">Self Actualization</a>
+                        <a class="badge badge-primary" v-if="c.emotional">Emotional</a>
+                        <a class="badge badge-secondary" v-if="c.community">Community</a>
+                        <a class="badge badge-success" v-if="c.intllectual">Intellectual</a>
+                        <a class="badge badge-warning" v-if="c.health">Health</a>
+                        <a class="badge badge-info" v-if="c.prof">Professional/Academic</a>
                         <h5 class="card-title">{{c.date}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{c.advisor_name}}</h6>
                         <p class="card-text">{{c.comment}}</p>
@@ -119,8 +125,42 @@
                 </div>
             </ul>
             <form @submit.prevent="submitComment()"> 
+                <!-- Material inline 1 -->
+            <div class="form-check form-check-inline">
+            <input type="checkbox" class="form-check-input" id="self-actual" v-model="commentData.selfact">
+            <label class="form-check-label" for="self-actual">Self Actualization</label>
+            </div>
+
+            <!-- Material inline 2 -->
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" id="emotional" v-model="commentData.emotional">
+                <label class="form-check-label" for="emotional">Emotional</label>
+            </div>
+
+            <!-- Material inline 3 -->
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" id="community" v-model="commentData.community">
+                <label class="form-check-label" for="community">Community</label>
+            </div>
+            <!-- Material inline 1 -->
+            <div class="form-check form-check-inline">
+            <input type="checkbox" class="form-check-input" id="intellectual" v-model="commentData.intellectual">
+            <label class="form-check-label" for="intellectual">Intellectual</label>
+            </div>
+
+            <!-- Material inline 2 -->
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" id="health" v-model="commentData.health">
+                <label class="form-check-label" for="health">Health</label>
+            </div>
+
+            <!-- Material inline 3 -->
+            <div class="form-check form-check-inline">
+                <input type="checkbox" class="form-check-input" id="prof-aca" v-model="commentData.prof">
+                <label class="form-check-label" for="prof-aca">Professional/Academic</label>
+            </div>
                 <input class="form-control form-control-large" v-model="commentData.comment" placeholder="New Comment">    
-                <button type="reset" class="btn btn-success"> Submit </button>
+                <button type="submit|reset" class="btn btn-success"> Submit </button>
             </form>
         </mdb-modal-body> 
         <mdb-modal-footer>
@@ -274,6 +314,7 @@ export default {
         },
 
         async submitComment(){
+            console.log(this.commentData);
             let student = JSON.parse(localStorage.getItem('student'));
             let user = JSON.parse(localStorage.getItem('user'));
             this.commentData.n_id = student.n_id;
