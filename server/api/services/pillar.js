@@ -6,44 +6,35 @@ const httpResponse = require('../responses/httpresponses');
 function updatePillar(req, res){
     let newPillar = new Pillar(req.body);
 
-    newPillar.findOneAndUpdate({student_id: req.params.userId}, function(err, pillar){
+    newPillar.findOneAndUpdate({student_id: req.params.userId}, function(err){
         if(err){
             res.send(httpResponse.onCouldNotSave);
         }
-
-        res.send(httpResponse.onSaveSucess);
+        
+        else{
+            res.send(httpResponse.onSaveSucess);
+        }   
     })
     
 }
 
 function getPillar(req, res){
     let student_id = req.params.userId;
+
      Pillar.findOne({student_id: student_id}, function(err, pillar){
         
         if(err){
             res.send(httpResponse.onCouldNotRetreive);
         }
 
-        if(!pillar){
+        else if(!pillar){
             res.send(httpResponse.onPillarNotFound);
-        }else{
-          
-            let pillarPercentages = {
-                SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 3.4482,
-                Emotional: Object.values(pillar.Emotional).reduce(getSum) * 4,
-                Community: Object.values(pillar.Community).reduce(getSum) * 6,
-                Intellectual: Object.values(pillar.Intellectual).reduce(getSum) * 5,
-                Health: Object.values(pillar.Health).reduce(getSum) * 6,
-                ProfessionalAcademic: Object.values(pillar.ProfessionalAcademic).reduce(getSum) * 4,
-            }
-            
-           
-            
-            res.send(pillarPercentages);
+        }
+        
+        else{
+             res.send(computePillarPercentages(pillar));
         }
     });
-    
-   
 }
 
 function getLevel(percent){
@@ -51,12 +42,15 @@ function getLevel(percent){
     if(percent < 25){
         return 'Beginner'
     }
+
     if(percent < 50){
         return 'Developing'
     }
+
     if(percent < 75){
         return 'Accomplished'
     }
+
     if(percent <= 100){
         return 'Exemplary'
     }
@@ -67,12 +61,15 @@ function getVariant(percent){
     if(percent < 25){
         return 'danger'
     }
+
     if(percent < 50){
         return 'warning'
     }
+
     if(percent < 75){
         return 'info'
     }
+
     if(percent <= 100){
         return 'success'
     }
@@ -82,17 +79,32 @@ function getSum(total, num) {
     return total + num;
 }
 
+function computePillarPercentages(pillar){
+
+    return {
+        SelfActulization: Object.values(pillar.SelfActulization).reduce(getSum) * 3.4482,
+        Emotional: Object.values(pillar.Emotional).reduce(getSum) * 4,
+        Community: Object.values(pillar.Community).reduce(getSum) * 6,
+        Intellectual: Object.values(pillar.Intellectual).reduce(getSum) * 5,
+        Health: Object.values(pillar.Health).reduce(getSum) * 6,
+        ProfessionalAcademic: Object.values(pillar.ProfessionalAcademic).reduce(getSum) * 4,
+    }
+}
+
 function getMetaPillar(req, res){
     let student_id = req.params.userId;
-     Pillar.findOne({student_id: student_id}, function(err, pillar){
+
+    Pillar.findOne({student_id: student_id}, function(err, pillar){
         
         if(err){
             res.send(httpResponse.onCouldNotRetreive);
         }
 
-        if(!pillar){
+        else if(!pillar){
             res.send(httpResponse.onPillarNotFound);
-        }else{
+        }
+        
+        else{
             let type = req.query.type;
             let metaPillar = pillar[type];
             let metaPillarArray = [];
@@ -107,34 +119,33 @@ function getMetaPillar(req, res){
                     variant: getVariant(pillarValues[i] * 25)
                 })
             }
-            console.log('Ran');
-            res.json({success: true, metaArray: metaPillarArray,
-                      description: Description.getDescription(type)
-            });
+            
+            res.json({success: true, metaArray: metaPillarArray, description: Description.getDescription(type)});
         }
-      
-        
-        
-        //res.send(pillar);
     });
-
 }
 
 function increment(req, res){
    
     Pillar.findOne({student_id: req.params.userId}, function(err, pillar){
+
         if(err){
             res.send(httpResponse.onCouldNotUpdate);
-        }else{
+        }
+        
+        else{
             let type = req.query.type;
             let meta = req.query.meta;
             let value = (pillar[type])[meta] + .1;
             value = Math.round(value * 100) / 100;
+
             if(value > 4){
                 res.send(httpResponse.onMaxValue);
-            }else{
-                let data = {[`${type}.${meta}`]: value};
+            }
             
+            else{
+                let data = {[`${type}.${meta}`]: value};
+
                 Pillar.findOneAndUpdate({student_id: req.params.userId}, data, function(err, pillar){
                     if(err){
                         res.send(httpResponse.onCouldNotUpdate);
@@ -143,7 +154,6 @@ function increment(req, res){
                     }
                 })
             }
-            
         }
     })
 }
@@ -152,16 +162,22 @@ function increment(req, res){
 function decrement(req, res){
    
     Pillar.findOne({student_id: req.params.userId}, function(err, pillar){
+
         if(err){
             res.send(httpResponse.onCouldNotUpdate);
-        }else{
+        }
+        
+        else{
             let type = req.query.type;
             let meta = req.query.meta;
             let value = (pillar[type])[meta] - .1;
             value = Math.round(value * 100) / 100
+
             if(value < 0){
                 res.send(httpResponse.onMinValue);
-            }else{
+            }
+            
+            else{
                 let data = {[`${type}.${meta}`]: value};
             
                 Pillar.findOneAndUpdate({student_id: req.params.userId}, data, function(err, pillar){
@@ -172,7 +188,6 @@ function decrement(req, res){
                     }
                 })
             }
-            
         }
     })
 }

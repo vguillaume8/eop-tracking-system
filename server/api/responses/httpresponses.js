@@ -24,6 +24,10 @@ module.exports = {
         success: false,
         message: "This is not a valid Hawkmail"
     },
+    onNotActiveUser: {
+        success: false,
+        message: "This is not an active account, contact EOP"
+    },
 
     // Login responses
     onUserNotFound: {
@@ -33,6 +37,10 @@ module.exports = {
     onAuthenticationFail: {
         success: false,
         message: 'Passwords did not match.'
+    },
+    onCouldNotLogin: {
+        success: false,
+        message: 'Could not login'
     },
 
     // Advisor responses
@@ -148,6 +156,24 @@ module.exports = {
     onDeleteCommentSuccess: {
         success: true,
         message: 'Comment was successfully deleted'
+    },
+
+    // Student info upload responses
+    onCouldNotUpload: {
+        success: false,
+        message: "Could not upload data"
+    },  
+    onUploadSuccess: {
+        success: true,
+        message: "Data successfully updated"
+    },
+    onNoFileUpload: {
+        success: false,
+        message: "Please select a file for upload"
+    },
+    onCouldNotDeleteFile: {
+        success: false,
+        message: "Could Not delete system file"
     }
     
     

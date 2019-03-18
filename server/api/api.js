@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
+const multer = require('multer');
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');
@@ -26,6 +27,7 @@ module.exports = function() {
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended: false }));
     server.use(cookieParser());
+    server.use(multer({dest:'../uploads/'}).any());
     server.use(logger('dev'));
     server.use(passport.initialize());
     mongoose.connect(db.database);

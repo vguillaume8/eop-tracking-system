@@ -2,7 +2,12 @@
   <section id="tables">
     <div>
   <h1> Admin Page </h1>
+    <select  @change="onManage($event)">
+  <option value="">Manage</option>
+  <option value="upload">Upload User Info</option>
+</select>
   <h4> Users </h4>
+
   <div>
     <table class="table table-hover">
       <thead>
@@ -35,20 +40,44 @@
     </select>
     <a class=" btn btn-success" @click.prevent="sendPost()"> Change </a>
   </modal>
+
+    <mdb-modal size="lg" v-if="uploadStudentInfoModal" @close="uploadStudentInfoModal = false">
+        <mdb-modal-header>
+            <mdb-modal-title>{{}}</mdb-modal-title>
+        </mdb-modal-header>
+        <mdb-modal-body>
+         <form>
+           <form enctype="multipart/form-data">
+            <input type="file" name="file" v-on:change="fileChange($event.target.files)" accept="csv" required />
+            <button class="btn btn-primary" type="button" v-on:click="upload()">Upload</button>
+        </form>
+         </form>
+
+        </mdb-modal-body> 
+        <mdb-modal-footer>
+            <mdb-btn color="secondary" @click.native="uploadStudentInfoModal = false">Close</mdb-btn>
+        </mdb-modal-footer>
+    </mdb-modal>
   </section>
 
   
 </template>
 
 <script>
+import axios from "axios";
 import api from '../../configs/dev.config.js';
+import PictureInput from 'vue-picture-input';import FileUpload from 'vue-simple-upload/dist/FileUpload'
+
+import {mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue';
 export default {
   name: 'Admin',
   data () {
     return {
       message: "",
+      files: new FormData(),
       selected: "student",
       userIDToChangeRole: "",
+      uploadStudentInfoModal: false,
       roles: [
         {value: 'advisor',   name: 'Advisor'},
         {value: 'admin', name: 'Admin'},
@@ -56,6 +85,18 @@ export default {
       ]
     }
   },
+    components: {
+        mdbModal,
+        mdbModalHeader,
+        mdbModalTitle,
+        mdbModalBody,
+        mdbModalFooter,
+        mdbBtn,
+        mdbContainer,
+        mdbCol,
+        mdbRow,
+        
+    },
 
   mounted(){
     this.getUsers();
@@ -105,7 +146,7 @@ export default {
 
     async deleteUser(n_id){
       if(confirm("Do you want to delete this User?")){
-        await this.$http.delete(`http://localhost:3000/api/v1/user/${n_id}`).then(result => {
+        await this.$http.delete(`${api.api}/user/${n_id}`).then(result => {
           if(result.body.success == true){
             alert("User account was deleted!");
           }else{
@@ -117,6 +158,33 @@ export default {
 
       this.getUsers();
       this.$forceUpdate();
+    },
+
+    onManage(event){
+      if(event.target.value){
+        this.uploadStudentInfoModal = true;
+      }
+    },
+
+    fileChange(fileList) {
+        this.files.append("file", fileList[0], fileList[0].name);
+    
+    },
+    async upload() {
+        await axios({ method: "POST", "url": `${api.api}/data/student`, "data": this.files }).then(result => {
+           console.log(result);
+           if(result.data.success == true){
+              alert(result.data.message);
+              this.uploadStudentInfoModal = false;
+              
+
+            }else{
+              alert(result.data.message);
+            }
+        }
+        );
+
+        this.$forceUpdate();
     }
     
   }

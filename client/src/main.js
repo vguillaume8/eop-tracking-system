@@ -6,13 +6,17 @@ import VueResource from 'vue-resource'
 import VModal from 'vue-js-modal'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
+import PictureInput from 'vue-picture-input'
 import * as VueGoogleMaps from 'vue2-google-maps'
+import FileUpload from 'vue-simple-upload/dist/FileUpload'
 import vSelect from 'vue-select'
 // import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/build/css/mdb.css'
 
 Vue.use(VueResource)
+Vue.use(FileUpload)
+Vue.use(PictureInput)
 Vue.component('v-select', vSelect)
 Vue.use(BootstrapVue)
 Vue.use(VModal)
