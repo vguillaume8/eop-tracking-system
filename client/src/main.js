@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import VueResource from 'vue-resource'
+import VeeValidate from 'vee-validate'
 import VModal from 'vue-js-modal'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
@@ -15,6 +16,7 @@ import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/build/css/mdb.css'
 
 Vue.use(VueResource)
+Vue.use(VeeValidate)
 Vue.use(FileUpload)
 Vue.use(PictureInput)
 Vue.component('v-select', vSelect)

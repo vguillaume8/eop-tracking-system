@@ -11,6 +11,7 @@ import Register from '@/components/Register'
 import Advisor from '@/components/Advisor'
 import Permission from '@/components/Permission'
 import Progression from '@/components/Progression'
+import Student_Progression from '@/components/Student_Progression'
 
 Vue.use(Router)
 
@@ -24,7 +25,8 @@ let router = new Router({
       props: { page: 1 },
       alias: '/',
       meta: {
-        requiresAuth: true
+        requiresAuth: true,
+        not_student: true
       }
     },
     {
@@ -34,7 +36,7 @@ let router = new Router({
       component: Profile,
       meta: {
         requiresAuth: true,
-        is_admin: true
+        admin_or_student: true
       }
     },
     {
@@ -118,6 +120,16 @@ let router = new Router({
         
       }
     },
+    {
+      path: '/student',
+      name: 'Student',
+      props: {page: 11},
+      component: Student_Progression,
+      meta: {
+        requiresAuth: true,
+        advisor_or_student: true
+      }
+    }
   ]
 })
 
@@ -144,6 +156,27 @@ router.beforeEach((to, from, next) => {
           }
           else if(to.matched.some(record => record.meta.is_advisor)){
             if(user.role === 'advisor'){
+              next()
+            }else{
+              next({ name: 'Student'})
+            }
+          }
+          else if(to.matched.some(record => record.meta.not_student)){
+            if(user.role != 'student'){
+              next()
+            }else{
+              next({ name: 'Forbidden'})
+            }
+          }
+          else if(to.matched.some(record => record.meta.admin_or_student)){
+            if(user.role != 'advisor'){
+              next()
+            }else{
+              next({ name: 'Forbidden'})
+            }
+          }
+          else if(to.matched.some(record => record.meta.advisor_or_student)){
+            if(user.role != 'admin'){
               next()
             }else{
               next({ name: 'Forbidden'})

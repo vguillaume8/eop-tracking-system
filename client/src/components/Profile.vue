@@ -225,7 +225,7 @@
     <!-- Default input -->
     <label for="password" class="col-sm-2 col-form-label">New Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" v-model="password.new" id="password" placeholder="**********">
+      <input type="password" class="form-control" v-model="password.new" id="password" v-validate="'required|min:6|max:35|'" ref="password" placeholder="**********" name="password">
     </div>
   </div>
   <!-- Grid row -->
@@ -235,9 +235,18 @@
     <!-- Default input -->
     <label for="confirm" class="col-sm-2 col-form-label">Confirm Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" v-model="password.confirm" id="confirm" placeholder="**********">
+      <input type="password" class="form-control" v-model="password.confirm" id="confirm"  v-validate="'required|confirmed:password'" placeholder="**********" name="password_confirmation" data-vv-as="password"> 
     </div>
   </div>
+   <!-- ERRORS -->
+    <div class="alert alert-danger" v-show="errors.any()">
+      <div v-if="errors.has('password')">
+        {{ errors.first('password') }}
+      </div>
+      <div v-if="errors.has('password_confirmation')">
+        {{ errors.first('password_confirmation') }}
+      </div>
+    </div>
         </mdb-modal-body> 
         <mdb-modal-footer>
           <mdb-btn color="primary" @click.native="submitPasswordChange()">Yes</mdb-btn>
@@ -250,7 +259,7 @@
 <script>
 import {mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbBtn} from 'mdbvue'
 export default {
-    name: "EditUser",
+    name: "Profile",
     data(){
         return{
             userData: {},
@@ -286,7 +295,7 @@ export default {
                     if(result.body.success == true){
                         alert("User's information was updated!");
                         this.userData = result.body.user;
-                        this.$router.push('/admin');
+                        this.$forceUpdate();
                     }else{
                         alert(result.body.message);
                     }
@@ -317,8 +326,12 @@ export default {
 
         },
         async submitPasswordChange(){
-          this.userData.password = this.password.new;
-          await this.$http.post(`http://localhost:3000/api/v1/user/${this.userData.n_id}`, this.userData).then(result => {
+          this.submitted = true;
+            this.$validator.validate().then(valid => {
+                if (valid) {
+                    
+                       this.userData.password = this.password.new;
+           this.$http.post(`http://localhost:3000/api/v1/user/${this.userData.n_id}`, this.userData).then(result => {
             if(result.body.success == true){
                 alert("User's password was changed!");
                 this.userData = result.body.user;
@@ -327,6 +340,9 @@ export default {
                 alert(result.body.message);
             }
           })
+                }
+            });
+       
 
         }
     }

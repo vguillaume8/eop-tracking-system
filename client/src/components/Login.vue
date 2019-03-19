@@ -66,7 +66,11 @@ export default {
               }else if(userType == 'admin'){
                 this.$router.push('/admin');
               }else{
-                this.$router.push('/');
+                let student = {n_id: result.body.user.n_id, name: this.capitalize(result.body.user.firstname, result.body.user.lastname)}
+                localStorage.setItem('student', JSON.stringify(student));
+                let editUserId = {id: result.body.user.n_id};
+                localStorage.setItem('editUserId', JSON.stringify(editUserId));
+                this.$router.push('profile');
               }
             }
           }
@@ -81,6 +85,10 @@ export default {
         
     logout(){ 
       localStorage.removeItem('user');
+    },
+
+    capitalize(firstname, lastname){
+            return firstname.charAt(0).toUpperCase() + firstname.slice(1) + " " + lastname.charAt(0).toUpperCase() + lastname.slice(1);
     }
 
   }

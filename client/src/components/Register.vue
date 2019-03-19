@@ -48,7 +48,7 @@
     <!-- Default input -->
     <label for="password" class="col-sm-2 col-form-label">Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" v-model="input.password" id="password" placeholder="**********">
+      <input type="password" class="form-control" v-model="input.password" id="password" placeholder="**********" v-validate="'required|min:6|max:35|'" ref="password" name="password">
     </div>
   </div>
   <!-- Grid row -->
@@ -58,10 +58,19 @@
     <!-- Default input -->
     <label for="confirm" class="col-sm-2 col-form-label">Confirm Password</label>
     <div class="col-sm-10">
-      <input type="password" class="form-control" v-model="confirmPassword" id="confirm" placeholder="**********">
+      <input type="password" class="form-control" v-model="confirmPassword" id="confirm" placeholder="**********"  v-validate="'required|confirmed:password'" name="password_confirmation" data-vv-as="password">
     </div>
   </div>
   <!-- Grid row -->
+   <!-- ERRORS -->
+    <div class="alert alert-danger" v-show="errors.any()">
+      <div v-if="errors.has('password')">
+        {{ errors.first('password') }}
+      </div>
+      <div v-if="errors.has('password_confirmation')">
+        {{ errors.first('password_confirmation') }}
+      </div>
+    </div>
 
   <!-- Grid row -->
   <div class="form-group row">
@@ -99,22 +108,22 @@ export default {
     methods: {
       sendPost(slug){
 
-        if(this.input.password == this.confirmedPassword){
-          alert("These Passwords Do Not Match")
-        } else{
-          this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
-          if(result.body.success == true){
-            alert("User was sucessfully created");
-            this.$router.push('/login');
-          }else{
-            alert(result.body.message);
-          }
-        });
+       this.$validator.validate().then(valid => {
+          if (valid) {
+            this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
+            if(result.body.success == true){
+              alert("User was sucessfully created");
+              this.$router.push('/login');
+            }else{
+              alert(result.body.message);
+            }
+          });
         }
+       })
         
-      }
+      
     }
-    
+  }
 }
 </script>
 
