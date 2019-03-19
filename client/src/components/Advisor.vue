@@ -63,9 +63,12 @@ export default {
             for(var i = 0; i < this.studentIdList.length; i++){
                 let currentId = this.studentIdList[i];
                 await this.$http.get(`${api.api}/user/${currentId}`).then(result => {
-                    if(!this.students.includes(result.body.id)){
-                        this.students.push(result.body);                
-                    } 
+                    if(result.body){
+                        if(!this.students.includes(result.body.id)){
+                            this.students.push(result.body);                
+                        } 
+                    }
+                   
                 });
             }
 

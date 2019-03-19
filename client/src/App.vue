@@ -49,8 +49,8 @@
       </div>
       <ftr color="primary-color-dark" class="text-center font-small darken-2">
         <div class="pt-4">
-          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/pillar-img">Pillar Description (READ ONLY)<mdb-icon icon="download" class="ml-2"/></mdb-btn>
-          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/pillar-word">Pillar Description (Editable) <mdb-icon icon="download" class="ml-2"/></mdb-btn>
+          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/file/pillar-img">Pillar Description (READ ONLY)<mdb-icon icon="download" class="ml-2"/></mdb-btn>
+          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/file/pillar-word">Pillar Description (Editable) <mdb-icon icon="download" class="ml-2"/></mdb-btn>
         </div>
         <hr class="my4"/>
         <div class="pb-4">

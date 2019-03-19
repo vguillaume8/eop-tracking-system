@@ -5,6 +5,7 @@
     <select  @change="onManage($event)">
   <option value="">Manage</option>
   <option value="upload">Upload User Info</option>
+  <option value="downloadAll">Download All Student Data</option>
 </select>
   <h4> Users </h4>
 
@@ -43,7 +44,7 @@
 
     <mdb-modal size="lg" v-if="uploadStudentInfoModal" @close="uploadStudentInfoModal = false">
         <mdb-modal-header>
-            <mdb-modal-title>{{}}</mdb-modal-title>
+            <mdb-modal-title>Upload Student List</mdb-modal-title>
         </mdb-modal-header>
         <mdb-modal-body>
          <form>
@@ -161,8 +162,12 @@ export default {
     },
 
     onManage(event){
-      if(event.target.value){
+      if(event.target.value == 'upload'){
         this.uploadStudentInfoModal = true;
+      }
+
+      if(event.target.value == 'downloadAll'){
+        this.downloadAll();
       }
     },
 
@@ -172,7 +177,6 @@ export default {
     },
     async upload() {
         await axios({ method: "POST", "url": `${api.api}/data/student`, "data": this.files }).then(result => {
-           console.log(result);
            if(result.data.success == true){
               alert(result.data.message);
               this.uploadStudentInfoModal = false;
@@ -185,6 +189,37 @@ export default {
         );
 
         this.$forceUpdate();
+    },
+
+    downloadAll(){
+      if(confirm("Do you want to download all student data?")){
+        this.$http.get(`${api.api}/download/student`).then(result =>{
+          let csv = result.body;
+          let filename = "students.csv";
+
+             var csvFile;
+            var downloadLink;
+            // CSV file
+            csvFile = new Blob([csv], {type: "text/csv"});
+            // Download link
+            downloadLink = document.createElement("a");
+            // File name
+            downloadLink.download = filename;
+            // Create a link to the file
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            // Hide download link
+            downloadLink.style.display = "none";
+            // Add the link to DOM
+            document.body.appendChild(downloadLink);
+            // Click download link
+            downloadLink.click();
+        })
+      }
+
+      else{
+        this.$forceUpdate();
+      }
+
     }
     
   }

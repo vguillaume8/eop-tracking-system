@@ -5,7 +5,8 @@ const downloadService = require('../services/download');
 
 let router = express.Router();
 
-router.get('/:file', downloadService.downloadFile);
+router.get('/file/:file', downloadService.downloadFile);
+router.get('/student', downloadService.downloadStudentAll);
 
 
 
