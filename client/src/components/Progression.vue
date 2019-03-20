@@ -10,7 +10,7 @@
                     <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
                         <p> Self Actulization: </p>
                         <p>{{ SelfActulization }}% </p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('SelfActulization')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('SelfActulization')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
                 
@@ -18,7 +18,7 @@
                     <radial-progress-bar innerStrokeColor="#C5CDBD" :diameter="200" :completed-steps="Emotional" :total-steps="totalSteps">
                         <p>Emotional: </p>
                         <p>{{ Emotional }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Emotional')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Emotional')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -26,7 +26,7 @@
                     <radial-progress-bar  innerStrokeColor="#D5BDBD" :diameter="200" :completed-steps="Community" :total-steps="totalSteps">
                         <p>Community: </p>
                         <p>{{ Community }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Community')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Community')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -37,7 +37,7 @@
                     <radial-progress-bar innerStrokeColor="#C7BDBD" :diameter="200" :completed-steps="Intellectual" :total-steps="totalSteps">
                         <p>Intellectual: </p>
                         <p>{{ Intellectual }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Intellectual')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Intellectual')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -45,15 +45,16 @@
                     <radial-progress-bar innerStrokeColor="#C5BEBD" :diameter="200" :completed-steps="Health" :total-steps="totalSteps">
                         <p>Health: </p>
                         <p>{{ Health }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Health')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Health')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
                 <mdb-col sm="4">             
                     <radial-progress-bar innerStrokeColor="#C1BDBD" :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
-                        <p>Professional / Academic: </p>
+                        <p>Professional</p>
+                        <p>Academic:</p>
                         <p>{{ ProfessionalAcademic}}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('ProfessionalAcademic')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('ProfessionalAcademic')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -70,9 +71,9 @@
             <div v-for="bar in bars" :key="bar.id" class="row mb-1">
                 <div class="col-sm-10 pt-1">
                     <div class="col-sm-2">{{ bar.name}}:</div>
-                    <a class="btn btn-danger" @click.prevent="decrementPillar(bar.name)">-</a>
-                    <a class="btn btn-primary" @click.prevent="incrementPillar(bar.name)">+</a>
-                    <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>     
+                    <mdb-btn size="sm" color="danger" @click.native="decrementPillar(bar.name)">-</mdb-btn>
+                    <mdb-btn size="sm" color="primary" @click.native="incrementPillar(bar.name)">+</mdb-btn>
+                    <mdb-btn size="sm" color="success" @click.native="showPillarDesc(bar.name, bar.level)">View Description</mdb-btn>     
                     <b-progress height="2rem">
                         <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
                         {{bar.level}}
@@ -114,14 +115,14 @@
                         <a class="badge badge-default" v-if="c.selfact">Self Actualization</a>
                         <a class="badge badge-primary" v-if="c.emotional">Emotional</a>
                         <a class="badge badge-secondary" v-if="c.community">Community</a>
-                        <a class="badge badge-success" v-if="c.intllectual">Intellectual</a>
+                        <a class="badge badge-success" v-if="c.intellectual">Intellectual</a>
                         <a class="badge badge-warning" v-if="c.health">Health</a>
                         <a class="badge badge-info" v-if="c.prof">Professional/Academic</a>
                         <h5 class="card-title">{{c.date}}</h5>
                         <h6 class="card-subtitle mb-2 text-muted">{{c.advisor_name}}</h6>
                         <p class="card-text">{{c.comment}}</p>
-                        <a class="btn btn-danger" @click.prevent="deleteComment(c._id)">Delete</a>
-                    </div>
+                        <mdb-btn size="sm" color="danger" @click.native="deleteComment(c._id)">Delete</mdb-btn>
+                    </div> 
                 </div>
             </ul>
             <form @submit.prevent="submitComment()"> 

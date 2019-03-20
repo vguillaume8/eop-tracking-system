@@ -1,10 +1,10 @@
 <template>
   <section id="tables">
    <div>
-    <h1> Advisor Page: Welcome Back: {{capitalize(user.firstname, user.lastname)}} </h1>
+    <h1> Welcome Back: {{capitalize(user.firstname, user.lastname)}} </h1>
     <h4> Add Student
         <form @submit.prevent="addStudent()"> 
-            <input v-model="studentToAdd"> <button type="submit" class="btn btn-success"> Add Student </button> 
+            <input v-model="studentToAdd"><mdb-btn color="success" rounded> Add Student </mdb-btn> 
         </form>
     </h4>
     <h4> Current Students </h4>
@@ -14,7 +14,6 @@
                 <th scope="col">Name</th>
                 <th scope="col">N-Number</th>
                 <th scope="col">Email</th>
-                <th scope="col">Advisor</th>
             </tr>
         </thead>
         <tbody>
@@ -22,9 +21,9 @@
                 <td>{{capitalize(s.firstname, s.lastname)}}</td>
                 <td>{{s.n_id}}</td>
                 <td>{{s.email}}</td>
-                <td>{{s.advisor}}</td>
-                <a class="btn btn-primary" @click.prevent="showStudent(s.n_id, s.firstname, s.lastname)"> Progression </a>
-                <a class="btn btn-danger" @click.prevent="deleteStudentFromList(s.n_id)"> Remove </a>
+                <mdb-btn size="sm" color="primary" @click.native="showStudent(s.n_id, s.firstname, s.lastname)">Progress</mdb-btn>
+                <mdb-btn size="sm" color="success">Report</mdb-btn>
+                <mdb-btn size="sm" color="danger" @click.native="deleteStudentFromList(s.n_id)">Remove</mdb-btn>
             </tr>
         </tbody>
     </table>   
@@ -35,6 +34,7 @@
 </template>
 
 <script>
+import {mdbBtn, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue'
 import api from '../../configs/dev.config.js';
 export default {
     name: "Advisor",
@@ -48,7 +48,9 @@ export default {
             totalSteps: 24
         }
     },
-
+    components: {
+        mdbBtn
+    },
 
     async mounted(){
         await this.getAdvisorStudents();

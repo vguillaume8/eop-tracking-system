@@ -1,6 +1,7 @@
 server/node_modules
 client/client/node_modules
 client/client/configs
+client/dist
 server/configs
 server/uploads
 old_client

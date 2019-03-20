@@ -16,7 +16,7 @@
 
               <!--Card Data-->
               <div class="admin-up d-flex justify-content-start">
-                <i class="fas fa-users info-color py-4"></i>
+                <img class="fas fa-users info-color py-4">
                 <div class="data">
                   <h5 class="font-weight-bold dark-grey-text">Profile - <span class="text-muted">Edit Information</span></h5>
                 </div>
