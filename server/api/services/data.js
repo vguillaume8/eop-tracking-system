@@ -102,9 +102,8 @@ function uploadStudentData(req, res){
             //error handler
                 res.send(httpResponse.onCouldNotUpload);
             }
-        })
-    
-  
+        }
+    )
 }
 
 

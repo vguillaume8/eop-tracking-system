@@ -22,16 +22,19 @@ function addStudent(req, res){
             }
             
             else{
+                
                 if(user.role != 'student'){
                     res.send(httpResponse.onNotAStudent);
                 }
                 
                 else{
                     User.find({ n_id: req.params.userId}, function(err, user){
+                        
                         if(err) res.send(httpResponse.onCouldNotAddStudent);
                         let students = user[0].students;
                  
                         if(!students.includes(req.body.id)){
+                            
                             User.findOneAndUpdate({n_id: req.params.userId}, {$push: {students: req.body.id}}, function(err, user){
                                 if(err){
                                      res.send(http.onCouldNotAddStudent);
@@ -41,8 +44,7 @@ function addStudent(req, res){
                                     res.send(httpResponse.onStudentAddSuccess);
                                  } 
                                  
-                            });
-
+                            })
                         }
                         
                         else{
@@ -50,21 +52,20 @@ function addStudent(req, res){
                         }
                     })
                 }
-               
             }
         }
         
         else{
             res.send(httpResponse.onStudentDoesNotExist);
         }
-        
     })
    
    
-};
+}
 
 function deleteStudent(req, res){
     User.findOneAndUpdate({n_id: req.params.userId}, {$pull: {students: req.query.student}}, function(err, user){
+        
         if(err){
             res.send(httpResponse.onCouldNotDeleteStudent);
         }
@@ -82,7 +83,7 @@ function deleteStudent(req, res){
             })
             
         }
-    });
+    })
 }
 
 module.exports = {

@@ -21,9 +21,10 @@ function loginUser(req, res) {
     }
 
     // Check if password matches
-     user.comparePassword(password, function(error, isMatch) {
-       
+    user.comparePassword(password, function(error, isMatch) {
+      
       if (isMatch && !error) {
+        
         var token = jwt.sign(user.toJSON(), db.secret, {
           expiresIn: 10080
         });
@@ -32,9 +33,9 @@ function loginUser(req, res) {
       }
 
       res.send(httpResponses.onAuthenticationFail);
-    });
-  });
-};
+    })
+  })
+}
 
 module.exports = {
   login: loginUser

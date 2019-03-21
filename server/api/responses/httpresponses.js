@@ -174,6 +174,17 @@ module.exports = {
     onCouldNotDeleteFile: {
         success: false,
         message: "Could Not delete system file"
+    },
+
+    // Report generator responses
+    onCouldNotGenerate: {
+        success: false,
+        message: "Could Not generate report"
+    },
+
+    onNotAStudent: {
+        success: false,
+        message: "Reports are only for students"
     }
     
     

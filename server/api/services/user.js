@@ -12,6 +12,7 @@ function updateUser(req, res){
     let password = userData.password;
 
     bcrypt.genSalt(10, (err, salt) => {
+
         if (err) {
             res.send(httpResponse.onCouldNotUpdate);
         }
@@ -24,6 +25,7 @@ function updateUser(req, res){
                 }
 
                 else{
+
                     userData.password = hash;
 
                     User.findOneAndUpdate({n_id: user_id}, userData, {new: true}, function(err, user){
@@ -39,12 +41,13 @@ function updateUser(req, res){
                 }
             })
         }
-    });
+    })
 }
 
 function retrieveUser(req, res){
 
     let user_id = req.params.userId;
+
     User.findOne({n_id: user_id}, function(err, user){
 
         if(err){
@@ -54,8 +57,8 @@ function retrieveUser(req, res){
         else{
             res.json(user);
         }
-    });
-};
+    })
+}
 
 function getUsers(req, res){
 
@@ -70,12 +73,11 @@ function getUsers(req, res){
         else{
             res.send(users);
         }
-
-        
     })
 }
 
 function changeRole(req, res){
+
     User.findOneAndUpdate({n_id: req.params.userId}, req.body, function(err){
         if(err){
             res.send(httpResponse.onCouldNotUpdate);
@@ -85,10 +87,10 @@ function changeRole(req, res){
             res.send(httpResponse.onSaveSucess);
         }
     })
-    
 }
 
 function deleteUser(req, res){
+
     User.findOneAndDelete({n_id: req.params.userId}, function(err){
 
         if(err){
@@ -104,6 +106,7 @@ function deleteUser(req, res){
 
                 else{
                     Comment.deleteMany({n_id: req.params.userId}, function(err){
+                        
                         if(err){
                             res.send(httpResponse.onCouldNotDeleteStudent);
                         } 
@@ -116,7 +119,7 @@ function deleteUser(req, res){
             })
         }
     })
-};
+}
 
 
 

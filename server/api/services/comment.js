@@ -7,6 +7,7 @@ function postComment(req, res){
     let newComment = new Comment(req.body);
 
     newComment.save(err => {
+
         if(err){
             res.send(httpResponse.onCouldNotPostComment);
         }
@@ -18,7 +19,9 @@ function postComment(req, res){
 }
 
 function getComments(req, res){
+
     Comment.find({n_id: req.params.userId}, function(err, comments){
+        
         if(err){
             res.send(httpResponse.onCouldNotRetreive);
         }
@@ -27,11 +30,12 @@ function getComments(req, res){
             res.json({success: true, comments: comments})
         }
     })
-
 }
 
 function deleteComment(req, res){
-    Comment.findByIdAndDelete(req.params.commentId, function(err, comments){
+
+    Comment.findByIdAndDelete(req.params.commentId, function(err){
+        
         if(err){
             res.send(httpResponse.onCouldNotDeleteComment);
         }
