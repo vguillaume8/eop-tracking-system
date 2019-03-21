@@ -45,7 +45,7 @@ function getReport(req, res){
                     doc.pipe(res);
                     // PDF Creation logic goes here
             
-                    doc.image(__dirname + '/report/newpaltz_logo.png', 0, 0, {width: 150});
+                    doc.image(__dirname + '/static/newpaltz_logo.png', 0, 0, {width: 150});
                     // Set a title and pass the X and Y coordinates
                     doc.moveDown();
                     doc.fontSize(20).text('Progress Report', {

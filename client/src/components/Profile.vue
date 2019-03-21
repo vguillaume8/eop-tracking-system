@@ -381,11 +381,11 @@ export default {
 
 
 <style scoped>
-  .profile-card-footer {
-    background-color: #F7F7F7 !important;
-    padding: 1.25rem;
-  }
-  .card.card-cascade .view {
-    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15), 0 3px 12px 0 rgba(0, 0, 0, 0.15);
-  }
+.profile-card-footer {
+  background-color: #F7F7F7 !important;
+  padding: 1.25rem;
+}
+.card.card-cascade .view {
+  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15), 0 3px 12px 0 rgba(0, 0, 0, 0.15);
+}
 </style>

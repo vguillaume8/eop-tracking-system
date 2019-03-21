@@ -1,2 +1,0 @@
- CREATE TABLE User(user_id CHAR(20) NOT NULL, password CHAR(20) NOT NULL, first_name CHAR(20) NOT NULL, last_name CHAR(20) NOT NULL, email CHAR(20) NOT NULL, type CHAR(10) NOT NULL, PRIMARY KEY(user_id));
- INSERT INTO User Values('1', 'password', 'admin', 'smith', 'admin@gmail.com', 'admin');
