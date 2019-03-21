@@ -199,6 +199,7 @@
                 <p class="mt-4 text-muted">{{userData.bio}}</p>
                 
                 <a class="btn btn-info btn-rounded waves-effect waves-light" v-bind:href="'mailto:' + userData.email"> Email</a>
+                <a class="btn btn-success" @click.prevent="downloadReport(userData.n_id)">Progress Report</a>
 
               </div>
 
@@ -258,104 +259,133 @@
 
 <script>
 import {mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbBtn} from 'mdbvue'
+import api from '../../configs/dev.config.js';
+import axios from 'axios';
+
 export default {
-    name: "Profile",
-    data(){
-        return{
-            userData: {},
-            passwordModal: false,
-            password: {}
-        }
-    },
-    components: {
-      mdbModal,
-      mdbModalHeader,
-      mdbModalTitle,
-      mdbModalBody,
-      mdbModalFooter,
-      mdbBtn
-    },
-
-    mounted(){
-        this.getUser();
-    },
-
-    methods: {
-        async getUser(){
-            let editUserID = JSON.parse(localStorage.getItem('editUserId'));
-
-            await this.$http.get(`http://localhost:3000/api/v1/user/${editUserID.id}`).then(result => {
-                this.userData = result.body;
-            })
-        },
-
-        async updateUser(n_id){
-            if (confirm("Do you want to update this User's information?")) {
-                await this.$http.post(`http://localhost:3000/api/v1/user/${n_id}`, this.userData).then(result => {
-                    if(result.body.success == true){
-                        alert("User's information was updated!");
-                        this.userData = result.body.user;
-                        this.$forceUpdate();
-                    }else{
-                        alert(result.body.message);
-                    }
-                })
-            }else{
-                alert("User's information was not changed");
-            }  
-        },
-
-        deleteUser(n_id){
-            if(confirm("Do you want to delete this User?")){
-                this.$http.delete(`http://localhost:3000/api/v1/user/${n_id}`).then(result => {
-                    if(result.body.success == true){
-                        alert("User account was deleted!");
-                        this.passwordModal = false;
-                        this.$router.push('/admin');
-                    }else{
-                        alert(result.body.methods);
-                    }
-                })
-            }else{
-                alert("User's information was not changed");
-            }
-        },
-
-        changePassword(n_id){
-          this.passwordModal = true;
-
-        },
-        async submitPasswordChange(){
-          this.submitted = true;
-            this.$validator.validate().then(valid => {
-                if (valid) {
-                    
-                       this.userData.password = this.password.new;
-           this.$http.post(`http://localhost:3000/api/v1/user/${this.userData.n_id}`, this.userData).then(result => {
-            if(result.body.success == true){
-                alert("User's password was changed!");
-                this.userData = result.body.user;
-                this.$router.push('/admin');
-            }else{
-                alert(result.body.message);
-            }
-          })
-                }
-            });
-       
-
-        }
+  name: "Profile",
+  data(){
+    return{
+      userData: {},
+      passwordModal: false,
+      password: {}
     }
+  },
+
+  components: {
+    mdbModal,
+    mdbModalHeader,
+    mdbModalTitle,
+    mdbModalBody,
+    mdbModalFooter,
+    mdbBtn
+  },
+
+  mounted(){
+    this.getUser();
+  },
+
+  methods: {
+    async getUser(){
+      let editUserID = JSON.parse(localStorage.getItem('editUserId'));
+
+      await this.$http.get(`${api.api}/user/${editUserID.id}`).then(result => {
+          this.userData = result.body;
+      })
+    },
+
+    async updateUser(n_id){
+      if (confirm("Do you want to update this User's information?")) {
+        await this.$http.post(`${api.api}user/${n_id}`, this.userData).then(result => {
+          
+          if(result.body.success == true){
+            alert("User's information was updated!");
+            this.userData = result.body.user;
+            this.$forceUpdate();
+          }
+          
+          else{
+            alert(result.body.message);
+          }
+
+        })
+      }
+      
+      else{
+        alert("User's information was not changed");
+      }  
+    },
+
+    deleteUser(n_id){
+      if(confirm("Do you want to delete this User?")){
+        this.$http.delete(`${api.api}/user/${n_id}`).then(result => {
+          if(result.body.success == true){
+            alert("User account was deleted!");
+            this.passwordModal = false;
+            this.$router.push('/admin');
+          }else{
+              alert(result.body.methods);
+          }
+        })
+      }
+      
+      else{
+        alert("User's information was not changed");
+      }
+    },
+
+    changePassword(n_id){
+      this.passwordModal = true;
+    },
+
+    async submitPasswordChange(){
+      this.submitted = true;
+      this.$validator.validate().then(valid => {
+        if (valid) {
+          this.userData.password = this.password.new;
+          this.$http.post(`${api.api}/user/${this.userData.n_id}`, this.userData).then(result => {
+          
+            if(result.body.success == true){
+              alert("User's password was changed!");
+              this.userData = result.body.user;
+              this.$router.push('/admin');
+            }
+              
+              else{
+                alert(result.body.message);
+              }
+
+          })
+        }
+      });
+    },
+
+    downloadReport(student_id){
+
+      axios({
+        method: 'get',
+        url: `${api.api}/report/${student_id}`,
+        responseType: 'arraybuffer',
+
+      }).then(function(response) {
+        let blob = new Blob([response.data], { type: 'application/pdf' })
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = 'Report.pdf'
+        link.click()
+      })
+    }
+  }
 }
 </script>
 
 
 <style scoped>
-.profile-card-footer {
-  background-color: #F7F7F7 !important;
-  padding: 1.25rem;
-}
-.card.card-cascade .view {
-  box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15), 0 3px 12px 0 rgba(0, 0, 0, 0.15);
-}
+  .profile-card-footer {
+    background-color: #F7F7F7 !important;
+    padding: 1.25rem;
+  }
+  .card.card-cascade .view {
+    box-shadow: 0 3px 10px 0 rgba(0, 0, 0, 0.15), 0 3px 12px 0 rgba(0, 0, 0, 0.15);
+  }
 </style>

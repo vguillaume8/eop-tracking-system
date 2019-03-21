@@ -9,6 +9,7 @@ const commentController = require('../../controllers/comment');
 const dataController = require('../../controllers/data');
 const downloadController = require('../../controllers/download');
 const healthController = require('../../controllers/health');
+const reportController = require('../../controllers/report');
 const express = require('express');
 
 let router = express.Router();
@@ -22,6 +23,7 @@ router.use('/comment', commentController);
 router.use('/data', dataController);
 router.use('/download', downloadController);
 router.use('/health', healthController);
+router.use('/report', reportController);
 
 
 module.exports = router;

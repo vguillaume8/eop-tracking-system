@@ -49,8 +49,8 @@
       </div>
       <ftr color="primary-color-dark" class="text-center font-small darken-2">
         <div class="pt-4">
-          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/file/pillar-img">Pillar Description (READ ONLY)<mdb-icon icon="download" class="ml-2"/></mdb-btn>
-          <mdb-btn outline="white" tag="a" href="http://localhost:3000/api/v1/download/file/pillar-word">Pillar Description (Editable) <mdb-icon icon="download" class="ml-2"/></mdb-btn>
+          <mdb-btn outline="white" tag="a" @click.native="downloadFile('pillar-img')" >Pillar Description (READ ONLY)<mdb-icon icon="download" class="ml-2"/></mdb-btn>
+          <mdb-btn outline="white" tag="a" @click.native="downloadFile('pillar-word')">Pillar Description (Editable) <mdb-icon icon="download" class="ml-2"/></mdb-btn>
         </div>
         <hr class="my4"/>
         <div class="pb-4">
@@ -72,7 +72,7 @@ import { mdbContainer, mdbNavbar, mdbNavbarBrand, mdbNavItem, mdbNavbarNav, mdbN
 import Dashboard from './components/Dashboard'
 import Profile from './components/Profile'
 import api from '../configs/dev.config.js';
-
+import axios from 'axios';
 
 
 export default {
@@ -112,11 +112,18 @@ export default {
     },
 
     downloadFile(file){
-      this.$http.get(`${api.api}/download/${file}`).then(result => {
-        if(result.body.success == false){
-          alert(result.body.message)
-        }
-      })
+       axios({
+          method: 'get',
+          url: `${api.api}/download/file/${file}`,
+          responseType: 'arraybuffer',
+
+        }).then(function(response) {
+            let blob = new Blob([response.data], { type: 'application/pdf' })
+            let link = document.createElement('a')
+            link.href = window.URL.createObjectURL(blob)
+            link.download = 'PILLAR.zip'
+            link.click()
+          })
     }
   },
   mixins: [waves]

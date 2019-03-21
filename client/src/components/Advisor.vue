@@ -22,7 +22,7 @@
                 <td>{{s.n_id}}</td>
                 <td>{{s.email}}</td>
                 <mdb-btn size="sm" color="primary" @click.native="showStudent(s.n_id, s.firstname, s.lastname)">Progress</mdb-btn>
-                <mdb-btn size="sm" color="success">Report</mdb-btn>
+                <mdb-btn size="sm" color="success" @click.native="downloadReport(s.n_id)">Report</mdb-btn>
                 <mdb-btn size="sm" color="danger" @click.native="deleteStudentFromList(s.n_id)">Remove</mdb-btn>
             </tr>
         </tbody>
@@ -36,6 +36,7 @@
 <script>
 import {mdbBtn, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue'
 import api from '../../configs/dev.config.js';
+import axios from 'axios'
 export default {
     name: "Advisor",
     data(){
@@ -132,6 +133,22 @@ export default {
 
         capitalize(firstname, lastname){
             return firstname.charAt(0).toUpperCase() + firstname.slice(1) + " " + lastname.charAt(0).toUpperCase() + lastname.slice(1);
+        },
+
+        downloadReport(student_id){
+
+            axios({
+                method: 'get',
+                url: `${api.api}/report/${student_id}`,
+                responseType: 'arraybuffer',
+
+            }).then(function(response) {
+                let blob = new Blob([response.data], { type: 'application/pdf' })
+                let link = document.createElement('a')
+                link.href = window.URL.createObjectURL(blob)
+                link.download = 'Report.pdf'
+                link.click()
+            })
         }
     }
 }
