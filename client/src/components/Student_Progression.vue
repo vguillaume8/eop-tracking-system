@@ -72,7 +72,7 @@
                     <div class="col-sm-2">{{ bar.name}}:</div>
                     <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>     
                     <b-progress height="2rem">
-                        <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
+                        <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant">
                         {{bar.level}}
                         <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
                         </b-progress-bar>
@@ -156,7 +156,6 @@ export default {
             currentType: "",
             totalSteps: 100,
 
-            hover: false,
 
             commentData: {},
             comments: [],
@@ -220,7 +219,9 @@ export default {
                     this.bars = result.body.metaArray;
                     this.pillarDescriptionData = result.body.description;
                     this.pillarType = type;
-                }else{
+                }
+                
+                else{
                     alert(result.body.message);
                 }
             })
@@ -228,10 +229,6 @@ export default {
             this.currentType = type;
             this.pillarModal = true
         },
-
-   
-
-     
 
         showPillarDesc(name, level){
             for(var i = 0; i< this.pillarDescriptionData.length; i++){
@@ -249,21 +246,19 @@ export default {
             this.pillarComments = true;
         },
 
-
-
         getComments(){
             let student = JSON.parse(localStorage.getItem('student'));
 
             this.$http.get(`${api.api}/comment/${student.n_id}`).then(result =>{
                 if(result.body.success == true){
                     this.comments = result.body.comments;
-                }else{
+                }
+                
+                else{
                     alert(result.body.message);
                 }
             })
         },
-
-    
     }
 }
 </script>

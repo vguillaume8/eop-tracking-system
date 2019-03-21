@@ -1,3 +1,4 @@
+const Util = require('./util/util');
 const User = require('../../models/user');
 const Pillar = require('../../models/pillar');
 const Verify = require('../../models/user.verify');
@@ -33,7 +34,7 @@ function registerUser(request, response) {
       else{
        
         // creates user object with request body
-        let newUser = util.userCreate(n_id, firstname, lastname, email, password);
+        let newUser = new User(Util.userCreate(n_id, firstname, lastname, email, password));
 
         // Attempt to save the user
         newUser.save(error => {
@@ -44,7 +45,7 @@ function registerUser(request, response) {
           
           else{
 
-            let newPillar = new Pillar(util.pillarCreate(n_id));
+            let newPillar = new Pillar(Util.pillarCreate(n_id));
 
             newPillar.save(error => {
 

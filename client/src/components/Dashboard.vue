@@ -69,24 +69,25 @@
     </section>
     <section>
       <div>
-      <table class="table table-hover">
-        <thead>
-            <tr>
+        <table class="table table-hover">
+          <thead>
+              <tr>
                 <th scope="col">Name</th>
                 <th scope="col">N-Number</th>
                 <th scope="col">Email</th>
                 <th scope="col">Role</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="r in results" :key="r.n_id" >
-                <td>{{capitalize(r.firstname, r.lastname)}}</td>
-                <td>{{r.n_id}}</td>
-                <td>{{r.email}}</td>
-                <td>{{r.role}}</td>
-            </tr>
-        </tbody>
-    </table>   
+              </tr>
+          </thead>
+          <tbody>
+              <tr v-for="r in results" :key="r.n_id" >
+                  <td>{{capitalize(r.firstname, r.lastname)}}</td>
+                  <td>{{r.n_id}}</td>
+                  <td>{{r.email}}</td>
+                  <td>{{r.role}}</td>
+                  <a class="btn btn-success" @click.prevent="downloadReport(r.n_id, r.role)">Generate Report</a>
+              </tr>
+          </tbody>
+      </table>   
     </div>
     </section>
   </section>
@@ -95,6 +96,9 @@
 <script>
 import { mdbRow, mdbCol, mdbBtn, mdbCard, mdbCardBody,mdbIcon } from 'mdbvue'
 import api from '../../configs/dev.config.js';
+import Util from '../services/util.js';
+import axios from 'axios';
+
 export default {
   name: 'Dashboard',
   components: {
@@ -105,37 +109,56 @@ export default {
     mdbCardBody,
     mdbIcon,
   },
+
   data () {
     return {
       userData: {},
       input: {},
       results: []
-  
-  
-
     }
   },
-  mounted(){
-      this.$http.get(`${api.api}/data`).then(result => {
-        this.userData.all = result.body.count;
-        this.userData.student = result.body.student;
-        this.userData.advisor = result.body.advisor;
-        this.userData.admin = result.body.admin;
-        this.$forceUpdate();
 
-      })
+  mounted(){
+    this.$http.get(`${api.api}/data`).then(result => {
+      this.userData.all = result.body.count;
+      this.userData.student = result.body.student;
+      this.userData.advisor = result.body.advisor;
+      this.userData.admin = result.body.admin;
+      this.$forceUpdate();
+    })
   },
 
   methods: {
+
+    capitalize: Util.capitalize,
+
     search(){
       this.$http.get(`${api.api}/data/${this.input.search}`).then(result => {
         this.results = result.body.search;
-        
       })
     },
-    capitalize(firstname, lastname){
-          return firstname.charAt(0).toUpperCase() + firstname.slice(1) + " " + lastname.charAt(0).toUpperCase() + lastname.slice(1);
+
+    downloadReport(student_id, role){
+
+      if(role != 'student'){
+        alert("Reports are only available for students");
       }
+      
+      else{
+
+        axios({
+          method: 'get',
+          url: `${api.api}/report/${student_id}`,
+          responseType: 'arraybuffer',
+        }).then(function(response) {
+          let blob = new Blob([response.data], { type: 'application/pdf' })
+          let link = document.createElement('a')
+          link.href = window.URL.createObjectURL(blob)
+          link.download = 'Report.pdf'
+          link.click()
+        })
+      }
+    }
   }
 }
 </script>

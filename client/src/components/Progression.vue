@@ -5,7 +5,6 @@
         <h2 align="center"> <a  class="btn btn-primary" @click.prevent="openComment()"> View Comments </a> </h2>
         <mdb-container>
              <mdb-row>
-
                 <mdb-col col="4">
                     <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
                         <p> Self Actulization: </p>
@@ -57,7 +56,6 @@
                         <mdb-btn size="sm" color="primary" @click.native="openPillar('ProfessionalAcademic')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
-
             </mdb-row>
 
         </mdb-container>
@@ -75,7 +73,7 @@
                     <mdb-btn size="sm" color="primary" @click.native="incrementPillar(bar.name)">+</mdb-btn>
                     <mdb-btn size="sm" color="success" @click.native="showPillarDesc(bar.name, bar.level)">View Description</mdb-btn>     
                     <b-progress height="2rem">
-                        <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant"  @mouseover="hover = true" >
+                        <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant" >
                         {{bar.level}}
                         <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
                         </b-progress-bar>
@@ -109,7 +107,6 @@
         </mdb-modal-header>
         <mdb-modal-body>
             <ul v-for="c in comments" :key="c.id">
-                
                 <div class="card" style="width: 18rem;">
                     <div class="card-body">
                         <a class="badge badge-default" v-if="c.selfact">Self Actualization</a>
@@ -168,13 +165,13 @@
             <mdb-btn color="secondary" @click.native="pillarComments = false">Close</mdb-btn>
         </mdb-modal-footer>
     </mdb-modal>
-
 </div>
 </template>
 
 
 <script>
 import api from '../../configs/dev.config.js';
+import Util from '../services/util.js';
 import RadialProgressBar from 'vue-radial-progress'
 import {mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue'
 export default {
@@ -196,8 +193,6 @@ export default {
             ProfessionalAcademic: 0.0,
             currentType: "",
             totalSteps: 100,
-
-            hover: false,
 
             commentData: {},
             comments: [],
@@ -227,6 +222,9 @@ export default {
     },
 
     methods: {
+
+        capitalize: Util.capitalize, 
+        
         getUserData(){
             // get user details
             let user = JSON.parse(localStorage.getItem('user'));
@@ -261,7 +259,9 @@ export default {
                     this.bars = result.body.metaArray;
                     this.pillarDescriptionData = result.body.description;
                     this.pillarType = type;
-                }else{
+                }
+                
+                else{
                     alert(result.body.message);
                 }
             })
@@ -275,7 +275,9 @@ export default {
             await this.$http.post(`${api.api}/pillar/meta/increment/${student.n_id}?type=${this.currentType}&meta=${meta}`,).then(result => {
                 if(result.body.success == true){
                     //alert(result.body.message);
-                }else{
+                }
+                
+                else{
                     alert(result.body.message);
                 }
             })
@@ -337,7 +339,9 @@ export default {
             this.$http.get(`${api.api}/comment/${student.n_id}`).then(result =>{
                 if(result.body.success == true){
                     this.comments = result.body.comments;
-                }else{
+                }
+                
+                else{
                     alert(result.body.message);
                 }
             })
@@ -352,9 +356,8 @@ export default {
             await this.getComments();
             this.$forceUpdate();
         },
-         capitalize(firstname, lastname){
-            return firstname.charAt(0).toUpperCase() + firstname.slice(1) + " " + lastname.charAt(0).toUpperCase() + lastname.slice(1);
-        }
+        
+        
     }
 }
 </script>

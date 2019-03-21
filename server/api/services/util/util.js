@@ -120,13 +120,13 @@ function pillarCreate(n_id){
 
 
 function userCreate(n_id, firstname, lastname, email, password){
-    return new User({
+    return {
       n_id: n_id,
       firstname: firstname,
       lastname: lastname,
       email: email,
       password: password
-    });
+    };
   }
 
 

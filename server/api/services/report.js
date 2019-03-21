@@ -12,6 +12,7 @@ function getReport(req, res){
 
 
     User.findOne({n_id: req.params.userId}, function(err, user){
+        
         if(err){
             res.send(httpResponses.onCouldNotGenerate);
         }
@@ -74,10 +75,22 @@ function getReport(req, res){
                         
                                 doc.text(`Student: ${util.capitalize(user.firstname, user.lastname)}`)
                                 doc.text(`Advisor: ${user.advisor}`)
-                                doc.text(`Last Meeting Date: ${comments[0].date}`, {
-                                    width: 410,
-                                    align: 'left'
-                                })
+
+                                if(comments.length > 0){
+                                    
+                                    doc.text(`Last Meeting Date: ${comments[0].date}`, {
+                                        width: 410,
+                                        align: 'left'
+                                    })
+                                }
+                                else{
+
+                                    doc.text(`Last Meeting Date: Has not met with advisor yet`, {
+                                        width: 410,
+                                        align: 'left'
+                                    })
+                                }
+                                
                         
                                 doc.moveDown();
                 
@@ -124,6 +137,7 @@ function getReport(req, res){
 
                                 // Loops through comments to add to report by recent ones first
                                 for(var i = comments.length -1; i > -1; i-- ){
+                                    
                                     if(comments[i] != null){
 
                                         doc.text(`${comments[i].date}: ${comments[i].comment}`, {

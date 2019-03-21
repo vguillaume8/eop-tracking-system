@@ -4,7 +4,6 @@ import Router from 'vue-router'
 import Dashboard from '@/components/Dashboard'
 import Profile from '@/components/Profile'
 import Admin from '@/components/Admin'
-import Maps from '@/components/Maps'
 import BadGateway from '@/components/BadGateway'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
@@ -57,15 +56,6 @@ let router = new Router({
       meta: {
         requiresAuth: true,
         is_advisor: true
-      }
-    },
-    {
-      path: '/maps',
-      name: 'Maps',
-      props: { page: 5 },
-      component: Maps,
-      meta: {
-        requiresAuth: true
       }
     },
     {
