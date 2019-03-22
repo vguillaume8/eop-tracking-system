@@ -106,10 +106,23 @@ function uploadStudentData(req, res){
     )
 }
 
+function getAmountOfAdvisorStudents(req, res){
 
+    User.count({advisor: req.params.advisorName}, function(err, count){
+
+        if(err){
+            res.send(httpResponse.onCouldNotRetreive);
+        }
+
+        else{
+            res.json({success: true, count: count});
+        }
+    })
+}
 
 module.exports = {
     getData: getData,
     search: search,
-    uploadStudentData: uploadStudentData
+    uploadStudentData: uploadStudentData,
+    getAmountOfAdvisorStudents: getAmountOfAdvisorStudents
 }

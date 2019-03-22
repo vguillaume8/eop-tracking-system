@@ -8,8 +8,8 @@ import VModal from 'vue-js-modal'
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import PictureInput from 'vue-picture-input'
-import * as VueGoogleMaps from 'vue2-google-maps'
 import FileUpload from 'vue-simple-upload/dist/FileUpload'
+
 import vSelect from 'vue-select'
 // import 'font-awesome/css/font-awesome.min.css'
 import 'bootstrap-css-only/css/bootstrap.min.css'
@@ -22,11 +22,7 @@ Vue.use(PictureInput)
 Vue.component('v-select', vSelect)
 Vue.use(BootstrapVue)
 Vue.use(VModal)
-Vue.use(VueGoogleMaps, {
-  load: {
-    libraries: 'places'
-  }
-})
+
 
 Vue.config.productionTip = false
 

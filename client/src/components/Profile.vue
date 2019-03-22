@@ -245,12 +245,14 @@
               <tr>
                   <th scope="col">Name</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Amount of Students</th>
               </tr>
           </thead>
           <tbody>
               <tr v-for="a in listOfAdvisors" :key="a.n_id" >
                   <td>{{capitalize(a.firstname, a.lastname)}}</td>
                   <td>{{a.email}}</td>
+                  <td >{{a.count}}</td>
                   <mdb-btn v-if="capitalize(a.firstname, a.lastname) != userData.advisor" color="success" @click.native="submitAdvisorAssign(a, userData.n_id)">Assign</mdb-btn>
               </tr>
           </tbody>
@@ -282,7 +284,8 @@ export default {
       password: {},
       studentToAdd: "",
       studentIdList: [],
-      students: []
+      students: [],
+      studentCount: 0
     }
   },
 
@@ -373,7 +376,9 @@ export default {
               if(result.body){
                 
                 if(!this.students.includes(result.body.id)){
-                  this.students.push(result.body);                
+                  if(result.body.advisor == this.capitalize(this.userData.firstname, this.userData.lastname)){
+                    this.students.push(result.body);     
+                  }       
                 } 
               }
                   
@@ -468,6 +473,9 @@ export default {
 
         if(result.body.success == true){
           this.listOfAdvisors = result.body.advisors;
+          for(var i = 0; i < this.listOfAdvisors.length; i++){
+            this.getStudentCount(this.capitalize(this.listOfAdvisors[i].firstname, this.listOfAdvisors[i].lastname))
+          }
         }
 
         else{
@@ -489,6 +497,31 @@ export default {
       this.getUser();
       this.advisorAssign = false;
       this.$forceUpdate();
+    },
+
+    async getStudentCount(advisorname){
+     
+      await this.$http.get(`${api.api}/data/advisor/${advisorname}`).then(result => {
+        
+        if(result.body.success == true){
+          
+          for(var i = 0; i < this.listOfAdvisors.length; i++){
+            if(this.capitalize(this.listOfAdvisors[i].firstname, this.listOfAdvisors[i].lastname) == advisorname){
+              this.listOfAdvisors[i].count = result.body.count;
+              this.$forceUpdate();
+            }
+          }
+         
+        }
+
+        else{
+          alert(result.body.methods);
+        }
+      })
+      
+
+
+      
     }
 
 
