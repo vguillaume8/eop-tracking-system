@@ -23,7 +23,6 @@ Vue.component('v-select', vSelect)
 Vue.use(BootstrapVue)
 Vue.use(VModal)
 
-
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
