@@ -142,7 +142,9 @@
                 <!--Name-->
                 <h3 class="mb-3 font-weight-bold"><strong>{{userData.firstname + " " + userData.lastname}}</strong></h3>
                 <h6 class="font-weight-bold cyan-text mb-4">{{userData.year}}</h6>
+                <h6 v-if="userData.role == 'student'">{{"Advisor: " + userData.advisor}}</h6>
                 <p class="mt-4 text-muted">{{userData.bio}}</p>
+                <a class="btn btn-primary" v-if="user.role == 'admin' && userData.role == 'student'" @click.prevent="assignAdvisor(userData.n_id)"> Assign Advisor </a>
                 <a class="btn btn-info btn-rounded waves-effect waves-light" v-bind:href="'mailto:' + userData.email"> Email</a>
                 <a class="btn btn-success" v-if="userData.role == 'student'" @click.prevent="downloadReport(userData.n_id)">Progress Report</a>
                 <a class="btn btn-success" v-if="userData.role == 'advisor'" @click.prevent="viewStudents(userData.n_id)">View Students</a>
@@ -231,6 +233,33 @@
           <mdb-btn color="secondary" @click.native="studentsModal = false">Close</mdb-btn>
       </mdb-modal-footer>
     </mdb-modal>
+
+
+     <mdb-modal size="lg" v-if="advisorAssign" @close="advisorAssign = false">
+      <mdb-modal-header>
+          <mdb-modal-title>Assign Advisor</mdb-modal-title>  
+      </mdb-modal-header>
+      <mdb-modal-body>
+        <table class="table table-hover">
+          <thead>
+              <tr>
+                  <th scope="col">Name</th>
+                  <th scope="col">Email</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr v-for="a in listOfAdvisors" :key="a.n_id" >
+                  <td>{{capitalize(a.firstname, a.lastname)}}</td>
+                  <td>{{a.email}}</td>
+                  <mdb-btn v-if="capitalize(a.firstname, a.lastname) != userData.advisor" color="success" @click.native="submitAdvisorAssign(a, userData.n_id)">Assign</mdb-btn>
+              </tr>
+          </tbody>
+        </table>   
+      </mdb-modal-body> 
+      <mdb-modal-footer>
+          <mdb-btn color="secondary" @click.native="advisorAssign = false">Close</mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
   </section>
 </template>
 
@@ -244,12 +273,15 @@ export default {
   name: "Profile",
   data(){
     return{
+      user: JSON.parse(localStorage.getItem('user')),
       userData: {},
       passwordModal: false,
       studentsModal: false,
+      advisorAssign: false,
+      listOfAdvisors: [],
       password: {},
       studentToAdd: "",
-       studentIdList: [],
+      studentIdList: [],
       students: []
     }
   },
@@ -281,7 +313,7 @@ export default {
 
     async updateUser(n_id){
       if (confirm("Do you want to update this User's information?")) {
-        await this.$http.post(`${api.api}user/${n_id}`, this.userData).then(result => {
+        await this.$http.post(`${api.api}/user/${n_id}`, this.userData).then(result => {
           
           if(result.body.success == true){
             alert("User's information was updated!");
@@ -299,27 +331,6 @@ export default {
       else{
         alert("User's information was not changed");
       }  
-    },
-
-    deleteUser(n_id){
-      if(confirm("Do you want to delete this User?")){
-        this.$http.delete(`${api.api}/user/${n_id}`).then(result => {
-
-          if(result.body.success == true){
-            alert("User account was deleted!");
-            this.passwordModal = false;
-            this.$router.push('/admin');
-          }
-          
-          else{
-            alert(result.body.methods);
-          }
-        })
-      }
-      
-      else{
-        alert("User's information was not changed");
-      }
     },
 
     async changePassword(){
@@ -451,7 +462,37 @@ export default {
       this.$forceUpdate();
     },
 
-    
+    async assignAdvisor(studentId){
+
+      await this.$http.get(`${api.api}/advisor`).then(result => {
+
+        if(result.body.success == true){
+          this.listOfAdvisors = result.body.advisors;
+        }
+
+        else{
+          alert(result.body.message);
+        }
+      })
+
+      this.advisorAssign = true;
+    },
+
+    async submitAdvisorAssign(advisor, studentId,){
+
+      let student = {id: studentId }
+      await this.$http.post(`${api.api}/advisor/student/${advisor.n_id}?name=${this.capitalize(advisor.firstname, advisor.lastname)}`, student).then(result => {
+        alert(result.body.message)
+      })
+
+
+      this.getUser();
+      this.advisorAssign = false;
+      this.$forceUpdate();
+    }
+
+
+
   }
 }
 </script>

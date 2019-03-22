@@ -48,7 +48,7 @@ function addStudent(req, res){
                         }
                         
                         else{
-                            res.send(httpResponse.onStudentAlreadyExists);
+                            res.send(httpResponse.onStudentAddSuccess);
                         }
                     })
                 }
@@ -86,8 +86,23 @@ function deleteStudent(req, res){
     })
 }
 
+function getAllAdvisors(req, res){
+
+    User.find({role: 'advisor'}, function(err, advisors){
+        
+        if(err){
+            res.send(httpResponse.onCouldNotRetreive);
+        }
+
+        else{
+            res.json({success: true, advisors: advisors})
+        }
+    })
+}
+
 module.exports = {
     addStudent: addStudent,
     getStudents: getStudents,
-    deleteStudent: deleteStudent
+    deleteStudent: deleteStudent,
+    getAllAdvisors: getAllAdvisors
 }

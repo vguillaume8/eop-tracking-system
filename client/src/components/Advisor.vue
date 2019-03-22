@@ -75,7 +75,10 @@ export default {
                     if(result.body){
                         // Checks if the list does not already include this user
                         if(!this.students.includes(result.body.id)){
-                            this.students.push(result.body);                
+                            if(result.body.advisor == this.capitalize(this.user.firstname, this.user.lastname)){
+                                this.students.push(result.body);     
+                            }
+                                       
                         } 
                     }
                 })
@@ -89,6 +92,7 @@ export default {
             let advisor = JSON.parse(localStorage.getItem('user')); // retrives advisor object from local storage
             let advisorId = advisor.n_id; // sets advisor id
 
+            this.students = [];
             // Retrieves list of advisor students from server
             await this.$http.get(`${api.api}/advisor/student/${advisorId}`).then(result => {
                 // Checks if successfully retrieved list

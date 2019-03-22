@@ -63,7 +63,10 @@ function getReport(req, res){
                         
                                 // New Paltz Logo in top left corner
                                 doc.image(__dirname + '/static/newpaltz_logo.png', 0, 0, {width: 150});
-                                
+                              
+                                doc.text(`${new Date().toLocaleString()}`, {
+                                   align: 'right'
+                                })
                                 
                                 // Set a title and pass the X and Y coordinates
                                 doc.moveDown();
@@ -141,6 +144,11 @@ function getReport(req, res){
                                     if(comments[i] != null){
 
                                         doc.text(`${comments[i].date}: ${comments[i].comment}`, {
+                                            width: 410,
+                                            align: 'center'
+                                        })
+
+                                        doc.text(`-${comments[i].advisor_name}`,{
                                             width: 410,
                                             align: 'center'
                                         })

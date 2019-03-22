@@ -84,7 +84,7 @@
                   <td>{{r.n_id}}</td>
                   <td>{{r.email}}</td>
                   <td>{{r.role}}</td>
-                  <a class="btn btn-success" @click.prevent="downloadReport(r.n_id, r.role)">Generate Report</a>
+                  <a class="btn btn-success" @click.prevent="downloadReport(r.n_id, r.role, r.firstname, r.lastname)">Generate Report</a>
               </tr>
           </tbody>
       </table>   
@@ -138,7 +138,7 @@ export default {
       })
     },
 
-    downloadReport(student_id, role){
+    downloadReport(student_id, role, firstname, lastname){
 
       if(role != 'student'){
         alert("Reports are only available for students");
@@ -154,7 +154,7 @@ export default {
           let blob = new Blob([response.data], { type: 'application/pdf' })
           let link = document.createElement('a')
           link.href = window.URL.createObjectURL(blob)
-          link.download = 'Report.pdf'
+          link.download = lastname + firstname + '.pdf';
           link.click()
         })
       }
