@@ -1,4 +1,4 @@
-# EOP Tracking Tystem
+# EOP Tracking System
 Online Tracking System for SUNY New Paltz EOP department.
 
 The core features follow:
