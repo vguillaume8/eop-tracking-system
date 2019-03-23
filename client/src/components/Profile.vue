@@ -8,7 +8,7 @@
           <!-- Grid column -->
           <div class="col-md-8 mb-4">
             <!--Card-->
-            <div class="card card-cascade cascading-admin-card user-card">
+            <div class="card card-cascade cascading-admin-card user-card profile">
               <!--Card Data-->
               <div class="admin-up d-flex justify-content-start">
                 <img class="fas fa-users info-color py-4">
@@ -178,7 +178,7 @@
           <!-- Default input -->
           <label for="confirm" class="col-sm-2 col-form-label">Confirm Password</label>
           <div class="col-sm-10">
-            <input type="password" class="form-control" v-model="password.confirm" id="confirm"  v-validate="'required|confirmed:password'" placeholder="**********" name="password_confirmation" data-vv-as="password"> 
+            <input type="password" class="form-control" v-model="password.confirm" id="confirm"  v-validate="'required|confirmed:password'" placeholder="**********" name="password_confirmation" data-vv-as="password">
          </div>
         </div>
         <!-- ERRORS -->
@@ -190,7 +190,7 @@
             {{ errors.first('password_confirmation') }}
           </div>
         </div>
-      </mdb-modal-body> 
+      </mdb-modal-body>
       <mdb-modal-footer>
         <mdb-btn color="primary" @click.native="submitPasswordChange()">Yes</mdb-btn>
         <mdb-btn color="secondary" @click.native="passwordModal = false">Close</mdb-btn>
@@ -200,13 +200,13 @@
 
     <mdb-modal size="lg" v-if="studentsModal" @close="studentsModal = false">
       <mdb-modal-header>
-          <mdb-modal-title>Students</mdb-modal-title>  
+          <mdb-modal-title>Students</mdb-modal-title>
       </mdb-modal-header>
       <mdb-modal-body>
-        <h4> 
+        <h4>
             Add Student
-            <form @submit.prevent="addStudent()"> 
-              <input v-model="studentToAdd"><mdb-btn color="success" rounded> Add Student </mdb-btn> 
+            <form @submit.prevent="addStudent()">
+              <input v-model="studentToAdd"><mdb-btn color="success" rounded> Add Student </mdb-btn>
             </form>
         </h4>
         <table class="table table-hover">
@@ -227,8 +227,8 @@
                   <mdb-btn size="sm" color="danger" @click.native="deleteStudentFromList(s.n_id)">Remove</mdb-btn>
               </tr>
           </tbody>
-        </table>   
-      </mdb-modal-body> 
+        </table>
+      </mdb-modal-body>
       <mdb-modal-footer>
           <mdb-btn color="secondary" @click.native="studentsModal = false">Close</mdb-btn>
       </mdb-modal-footer>
@@ -237,7 +237,7 @@
 
      <mdb-modal size="lg" v-if="advisorAssign" @close="advisorAssign = false">
       <mdb-modal-header>
-          <mdb-modal-title>Assign Advisor</mdb-modal-title>  
+          <mdb-modal-title>Assign Advisor</mdb-modal-title>
       </mdb-modal-header>
       <mdb-modal-body>
         <table class="table table-hover">
@@ -256,8 +256,8 @@
                   <mdb-btn v-if="capitalize(a.firstname, a.lastname) != userData.advisor" color="success" @click.native="submitAdvisorAssign(a, userData.n_id)">Assign</mdb-btn>
               </tr>
           </tbody>
-        </table>   
-      </mdb-modal-body> 
+        </table>
+      </mdb-modal-body>
       <mdb-modal-footer>
           <mdb-btn color="secondary" @click.native="advisorAssign = false">Close</mdb-btn>
       </mdb-modal-footer>
@@ -305,7 +305,7 @@ export default {
   methods: {
 
     capitalize: Util.capitalize,
-    
+
     async getUser(){
       let editUserID = JSON.parse(localStorage.getItem('editUserId'));
 
@@ -317,23 +317,23 @@ export default {
     async updateUser(n_id){
       if (confirm("Do you want to update this User's information?")) {
         await this.$http.post(`${api.api}/user/${n_id}`, this.userData).then(result => {
-          
+
           if(result.body.success == true){
             alert("User's information was updated!");
             this.userData = result.body.user;
             this.$forceUpdate();
           }
-          
+
           else{
             alert(result.body.message);
           }
 
         })
       }
-      
+
       else{
         alert("User's information was not changed");
-      }  
+      }
     },
 
     async changePassword(){
@@ -347,13 +347,13 @@ export default {
         if (valid) {
           this.userData.password = this.password.new;
           this.$http.post(`${api.api}/user/${this.userData.n_id}`, this.userData).then(result => {
-          
+
             if(result.body.success == true){
               alert("User's password was changed!");
               this.userData = result.body.user;
               this.$router.push('/admin');
             }
-              
+
             else{
               alert(result.body.message);
             }
@@ -367,21 +367,21 @@ export default {
 
         // get list of all  users
         this.students = [];
-            
+
           for(var i = 0; i < this.studentIdList.length; i++){
 
             let currentId = this.studentIdList[i];
             await this.$http.get(`${api.api}/user/${currentId}`).then(result => {
 
               if(result.body){
-                
+
                 if(!this.students.includes(result.body.id)){
                   if(result.body.advisor == this.capitalize(this.userData.firstname, this.userData.lastname)){
-                    this.students.push(result.body);     
-                  }       
-                } 
+                    this.students.push(result.body);
+                  }
+                }
               }
-                  
+
             })
           }
 
@@ -396,34 +396,34 @@ export default {
 
         },
 
-       
+
        // gets list of advisor students
         async getAdvisorStudents(advisorId){
-     
+
           await this.$http.get(`${api.api}/advisor/student/${advisorId}`).then(result => {
-              
+
             if(result.body.success == true){
               this.studentIdList = result.body.students;
             }
             else{
               alert(result.body.message);
-            }  
+            }
           })
         },
 
         // runs when advisor adds a new student to their list
-        async addStudent(){ 
+        async addStudent(){
 
           let advisor = this.userData;
           let advisorId = this.userData.n_id;
           let data = {id: this.studentToAdd};
 
           await this.$http.post(`${api.api}/advisor/student/${advisorId}?name=${this.capitalize(advisor.firstname, advisor.lastname)}`, data ).then(result => {
-            
+
             if(result.body.success == true){
               alert(result.body.message);
             }
-            
+
             else{
               alert(result.body.message);
             }
@@ -452,11 +452,11 @@ export default {
 
    async deleteStudentFromList(studentId){
       await this.$http.delete(`${api.api}/advisor/student/${this.userData.n_id}?student=${studentId}`).then(result => {
-        
+
         if(result.body.success == true){
           alert(result.body.message);
         }
-        
+
         else{
           alert(result.body.message);
         }
@@ -500,28 +500,28 @@ export default {
     },
 
     async getStudentCount(advisorname){
-     
+
       await this.$http.get(`${api.api}/data/advisor/${advisorname}`).then(result => {
-        
+
         if(result.body.success == true){
-          
+
           for(var i = 0; i < this.listOfAdvisors.length; i++){
             if(this.capitalize(this.listOfAdvisors[i].firstname, this.listOfAdvisors[i].lastname) == advisorname){
               this.listOfAdvisors[i].count = result.body.count;
               this.$forceUpdate();
             }
           }
-         
+
         }
 
         else{
           alert(result.body.methods);
         }
       })
-      
 
 
-      
+
+
     }
 
 
@@ -532,6 +532,9 @@ export default {
 
 
 <style scoped>
+.profile {
+  padding: 2%;
+}
 .profile-card-footer {
   background-color: #F7F7F7 !important;
   padding: 1.25rem;
