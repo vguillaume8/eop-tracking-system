@@ -26,6 +26,7 @@
     "express": "^4.16.4",
     "express-csv": "^0.6.0",
     "express-pdf": "^1.2.2",
+    "fs-extra": "^7.0.1",
     "html-pdf": "^2.2.0",
     "jsonwebtoken": "^8.4.0",
     "jspdf": "^1.5.3",

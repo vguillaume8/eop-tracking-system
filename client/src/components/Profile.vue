@@ -146,7 +146,7 @@
                 <p class="mt-4 text-muted">{{userData.bio}}</p>
                 <a class="btn btn-primary" v-if="user.role == 'admin' && userData.role == 'student'" @click.prevent="assignAdvisor(userData.n_id)"> Assign Advisor </a>
                 <a class="btn btn-info btn-rounded waves-effect waves-light" v-bind:href="'mailto:' + userData.email"> Email</a>
-                <a class="btn btn-success" v-if="userData.role == 'student'" @click.prevent="downloadReport(userData.n_id)">Progress Report</a>
+                <a class="btn btn-success" v-if="userData.role == 'student'" @click.prevent="downloadReport(userData.n_id, userData.firstname, userData.lastname)">Progress Report</a>
                 <a class="btn btn-success" v-if="userData.role == 'advisor'" @click.prevent="viewStudents(userData.n_id)">View Students</a>
               </div>
             </div>
@@ -223,7 +223,7 @@
                   <td>{{s.n_id}}</td>
                   <td>{{s.email}}</td>
                   <mdb-btn size="sm" color="primary" @click.native="showStudent(s.n_id, s.firstname, s.lastname)">Progress</mdb-btn>
-                  <mdb-btn size="sm" color="success" @click.native="downloadReport(s.n_id)">Report</mdb-btn>
+                  <mdb-btn size="sm" color="success" @click.native="downloadReport(s.n_id, s.firstname, s.lastname)">Report</mdb-btn>
                   <mdb-btn size="sm" color="danger" @click.native="deleteStudentFromList(s.n_id)">Remove</mdb-btn>
               </tr>
           </tbody>
@@ -434,7 +434,7 @@ export default {
           this.$forceUpdate();
         },
 
-    downloadReport(student_id){
+    downloadReport(student_id, firstname, lastname){
 
       axios({
         method: 'get',
@@ -445,7 +445,7 @@ export default {
         let blob = new Blob([response.data], { type: 'application/pdf' })
         let link = document.createElement('a')
         link.href = window.URL.createObjectURL(blob)
-        link.download = 'Report.pdf'
+        link.download = lastname + firstname + '.pdf';
         link.click()
       })
     },

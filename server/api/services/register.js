@@ -12,7 +12,9 @@ function registerUser(request, response) {
   // if there is no valid email or password
   if (!email || !password) {
     response.json(httpResponses.onValidationError);
-  }else {
+  }
+  
+  else {
 
     // Check if this is a verified user
     Verify.findOne({n_id: n_id}, function(err, user){
@@ -65,6 +67,33 @@ function registerUser(request, response) {
   }
 }
 
+
+function registerAdvisor(req, res){
+
+  let newUser = new User(req.body);
+
+  newUser.save(error => {
+
+    if(error){
+      if(error.code == 11000){
+        res.send(httpResponses.onDuplicateRecord);
+      }
+
+      else{
+        res.send(httpResponses.onCouldNotRegister);
+      }
+    }
+
+    else{
+      res.send(httpResponses.onUserSaveSuccess);
+    }
+  })
+
+
+
+}
+
 module.exports = {
-  register: registerUser
+  register: registerUser,
+  registerAdvisor: registerAdvisor
 };

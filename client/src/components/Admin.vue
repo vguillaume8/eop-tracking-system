@@ -4,6 +4,7 @@
       <h1> Admin Page </h1>
       <select  @change="onManage($event)">
         <option value="">Manage</option>
+        <option value="advisor">Create Advisor</option>
         <option value="upload">Upload User Info</option>
         <option value="downloadAll">Download All Student Data</option>
       </select>
@@ -19,15 +20,16 @@
           </thead>
           <tbody>
             <tr v-for="u in users" :key="u.id">
-              <td>{{u.firstname + " " + u.lastname}}</td>
-              <td>{{u.role}}</td>
-              <td>{{u.email}}</td>
+              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{capitalize(u.firstname, u.lastname)}}</td>
+              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.role}}</td>
+              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.email}}</td>
               <a class="btn btn-success" @click.prevent="changeRole(u.n_id)">Change Role </a>
               <a class="btn btn-primary" @click.prevent="editUser(u.n_id)"> Edit User </a>
               <a class="btn btn-danger" @click.prevent="deleteUser(u.n_id)"> Delete User </a>
             </tr>
           </tbody>
         </table>    
+        <h6>Blue=student| Red=advisor| Green=admin </h6>
       </div>
     </div>
 
@@ -47,12 +49,59 @@
       </mdb-modal-header>
       <mdb-modal-body>
         <form enctype="multipart/form-data">
-          <input type="file" name="file" v-on:change="fileChange($event.target.files)" accept="csv" required />
+          <input type="file" id="file" ref="file" name="file" v-on:change="fileChange()" accept=".csv" required />
           <button class="btn btn-primary" type="button" v-on:click="upload()">Upload</button>
         </form>
       </mdb-modal-body> 
       <mdb-modal-footer>
         <mdb-btn color="secondary" @click.native="uploadStudentInfoModal = false">Close</mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
+
+    <mdb-modal size="lg" v-if="createAdvisorModal" @close="createAdvisorModal = false">
+      <mdb-modal-header>
+        <mdb-modal-title>Create Advisor</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body>
+       <form @submit.prevent="createAdvisor()">
+          <!-- Grid row -->
+          <div class="form-group row">
+            <!-- Default input -->
+            <label for="N-id" class="col-sm-2 col-form-label">N-Number</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" v-model="advisorCreate.n_id" id="N-id" placeholder="eg. N12345678">
+            </div>
+          </div>
+          <div class="form-group row">
+            <!-- Default input -->
+            <label for="email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" v-model="advisorCreate.email" id="N-id" placeholder="me@newpaltz.edu">
+            </div>
+          </div>
+
+            <div class="form-group row">
+            <!-- Default input -->
+            <label for="first-name" class="col-sm-2 col-form-label">First Name</label>
+            <div class="col-sm-10">
+              <input type="test" class="form-control" v-model="advisorCreate.firstname" id="first-name" placeholder="eg. John">
+            </div>
+          </div>
+          <!-- Grid row -->
+
+          <!-- Grid row -->
+          <div class="form-group row">
+            <!-- Default input -->
+            <label for="last-name" class="col-sm-2 col-form-label">Last Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" v-model="advisorCreate.lastname" id="last-name" placeholder="eg. Smith">
+            </div>
+          </div>
+          <mdb-btn color="primary" type="submit">Create</mdb-btn>
+       </form>
+      </mdb-modal-body> 
+      <mdb-modal-footer>
+        <mdb-btn color="secondary" @click.native="createAdvisorModal = false">Close</mdb-btn>
       </mdb-modal-footer>
     </mdb-modal>
   </section>
@@ -61,6 +110,7 @@
 <script>
 import axios from "axios";
 import api from '../../configs/dev.config.js';
+import Util from '../services/util.js'
 import PictureInput from 'vue-picture-input';
 import FileUpload from 'vue-simple-upload/dist/FileUpload'
 import {mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue';
@@ -71,10 +121,12 @@ export default {
   data () {
     return {
       users: "", // All of the users in the database
-      files: new FormData(), //  for file upload processing
+      file: '', //  for file upload processing
       selected: "student", // default option for user role change
       userIDToChangeRole: "", // the id of the user role change
       uploadStudentInfoModal: false, // currently hidden
+      createAdvisorModal: false,
+      advisorCreate: {},
 
       // For user role change
       roles: [
@@ -103,6 +155,8 @@ export default {
   },
   
   methods: {
+
+    capitalize: Util.capitalize,
 
     // get list of all  users
     getUsers(){
@@ -193,18 +247,25 @@ export default {
       if(event.target.value == 'downloadAll'){
         this.downloadAll();
       }
+
+      if(event.target.value == 'advisor'){
+        this.createAdvisorModal = true;
+      }
     },
 
     // Appends file for sending to server
-    fileChange(fileList) {
-      this.files.append("file", fileList[0], fileList[0].name);
+    fileChange() {
+      this.file = this.$refs.file.files[0];
+      //console.log(this.files);
     },
 
     // Sends uploaded file to server
     async upload() {
-      await axios({ method: "POST", "url": `${api.api}/data/student`, "data": this.files }).then(result => {
-          
-        // Checks if file was successfully processed
+      let formData = new FormData();
+      formData.append('file', this.file);
+
+      await axios.post(`${api.api}/data/student`,formData,{headers: {'Content-Type': 'multipart/form-data'}}).then(result =>{
+        
         if(result.data.success == true){
           alert(result.data.message);
           this.uploadStudentInfoModal = false;
@@ -214,8 +275,6 @@ export default {
           alert(result.data.message);
         }
       })
-
-      this.$forceUpdate(); // updates the vue
     },
 
     // Downloads the student data from the server
@@ -252,6 +311,19 @@ export default {
         this.$forceUpdate(); // Refresh page
       }
     },
+
+    createAdvisor(){
+      this.advisorCreate.password = 'newpaltz';
+      this.advisorCreate.role = 'advisor';
+      this.$http.post(`${api.api}/register/advisor`, this.advisorCreate).then(result => {
+
+        alert(result.body.message);
+
+        if(result.body.success == true){
+          this.createAdvisorModal = false;
+        }
+      })
+    }
   }
 }
 </script>

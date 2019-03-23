@@ -16,7 +16,7 @@
         <mdb-col xl="3" md="6" class="mb-r">
           <mdb-card cascade class="cascading-admin-card">
             <div class="admin-up">
-              <mdb-icon icon="user" far class="primary-color"/>
+              <mdb-icon icon="user" far class="grey"/>
               <div class="data">
                 <p>USERS</p>
                 <h4>
@@ -29,7 +29,7 @@
         <mdb-col xl="3" md="6" class="mb-r">
           <mdb-card cascade class="cascading-admin-card">
             <div class="admin-up">
-              <mdb-icon icon="user" class="warning-color"/>
+              <mdb-icon icon="user" class="primary-color"/>
               <div class="data">
                 <p>STUDENTS</p>
                 <h4>
@@ -42,7 +42,7 @@
         <mdb-col xl="3" md="6" class="mb-r">
           <mdb-card cascade class="cascading-admin-card">
             <div class="admin-up">
-              <mdb-icon icon="user" class="light-blue lighten-1"/>
+              <mdb-icon icon="user" class="red"/>
               <div class="data">
                 <p>ADVISORS</p>
                 <h4>
@@ -55,7 +55,7 @@
         <mdb-col xl="3" md="6" class="mb-r">
           <mdb-card cascade class="cascading-admin-card">
             <div class="admin-up">
-              <mdb-icon icon="user" class="red accent-2"/>
+              <mdb-icon icon="user" class="success-color accent-2"/>
               <div class="data">
                 <p>ADMINS</p>
                 <h4>
@@ -80,10 +80,10 @@
           </thead>
           <tbody>
               <tr v-for="r in results" :key="r.n_id" >
-                  <td>{{capitalize(r.firstname, r.lastname)}}</td>
-                  <td>{{r.n_id}}</td>
-                  <td>{{r.email}}</td>
-                  <td>{{r.role}}</td>
+                  <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{capitalize(r.firstname, r.lastname)}}</td>
+                  <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{r.n_id}}</td>
+                  <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{r.email}}</td>
+                  <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{r.role}}</td>
                   <a class="btn btn-success" @click.prevent="downloadReport(r.n_id, r.role, r.firstname, r.lastname)">Generate Report</a>
               </tr>
           </tbody>

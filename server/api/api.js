@@ -27,7 +27,7 @@ module.exports = function() {
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended: false }));
     server.use(cookieParser());
-    server.use(multer({dest:'../uploads/'}).any());
+    //server.use(multer({dest:'./uploads/'}));
     server.use(logger('dev'));
     server.use(passport.initialize());
     mongoose.connect(db.database);

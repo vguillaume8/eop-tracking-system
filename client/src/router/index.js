@@ -35,7 +35,7 @@ let router = new Router({
       component: Profile,
       meta: {
         requiresAuth: true,
-        admin_or_student: true
+       
       }
     },
     {

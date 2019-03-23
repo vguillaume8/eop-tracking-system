@@ -185,6 +185,17 @@ module.exports = {
     onNotAStudent: {
         success: false,
         message: "Reports are only for students"
+    },
+
+    // Verfify responses
+    onDuplicateRecord: {
+        success: false,
+        message: "This record is already in the database"
+    },
+
+    onCreateSuccess: {
+        success: true,
+        message: "Record was successfully saved"
     }
     
     

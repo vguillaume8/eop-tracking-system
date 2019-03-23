@@ -1,5 +1,6 @@
 'use-strict'
 const fs = require('fs');
+const fsExtra = require('fs-extra')
 const csv = require('csv-parser');
 const User = require('../../models/user');
 const Verify = require('../../models/user.verify');
@@ -55,55 +56,64 @@ function search(req, res){
     }) 
 }
 
-function uploadStudentData(req, res){
+async function uploadStudentData(req, res){
 
-    if(!req.files[0]) res.send(httpResponse.onNoFileUpload);
-    
-    let path = req.files[0].path;
+   
 
-    fs.createReadStream(path)
-        .pipe(csv())
-        .on('data', function(data){
-            try {
-                Verify.find({n_id: data.StuId}, function(err, user){
-                    
-                    if(err){
-                        res.send(httpResponse.onCouldNotUpload);
-                    }
-                    
-                    else{
-                        if(user.length == 1){
-                            let new_verify = new Verify({n_id: data.StuId, email: data.CampEmail})
+    if(!req.file){
+        res.send(httpResponse.onNoFileUpload);
+    } 
 
-                            new_verify.save(err => {
-                                if(err){
-                                    res.send(httpResponse.onCouldNotUpload); 
-                                }
+    else{
+       
+        let path = req.file.path;
+        
+        await fs.ReadStream(path)
+            .pipe(csv())
+            .on('data', function(data){
+                try {
+                    if(data.StuId && data.CampEmail){
+                        Verify.find({n_id: data.StuId}, function(err, user){
 
-                                else{
-                                    fs.unlink(path, (err) => {
-                                        if (err) {
-                                         res.send(httpResponse.onCouldNotDeleteFile);   
-                                        }
-                                        
-                                        else{
-                                            res.send(httpResponse.onUploadSuccess);
-                                        }
+                            if(err){
+                                throw err;
+                              //  res.send(httpResponse.onCouldNotUpload);
                                 
+                            }
+        
+                            else{
+                                if(user.length == 0){
+                                        
+                                    let new_verify = new Verify({n_id: data.StuId, email: data.CampEmail})
+        
+                                    new_verify.save(err => {
+                                        if(err){
+                                           throw err;
+                                        }
                                     })
                                 }
-                            })
-                        }
+                            }
+                        })
                     }
-                }    
-            )}
+                }
+                catch(err) {
+                //error handler
+                    //res.send(httpResponse.onCouldNotUpload);
+                    throw err;
+                }
+            })
 
-            catch(err) {
-            //error handler
-                res.send(httpResponse.onCouldNotUpload);
-            }
-        }
-    )
+            fs.unlink(path, (err) => {
+                                    
+                if (err) {
+                    res.send(httpResponse.onCouldNotDeleteFile); 
+                }
+
+                else{
+                    res.send(httpResponse.onUploadSuccess);
+                }
+            })
+    }
 }
 
 function getAmountOfAdvisorStudents(req, res){

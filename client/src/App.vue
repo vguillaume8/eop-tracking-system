@@ -33,11 +33,8 @@
         <router-link to="/advisor"  @click.native="activeItem = 4">
           <mdb-list-group-item :action="true" :class="activeItem === 4 && 'active'"><mdb-icon icon="clipboard-check" class="mr-3"/>Advisor</mdb-list-group-item>
         </router-link>
-        <router-link to="/404" @click.native="activeItem = 5">
-          <mdb-list-group-item :action="true" :class="activeItem === 5 && 'active'"><mdb-icon icon="exclamation" class="mr-3"/>404</mdb-list-group-item>
-        </router-link>
-        <router-link to="/progression" @click.native="activeItem = 6">
-          <mdb-list-group-item :action="true" :class="activeItem === 6 &&  'active'"><mdb-icon icon="spinner" class="mr-3"/>Progression</mdb-list-group-item>
+        <router-link to="/progression" @click.native="activeItem = 5">
+          <mdb-list-group-item :action="true" :class="activeItem === 5 &&  'active'"><mdb-icon icon="spinner" class="mr-3"/>Progression</mdb-list-group-item>
         </router-link>
         <a class="btn btn-sm btn-danger logout" v-if="login" v-on:click="logout">Logout</a>
       </mdb-list-group>

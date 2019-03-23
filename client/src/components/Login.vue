@@ -67,7 +67,10 @@ export default {
             else {
 
               if(userType == 'advisor'){
+                let editUserId = {id: result.body.user.n_id};
+                localStorage.setItem('editUserId', JSON.stringify(editUserId));
                 this.$router.push('/advisor');
+
               }
               
               else if(userType == 'admin'){
