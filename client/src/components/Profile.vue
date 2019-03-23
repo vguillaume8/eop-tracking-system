@@ -184,7 +184,7 @@
         <!-- ERRORS -->
         <div class="alert alert-danger" v-show="errors.any()">
           <div v-if="errors.has('password')">
-            { errors.first('password') }}
+            {{ errors.first('password') }}
           </div>
           <div v-if="errors.has('password_confirmation')">
             {{ errors.first('password_confirmation') }}
