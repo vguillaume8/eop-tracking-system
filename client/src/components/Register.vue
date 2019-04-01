@@ -45,6 +45,21 @@
     <!-- Grid row -->
     <div class="form-group row">
       <!-- Default input -->
+      <label for="email" class="col-sm-2 col-form-label">Year</label>
+      <div class="col-sm-10">
+        <select v-model="selected">
+        <option value="">Select year...</option>
+        <option v-for="y in years" :key="y.value" v-bind:value="{ value: y.value, text: y.name }">
+          {{ r.name }}
+        </option>
+      </select>
+      </div>
+    </div>
+    <!-- Grid row -->
+
+    <!-- Grid row -->
+    <div class="form-group row">
+      <!-- Default input -->
       <label for="password" class="col-sm-2 col-form-label">Password</label>
       <div class="col-sm-10">
         <input type="password" class="form-control" v-model="input.password" id="password" placeholder="**********" v-validate="'required|min:6|max:35|'" ref="password" name="password">
@@ -91,7 +106,13 @@ export default {
   data(){
     return {
       input : {},
-      confirmPassword: ""
+      confirmPassword: "",
+      years: [
+        {value: 'senior',   name: 'Senior'},
+        {value: 'junior', name: 'Junior'},
+        {value: 'sophmore', name: 'Sophmore'},
+        {value: 'freshman', name: 'Freshman'}
+      ]
     }
   },
 
@@ -122,7 +143,7 @@ export default {
           })
         }
       }) 
-    }
+    },
   }
 }
 </script>
