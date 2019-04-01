@@ -84,9 +84,6 @@
       <div v-if="errors.has('password_confirmation')">
         {{ errors.first('password_confirmation') }}
       </div>
-       <div v-if="errors.has('password_confirmation')">
-        {{ errors.first('password_confirmation') }}
-      </div>
        <div v-if="errors.has('year')">
         {{ "You must select a year"}}
       </div>
