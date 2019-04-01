@@ -2,7 +2,6 @@
 
 const mongoose = require('mongoose');
 const connection = mongoose.connection;
-const multer = require('multer');
 const express = require('express');
 const bodyParser = require('body-parser');
 const logger = require('morgan');

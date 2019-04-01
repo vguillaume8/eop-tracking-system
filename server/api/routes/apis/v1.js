@@ -10,6 +10,7 @@ const dataController = require('../../controllers/data');
 const downloadController = require('../../controllers/download');
 const healthController = require('../../controllers/health');
 const reportController = require('../../controllers/report');
+const verifyToken = require('../../auth/verifyToken');
 const express = require('express');
 
 let router = express.Router();

@@ -114,12 +114,15 @@ export default {
     return {
       userData: {},
       input: {},
-      results: []
+      results: [],
+      header: {headers: {'x-access-token': `${JSON.parse(localStorage.getItem('jwt'))}`}}
     }
   },
 
   mounted(){
-    this.$http.get(`${api.api}/data`).then(result => {
+    
+
+    this.$http.get(`${api.api}/data`, this.header ).then(result => {
       this.userData.all = result.body.count;
       this.userData.student = result.body.student;
       this.userData.advisor = result.body.advisor;
@@ -133,7 +136,7 @@ export default {
     capitalize: Util.capitalize,
 
     search(){
-      this.$http.get(`${api.api}/data/${this.input.search}`).then(result => {
+      this.$http.get(`${api.api}/data/${this.input.search}`, this.header).then(result => {
         this.results = result.body.search;
       })
     },
@@ -149,6 +152,7 @@ export default {
         axios({
           method: 'get',
           url: `${api.api}/report/${student_id}`,
+          headers: this.header,
           responseType: 'arraybuffer',
         }).then(function(response) {
           let blob = new Blob([response.data], { type: 'application/pdf' })

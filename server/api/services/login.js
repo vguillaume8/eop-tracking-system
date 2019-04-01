@@ -29,7 +29,7 @@ function loginUser(req, res) {
           expiresIn: 10080
         });
         
-        return res.json({ success: true, token: 'JWT ' + token, user: user });
+        return res.json({ success: true, token: token, user: user });
       }
 
       res.send(httpResponses.onAuthenticationFail);

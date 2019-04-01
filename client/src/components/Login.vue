@@ -55,7 +55,7 @@ export default {
         if(result.body.success == true){
           let userType = result.body.user.role;
           localStorage.setItem('user', JSON.stringify(result.body.user));
-          localStorage.setItem('jwt', result.body.token);
+          localStorage.setItem('jwt', JSON.stringify(result.body.token));
           
           if(localStorage.getItem('jwt') != null){
             this.$emit('loggedIn');
