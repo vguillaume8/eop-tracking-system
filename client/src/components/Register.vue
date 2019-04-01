@@ -47,10 +47,10 @@
       <!-- Default input -->
       <label for="email" class="col-sm-2 col-form-label">Year</label>
       <div class="col-sm-10">
-        <select v-model="selected">
+        <select v-model="input.year" class="form-control" v-validate="'required'" name="year">
         <option value="">Select year...</option>
         <option v-for="y in years" :key="y.value" v-bind:value="{ value: y.value, text: y.name }">
-          {{ r.name }}
+          {{ y.name }}
         </option>
       </select>
       </div>
@@ -83,6 +83,12 @@
       </div>
       <div v-if="errors.has('password_confirmation')">
         {{ errors.first('password_confirmation') }}
+      </div>
+       <div v-if="errors.has('password_confirmation')">
+        {{ errors.first('password_confirmation') }}
+      </div>
+       <div v-if="errors.has('year')">
+        {{ "You must select a year"}}
       </div>
     </div>
 
@@ -128,9 +134,9 @@ export default {
 
   methods: {
     sendPost(slug){
-
+      
       this.$validator.validate().then(valid => {
-        if (valid) {
+        if (valid && this.input.year != null) {
           this.$http.post(`${api.api}${slug}`, this.input, { headers: { "content-type": "application/json" } }).then(result => {
             if(result.body.success == true){
               alert("User was sucessfully created");

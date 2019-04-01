@@ -7,7 +7,9 @@ const httpResponses = require('../responses/httpresponses');
 // Register new users
 function registerUser(request, response) {
   
-  let { n_id, firstname, lastname, email, password } = request.body;
+  let { n_id, firstname, lastname, email, password} = request.body;
+  let year = request.body.year.value;
+
 
   // if there is no valid email or password
   if (!email || !password) {
@@ -36,7 +38,7 @@ function registerUser(request, response) {
       else{
        
         // creates user object with request body
-        let newUser = new User(Util.userCreate(n_id, firstname, lastname, email, password));
+        let newUser = new User(Util.userCreate(n_id, firstname, lastname, email, password, year));
 
         // Attempt to save the user
         newUser.save(error => {

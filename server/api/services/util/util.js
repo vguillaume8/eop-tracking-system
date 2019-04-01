@@ -119,13 +119,14 @@ function pillarCreate(n_id){
 }
 
 
-function userCreate(n_id, firstname, lastname, email, password){
+function userCreate(n_id, firstname, lastname, email, password, year){
     return {
       n_id: n_id,
       firstname: firstname,
       lastname: lastname,
       email: email,
-      password: password
+      password: password,
+      year: year
     };
   }
 
