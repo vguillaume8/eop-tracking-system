@@ -10,7 +10,13 @@
       </select>
       <h4> Users </h4>
       <div>
-        <table class="table table-hover">
+
+<v-client-table :data="users" :columns="columns" :options="options">
+
+  <a slot="actions" slot-scope="props" class="fa fa-edit" @click.prevent="advisorAction(props.row.n_id)"></a>
+</v-client-table>
+
+        <!-- <table class="table table-hover" id="table">
           <thead>
             <tr>
               <th scope="col">Name</th>
@@ -23,25 +29,51 @@
               <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{capitalize(u.firstname, u.lastname)}}</td>
               <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.role}}</td>
               <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.email}}</td>
-              <a class="btn btn-success" @click.prevent="changeRole(u.n_id)">Change Role </a>
-              <a class="btn btn-primary" @click.prevent="editUser(u.n_id)"> Edit User </a>
-              <a class="btn btn-danger" @click.prevent="deleteUser(u.n_id)"> Delete User </a>
+              <mdb-btn size="sm" color="success" @click.native="changeRole(u.n_id)">Change Role</mdb-btn>
+              <mdb-btn size="sm" color="primary" @click.native="editUser(u.n_id)"> Edit User</mdb-btn>
+              <mdb-btn size="sm" color="danger" @click.native="deleteUser(u.n_id)"> Delete User </mdb-btn>
             </tr>
           </tbody>
-        </table>    
+        </table>     -->
         <h6>Blue=student| Red=advisor| Green=admin </h6>
       </div>
     </div>
 
-    <modal name="role-modal" id="role-modal" height="auto">
-      <select v-model="selected">
+        <mdb-modal size="lg" v-if="roleModal" @close="roleModal = false">
+      <mdb-modal-header>
+        <mdb-modal-title>Actions</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body>
+         <select v-model="selected">
         <option value="">Select a role...</option>
         <option v-for="r in roles" :key="r.value" v-bind:value="{ value: r.value, text: r.name }">
           {{ r.name }}
         </option>
       </select>
       <a class=" btn btn-success" @click.prevent="sendRoleChange()"> Change </a>
-    </modal>
+      </mdb-modal-body> 
+      <mdb-modal-footer>
+        <mdb-btn color="secondary" @click.native="roleModal = false">Close</mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
+  
+
+      <mdb-modal size="lg" v-if="adminActionsModal" @close="adminActionsModal = false">
+      <mdb-modal-header>
+        <mdb-modal-title>Actions</mdb-modal-title>
+      </mdb-modal-header>
+      <mdb-modal-body>
+      <!-- <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{capitalize(u.firstname, u.lastname)}}</td> -->
+              <!-- <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.role}}</td>
+              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.email}}</td> -->
+              <mdb-btn size="sm" color="success" @click.native="changeRole(currentUser)">Change Role</mdb-btn>
+              <mdb-btn size="sm" color="primary" @click.native="editUser(currentUser)"> Edit User</mdb-btn>
+              <mdb-btn size="sm" color="danger" @click.native="deleteUser(currentUser)"> Delete User </mdb-btn>
+      </mdb-modal-body> 
+      <mdb-modal-footer>
+        <mdb-btn color="secondary" @click.native="adminActionsModal = false">Close</mdb-btn>
+      </mdb-modal-footer>
+    </mdb-modal>
 
     <mdb-modal size="lg" v-if="uploadStudentInfoModal" @close="uploadStudentInfoModal = false">
       <mdb-modal-header>
@@ -113,27 +145,35 @@ import api from '../../configs/dev.config.js';
 import Util from '../services/util.js'
 import PictureInput from 'vue-picture-input';
 import FileUpload from 'vue-simple-upload/dist/FileUpload'
-import {mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue';
+import {mdbDatatable, mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue';
 
 export default {
 
   name: 'Admin',
   data () {
     return {
-      users: "", // All of the users in the database
+      users: [], // All of the users in the database
+      test: [{n_id: 453}],
       file: '', //  for file upload processing
       selected: "student", // default option for user role change
       userIDToChangeRole: "", // the id of the user role change
       uploadStudentInfoModal: false, // currently hidden
       createAdvisorModal: false,
+      adminActionsModal: false,
+      roleModal: false, 
       advisorCreate: {},
-
+      currentUser: null,
       // For user role change
       roles: [
         {value: 'advisor',   name: 'Advisor'},
         {value: 'admin', name: 'Admin'},
         {value: 'student', name: 'Student'}
-      ]
+      ],
+
+       columns: ['n_id', 'firstname', 'lastname', 'email', 'role', 'actions'],
+        options: {
+            // see the options API
+        }
     }
   },
 
@@ -147,6 +187,8 @@ export default {
     mdbContainer,
     mdbCol,
     mdbRow,  
+    mdbDatatable
+
   },
 
   mounted(){
@@ -155,29 +197,56 @@ export default {
   },
   
   methods: {
-
+  
     capitalize: Util.capitalize,
 
     // get list of all  users
-    getUsers(){
-      this.$http.get(`${api.api}/user/`).then(result => {
-        this.users = result.body;
-        this.selected = result.body.role;
-        this.$forceUpdate();
-      })
+     async getUsers(){
+
+    await this.getUsersAxios().then(data => {
+      this.users = data
+      
+      
+     
+    })
+     this.$forceUpdate()
+     console.log(this.users)
+     
+     
+     
+      // this.$http.get(`${api.api}/user/`).then(result => {
+      //   this.users = result.body;
+      //  // this.selected = result.body.role;
+      //   this.$forceUpdate();
+      // })
+    },
+
+    getUsersAxios(){
+     return axios({
+        method: 'GET',
+        url: `${api.api}/user/`,
+        
+
+      }).then(function(response) {
+
+        return response.data
+      }) .catch(function (error) {
+    console.log(error);
+  });
     },
 
     // Sets user role id and opens role change modal
     changeRole(n_id){
       this.userIDToChangeRole = n_id; // sets the id of the user role change
-      this.$modal.show('role-modal'); // shows the user role change  modal
+      this.adminActionsModal = false;
+      this.roleModal = true // shows the user role change  modal
     },
 
     // Sends the role change to the server
     async sendRoleChange(){
       let role = this.selected.value; // retrieves value from option list
       role= {role}; // parses to object
-      this.$modal.hide('role-modal'); // hides the modal
+      this.roleModal = false; // hides the modal
 
       // Asks the user for confirmation
       if (confirm("Do you want to change this role?")){ 
@@ -323,6 +392,13 @@ export default {
           this.createAdvisorModal = false;
         }
       })
+    },
+
+
+    advisorAction(n_id){
+      this.currentUser = n_id;
+
+      this.adminActionsModal = true;
     }
   }
 }

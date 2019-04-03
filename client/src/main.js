@@ -2,9 +2,12 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
+import VueMaterial from 'vue-material'
 import VueResource from 'vue-resource'
 import VeeValidate from 'vee-validate'
 import VModal from 'vue-js-modal'
+import {ServerTable, ClientTable, Event} from 'vue-tables-2'
+
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import PictureInput from 'vue-picture-input'
@@ -15,8 +18,10 @@ import vSelect from 'vue-select'
 import 'bootstrap-css-only/css/bootstrap.min.css'
 import 'mdbvue/build/css/mdb.css'
 
+Vue.use(VueMaterial)
 Vue.use(VueResource)
-Vue.use(VeeValidate)
+Vue.use(VeeValidate, { inject: 'false', fieldsBagName: 'veeFields' })
+Vue.use(ClientTable)
 Vue.use(FileUpload)
 Vue.use(PictureInput)
 Vue.component('v-select', vSelect)

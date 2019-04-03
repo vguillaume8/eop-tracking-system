@@ -29,10 +29,16 @@ module.exports = function() {
     //server.use(multer({dest:'./uploads/'}));
     server.use(logger('dev'));
     server.use(passport.initialize());
-    mongoose.connect(db.database);
-    connection.on('connected', function(){
-      console.log("DB connected");
-    });
+    try {
+      mongoose.connect(db.database);
+      connection.on('connected', function(){
+        console.log("DB connected");
+      });
+    } catch {
+      console.log("cannot connect to database")
+    }
+
+  
     
 
     //server.use('/uploads', express.static('uploads'));
