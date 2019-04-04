@@ -6,7 +6,7 @@ import VueMaterial from 'vue-material'
 import VueResource from 'vue-resource'
 import VeeValidate from 'vee-validate'
 import VModal from 'vue-js-modal'
-import {ServerTable, ClientTable, Event} from 'vue-tables-2'
+import {ClientTable} from 'vue-tables-2'
 
 import router from './router'
 import BootstrapVue from 'bootstrap-vue'

@@ -117,7 +117,7 @@ let router = new Router({
       component: Student_Progression,
       meta: {
         requiresAuth: true,
-        advisor_or_student: true
+        
       }
     }
   ]

@@ -5,7 +5,7 @@ WORKDIR /source
 
 RUN npm install
 #RUN npm install -g serve
-RUN npm run build       
+#RUN npm run build       
 
 #WORKDIR dist
 

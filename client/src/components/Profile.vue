@@ -499,6 +499,13 @@ export default {
       this.$forceUpdate();
     },
 
+
+    showStudent(studentId, studentFirst, studentLast){
+          let student = {n_id: studentId, name: this.capitalize(studentFirst, studentLast)} 
+          localStorage.setItem('student', JSON.stringify(student)); // stores student data to local stoarage
+          this.$router.push('/student'); // pushes to progression page
+    },
+
     async getStudentCount(advisorname){
 
       await this.$http.get(`${api.api}/data/advisor/${advisorname}`).then(result => {
