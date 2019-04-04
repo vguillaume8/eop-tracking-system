@@ -173,6 +173,7 @@
 import api from '../../configs/dev.config.js';
 import Util from '../services/util.js';
 import RadialProgressBar from 'vue-radial-progress'
+import { GChart } from 'vue-google-charts'
 import {mdbBtn, mdbModal, mdbModalHeader, mdbModalTitle, mdbModalBody, mdbModalFooter, mdbContainer, mdbCol, mdbRow} from 'mdbvue'
 export default {
     name: 'Progression',
@@ -214,7 +215,7 @@ export default {
         mdbBtn,
         mdbContainer,
         mdbCol,
-        mdbRow
+        mdbRow,
     },
 
     mounted(){

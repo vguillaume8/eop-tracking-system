@@ -10,6 +10,7 @@ const dataController = require('../../controllers/data');
 const downloadController = require('../../controllers/download');
 const healthController = require('../../controllers/health');
 const reportController = require('../../controllers/report');
+const homeController = require('../../controllers/home');
 const verifyToken = require('../../auth/verifyToken');
 const express = require('express');
 
@@ -25,6 +26,7 @@ router.use('/data', dataController);
 router.use('/download', downloadController);
 router.use('/health', healthController);
 router.use('/report', reportController);
+router.use('/home', homeController);
 
 
 module.exports = router;

@@ -8,6 +8,7 @@ const logger = require('morgan');
 const passport = require('passport');
 const cookieParser = require('cookie-parser'); 
 const cors = require('cors');
+const path = require('path');
 
 module.exports = function() {
   let server = express(), create, start;
@@ -20,7 +21,7 @@ module.exports = function() {
     server.set('port', config.port);
     server.set('hostname', config.hostname);
     //server.set('viewDir', config.viewDir);
-
+    server.use(express.static(path.join(__dirname, '../../client/dist')));
     // Returns middleware that parses json
     server.use(cors());
     server.use(bodyParser.json());

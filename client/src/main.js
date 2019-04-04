@@ -21,7 +21,8 @@ import 'mdbvue/build/css/mdb.css'
 Vue.use(VueMaterial)
 Vue.use(VueResource)
 Vue.use(VeeValidate, { inject: 'false', fieldsBagName: 'veeFields' })
-Vue.use(ClientTable)
+// eslint-disable-next-line no-undef
+Vue.use(ClientTable, {theme: 'bootstrap3'})
 Vue.use(FileUpload)
 Vue.use(PictureInput)
 Vue.component('v-select', vSelect)

@@ -11,9 +11,11 @@
       <h4> Users </h4>
       <div>
 
-<v-client-table :data="users" :columns="columns" :options="options">
+<v-client-table name="Users" :data="users" :columns="columns" :options="options">
 
   <a slot="actions" slot-scope="props" class="fa fa-edit" @click.prevent="advisorAction(props.row.n_id)"></a>
+  
+
 </v-client-table>
 
         <!-- <table class="table table-hover" id="table">
@@ -173,6 +175,9 @@ export default {
        columns: ['n_id', 'firstname', 'lastname', 'email', 'role', 'actions'],
         options: {
             // see the options API
+            theme: 'bootstrap3',
+            highlightMatches: true,
+            sortIcon: { base:'glyphicon', up:'glyphicon-chevron-up', down:'glyphicon-chevron-down', is:'glyphicon-sort' }
         }
     }
   },
@@ -415,5 +420,16 @@ export default {
 .card.card-cascade h3,
 .card.card-cascade h4 {
   margin-bottom: 0;
+}
+
+
+.VueTables__child-row-toggler {
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  display: block;
+  margin: auto;
+  text-align: center;
+  background-color: aqua
 }
 </style>
