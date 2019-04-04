@@ -21,7 +21,7 @@ module.exports = function() {
     server.set('port', config.port);
     server.set('hostname', config.hostname);
     //server.set('viewDir', config.viewDir);
-    server.use(express.static(path.join(__dirname, '../../client/dist')));
+    //server.use(express.static(path.join(__dirname, '../../client/dist')));
     // Returns middleware that parses json
     server.use(cors());
     server.use(bodyParser.json());
