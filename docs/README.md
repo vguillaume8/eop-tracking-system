@@ -25,13 +25,18 @@ The core features follow:
 
 - Backend
 > Navigate to server folder
+
 > npm install
+
 > Must have a configs folder: Which contains db.js and config.js
+
 > node index.js to start server
 
 - Frontend
 > Navigate to client folder
+
 > npm install
+
 > Must have configs folder: Which contains dev.config.js
 
 
