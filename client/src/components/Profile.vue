@@ -112,10 +112,10 @@
                 <div class="row">
                   <!-- Grid column -->
                   <div class="col-md-12 about-text">
-                    <h4 class="text-muted text-left my-4"><strong>About me</strong></h4>
+                    <h4 class="text-muted text-left my-4"><strong>Goals</strong></h4>
                     <!--Basic textarea-->
                     <div class="md-form mb-0">
-                      <textarea type="text" id="form10" class="md-textarea form-control" rows="3" placeholder="Bio" v-model="userData.bio"></textarea>
+                      <textarea type="text" id="form10" class="md-textarea form-control" rows="3" placeholder="Goals" v-model="userData.bio"></textarea>
                       <label for="form10"></label>
                     </div>
                     <button class="btn btn-primary" type="submit" @click.prevent="updateUser(userData.n_id)">Save</button>
