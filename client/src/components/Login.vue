@@ -70,13 +70,13 @@ export default {
                 let editUserId = {id: result.body.user.n_id};
                 localStorage.setItem('editUserId', JSON.stringify(editUserId));
                 this.$router.push('/advisor');
-                this.$router.go(0);
+                this.$forceUpdate();
 
               }
               
               else if(userType == 'admin'){
                 this.$router.push('/admin');
-                this.$router.go(0);
+                this.$forceUpdate();
               }
               
               else{
@@ -85,7 +85,7 @@ export default {
                 let editUserId = {id: result.body.user.n_id};
                 localStorage.setItem('editUserId', JSON.stringify(editUserId));
                 this.$router.push('profile');
-                this.$router.go(0);
+                this.$forceUpdate();
               }
             }
           }
