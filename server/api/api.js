@@ -8,28 +8,33 @@ const logger = require('morgan');
 const passport = require('passport');
 const cookieParser = require('cookie-parser'); 
 const cors = require('cors');
-const path = require('path');
+
 
 module.exports = function() {
+
+  // Creates the express sever
   let server = express(), create, start;
 
   create = function(config, db) {
+
+    // Sets up the routing
     let routes = require('./routes/route');
 
     // Server settings
-    //server.set('env', config.env);
     server.set('port', config.port);
     server.set('hostname', config.hostname);
-    //server.set('viewDir', config.viewDir);
-    //server.use(express.static(path.join(__dirname, '../../client/dist')));
-    // Returns middleware that parses json
+ 
+    // Enables cors
     server.use(cors());
     server.use(bodyParser.json());
     server.use(bodyParser.urlencoded({ extended: false }));
     server.use(cookieParser());
-    //server.use(multer({dest:'./uploads/'}));
+    
+    // Logging
     server.use(logger('dev'));
     server.use(passport.initialize());
+
+    // Database connection
     try {
       mongoose.connect(db.database);
       connection.on('connected', function(){
@@ -38,13 +43,6 @@ module.exports = function() {
     } catch {
       console.log("cannot connect to database")
     }
-
-  
-    
-
-    //server.use('/uploads', express.static('uploads'));
-
-    //server.set('views', server.get('viewDir'));
 
     // Set up routes
     routes.init(server);

@@ -4,6 +4,7 @@ const apiRoute = require('./apis');
 
 function init(server) {
   
+  // Logs every single request
   server.get('*', function (req, res, next) {
     console.log('Request was made to: ' + req.originalUrl);
     return next();

@@ -11,7 +11,7 @@ function getStudents(req, res){
 }
 
 function addStudent(req, res){
-
+    
    User.findOneAndUpdate({n_id: req.body.id}, {advisor: req.query.name},{new: true}, function(err, user){
         if(err) res.send(httpResponse.onCouldNotAddStudent);
 
