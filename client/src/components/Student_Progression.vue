@@ -10,7 +10,7 @@
                     <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
                         <p> Self Actulization: </p>
                         <p>{{ SelfActulization }}% </p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('SelfActulization')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('SelfActulization')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
                 
@@ -18,7 +18,7 @@
                     <radial-progress-bar innerStrokeColor="#C5CDBD" :diameter="200" :completed-steps="Emotional" :total-steps="totalSteps">
                         <p>Emotional: </p>
                         <p>{{ Emotional }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Emotional')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Emotional')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -26,7 +26,7 @@
                     <radial-progress-bar  innerStrokeColor="#D5BDBD" :diameter="200" :completed-steps="Community" :total-steps="totalSteps">
                         <p>Community: </p>
                         <p>{{ Community }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Community')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Community')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -37,7 +37,7 @@
                     <radial-progress-bar innerStrokeColor="#C7BDBD" :diameter="200" :completed-steps="Intellectual" :total-steps="totalSteps">
                         <p>Intellectual: </p>
                         <p>{{ Intellectual }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Intellectual')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Intellectual')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -45,7 +45,7 @@
                     <radial-progress-bar innerStrokeColor="#C5BEBD" :diameter="200" :completed-steps="Health" :total-steps="totalSteps">
                         <p>Health: </p>
                         <p>{{ Health }}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('Health')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('Health')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
@@ -53,7 +53,7 @@
                     <radial-progress-bar innerStrokeColor="#C1BDBD" :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
                         <p>Professional / Academic: </p>
                         <p>{{ ProfessionalAcademic}}%</p>
-                        <a class="btn btn-primary" @click.prevent="openPillar('ProfessionalAcademic')"> Open Pillar </a>
+                        <mdb-btn size="sm" color="primary" @click.native="openPillar('ProfessionalAcademic')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
                 </mdb-col>
 
