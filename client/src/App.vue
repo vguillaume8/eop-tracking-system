@@ -27,7 +27,7 @@
         <router-link to="/profile" @click.native="activeItem = 2">
           <mdb-list-group-item :action="true" :class="activeItem === 2 && 'active'"><mdb-icon icon="user" class="mr-3"/>Profile</mdb-list-group-item>
         </router-link>
-        <router-link to="/admin" v-if="user.role='admin'" @click.native="activeItem = 3">
+        <router-link to="/admin" v-if="user.role=='admin'" @click.native="activeItem = 3">
           <mdb-list-group-item :action="true" :class="activeItem === 3 && 'active'"><mdb-icon icon="table" class="mr-3"/>Admin</mdb-list-group-item>
         </router-link>
         <router-link to="/advisor" v-if="user.role=='advisor'"  @click.native="activeItem = 4">
