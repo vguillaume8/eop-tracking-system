@@ -49,7 +49,9 @@ The core features follow:
 
 <section>
 const express = require('express');
+
 path = require('path');
+
 const history = require('connect-history-api-fallback')
 
 server = express();
