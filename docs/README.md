@@ -35,8 +35,36 @@ The core features follow:
 - Frontend
 > Navigate to client folder
 
-> npm install
+> Run npm install
 
 > Must have configs folder: Which contains dev.config.js
 
+> Run npm run build to generate dist production folder
 
+> A small production express server is needed to serve the dist folder
+
+> Create a folder called prod inside of the client folder
+
+> Create a file called 'client.js' and paste the following code
+
+<section>
+const express = require('express');
+path = require('path');
+const history = require('connect-history-api-fallback')
+
+server = express();
+
+server.use(history();)
+
+
+var port = 80;
+
+
+server.use(express.static(path.join(__dirname, '/')));
+
+server.listen(port);
+
+
+</section>
+
+> npm node 'client.js'

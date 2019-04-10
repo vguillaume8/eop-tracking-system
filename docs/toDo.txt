@@ -1,0 +1,18 @@
+1. Configure JWT verification
+    - the system is already set up on both ends to generate and receive/store jwt tokens
+    - Every api request needs to be secured and verified with a tokens
+
+2. Figure out an automatic or user friendly way to mass remove users
+    - ex. what happens when a user grduates? Should we remove them from the database
+
+3. Fix the correct spelling of Self Actualization
+    - It is missplelled in various parts of the program
+    - As well as the database
+
+4. Add pagination for dashboard view
+    - Very simillar to admin view table
+
+5. Provide support for other browers (Other than Google Chrome)
+    - This application is only stable for Google Chrome 
+    - Download functions do not work for Mozilla Firefox
+
