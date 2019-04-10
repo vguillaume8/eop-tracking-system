@@ -13,7 +13,7 @@
 
 <v-client-table name="Users" :data="users" :columns="columns" :options="options">
 
-  <a slot="actions" slot-scope="props" class="fa fa-edit" @click.prevent="advisorAction(props.row.n_id)"></a>
+  <a slot="actions" slot-scope="props" class="fa fa-edit" @click.prevent="advisorAction(props.row.n_id, props.row.role, props.row.firstname, props.row.lastname)"></a>
   
 
 </v-client-table>
@@ -68,9 +68,12 @@
       <!-- <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{capitalize(u.firstname, u.lastname)}}</td> -->
               <!-- <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.role}}</td>
               <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.email}}</td> -->
-              <mdb-btn size="sm" color="success" @click.native="changeRole(currentUser)">Change Role</mdb-btn>
-              <mdb-btn size="sm" color="primary" @click.native="editUser(currentUser)"> Edit User</mdb-btn>
-              <mdb-btn size="sm" color="danger" @click.native="deleteUser(currentUser)"> Delete User </mdb-btn>
+              <mdb-btn size="sm" color="success" @click.native="changeRole(currentUser.n_id)">Change Role</mdb-btn>
+              <mdb-btn size="sm" color="primary" @click.native="editUser(currentUser.n_id)"> View User</mdb-btn>
+              <mdb-btn size="sm" color="danger" @click.native="deleteUser(currentUser.n_id)"> Delete User </mdb-btn>
+              <mdb-btn size="sm" color="primary" v-if="currentUser.role=='student'" @click.native="showStudent(currentUser.n_id, currentUser.firstname, currentUser.lastname)">Progression</mdb-btn>
+              <mdb-btn size="sm" color="success" v-if="currentUser.role=='student'" @click.native="downloadReport(currentUser.n_id, currentUser.firstname, currentUser.lastname)">Report</mdb-btn>
+
       </mdb-modal-body> 
       <mdb-modal-footer>
         <mdb-btn color="secondary" @click.native="adminActionsModal = false">Close</mdb-btn>
@@ -164,7 +167,7 @@ export default {
       adminActionsModal: false,
       roleModal: false, 
       advisorCreate: {},
-      currentUser: null,
+      currentUser: {},
       // For user role change
       roles: [
         {value: 'advisor',   name: 'Advisor'},
@@ -400,12 +403,40 @@ export default {
     },
 
 
-    advisorAction(n_id){
-      this.currentUser = n_id;
+    advisorAction(n_id, role, firstname, lastname){
+      this.currentUser.n_id = n_id;
+      this.currentUser.role = role;
+      this.currentUser.firstname = firstname;
+      this.currentUser.lastname = lastname;
 
       this.adminActionsModal = true;
+    },
+
+    showStudent(studentId, studentFirst, studentLast){
+          let student = {n_id: studentId, name: this.capitalize(studentFirst, studentLast)} 
+          localStorage.setItem('student', JSON.stringify(student)); // stores student data to local stoarage
+          this.$router.push('/student'); // pushes to progression page
+    },
+
+    downloadReport(student_id, firstname, lastname){
+
+      axios({
+        method: 'get',
+        url: `${api.api}/report/${student_id}`,
+        responseType: 'arraybuffer',
+
+      }).then(function(response) {
+        let blob = new Blob([response.data], { type: 'application/pdf' })
+        let link = document.createElement('a')
+        link.href = window.URL.createObjectURL(blob)
+        link.download = lastname + firstname + '.pdf';
+        link.click()
+      })
     }
-  }
+  },
+
+
+   
 }
 </script>
 

@@ -21,10 +21,10 @@
     <div class="sidebar-fixed position-fixed">
       <a class="logo-wrapper"><img alt="" class="img-fluid" src="https://www.newpaltz.edu/media/identity/logos/newpaltzlogo.jpg"/></a>
       <mdb-list-group class="list-group-flush">
-        <router-link to="/dashboard"  @click.native="activeItem = 1">
+        <router-link to="/dashboard" v-if="user.role!='student' && loggedIn"  @click.native="activeItem = 1">
           <mdb-list-group-item :action="true"  :class="activeItem === 1 && 'active'"><mdb-icon  icon="labtop" class="mr-3"/>Dashboard</mdb-list-group-item>
         </router-link>
-        <router-link to="/profile" @click.native="activeItem = 2">
+        <router-link to="/profile" v-if="user.role != 'admin' && loggedIn" @click.native="activeItem = 2">
           <mdb-list-group-item :action="true" :class="activeItem === 2 && 'active'"><mdb-icon icon="user" class="mr-3"/>Profile</mdb-list-group-item>
         </router-link>
         <router-link to="/admin" v-if="user.role=='admin'" @click.native="activeItem = 3">
@@ -33,7 +33,7 @@
         <router-link to="/advisor" v-if="user.role=='advisor'"  @click.native="activeItem = 4">
           <mdb-list-group-item :action="true" :class="activeItem === 4 && 'active'"><mdb-icon icon="clipboard-check" class="mr-3"/>Advisor</mdb-list-group-item>
         </router-link>
-        <router-link to="/progression" @click.native="activeItem = 5">
+        <router-link to="/progression" v-if="user.role=='student'" @click.native="activeItem = 5">
           <mdb-list-group-item :action="true" :class="activeItem === 5 &&  'active'"><mdb-icon icon="spinner" class="mr-3"/>Progression</mdb-list-group-item>
         </router-link>
         <a class="btn btn-sm btn-danger logout" v-if="loggedIn" v-on:click="logout">Logout</a>

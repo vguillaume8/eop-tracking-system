@@ -6,7 +6,7 @@
           <a href="">Home Page</a><span>/</span><span>Dashboard</span>
         </h4>
         <form class="d-flex md-form justify-content-center" style="margin:0;" @submit.prevent="search()">
-          <input aria-label="Search" class="form-control" placeholder="Type your query" type="search" v-model="input.search" />
+          <input aria-label="Search" class="form-control" placeholder="Search by first name" type="search" v-model="input.search" />
           <mdb-btn color="primary" size="sm" class="my-0" type="submit"><i class="fa fa-search"></i></mdb-btn>
         </form>
       </mdb-card-body>
@@ -84,7 +84,8 @@
                   <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{r.n_id}}</td>
                   <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{r.email}}</td>
                   <td v-bind:class="{'table-danger': r.role=='advisor', 'table-success': r.role=='admin', 'table-primary': r.role=='student'}">{{r.role}}</td>
-                  <a class="btn btn-success" @click.prevent="downloadReport(r.n_id, r.role, r.firstname, r.lastname)">Generate Report</a>
+                  <mdb-btn size="sm" color="success" v-if="r.role=='student'" @click.native="downloadReport(r.n_id, r.role, r.firstname, r.lastname)">Generate Report</mdb-btn>
+                  <mdb-btn size="sm" color="primary" v-if="r.role=='student'" @click.native="showStudent(r.n_id, r.firstname, r.lastname)">Progression</mdb-btn>
               </tr>
           </tbody>
       </table>   
@@ -162,7 +163,13 @@ export default {
           link.click()
         })
       }
-    }
+    },
+
+    showStudent(studentId, studentFirst, studentLast){
+          let student = {n_id: studentId, name: this.capitalize(studentFirst, studentLast)} 
+          localStorage.setItem('student', JSON.stringify(student)); // stores student data to local stoarage
+          this.$router.push('/student'); // pushes to progression page
+    },
   }
 }
 </script>

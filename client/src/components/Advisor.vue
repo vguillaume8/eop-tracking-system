@@ -2,11 +2,11 @@
   <section id="tables">
         <div>
             <h1> Welcome Back: {{capitalize(user.firstname, user.lastname)}} </h1>
-            <h4> Add Student
+            <!-- <h4> Add Student
                 <form @submit.prevent="addStudent()"> 
                     <input v-model="studentToAdd"><mdb-btn color="success" rounded> Add Student </mdb-btn> 
                 </form>
-            </h4>
+            </h4> -->
             <h4> Current Students </h4>
             <table class="table table-hover">
                 <thead>

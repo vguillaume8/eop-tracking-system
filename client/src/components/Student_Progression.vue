@@ -8,7 +8,7 @@
 
                 <mdb-col col="4">
                     <radial-progress-bar  innerStrokeColor="#C5BDBD" :diameter="200" :completed-steps="SelfActulization" :total-steps="totalSteps" @click.prevent="openPillar()">
-                        <p> Self Actulization: </p>
+                        <p> Self Actualization: </p>
                         <p>{{ SelfActulization }}% </p>
                         <mdb-btn size="sm" color="primary" @click.native="openPillar('SelfActulization')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
@@ -51,7 +51,8 @@
 
                 <mdb-col sm="4">             
                     <radial-progress-bar innerStrokeColor="#C1BDBD" :diameter="200" :completed-steps="ProfessionalAcademic" :total-steps="totalSteps">
-                        <p>Professional / Academic: </p>
+                        <p>Professional</p>
+                        <p>Academic:</p>
                         <p>{{ ProfessionalAcademic}}%</p>
                         <mdb-btn size="sm" color="primary" @click.native="openPillar('ProfessionalAcademic')">Open Pillar</mdb-btn>
                     </radial-progress-bar>
