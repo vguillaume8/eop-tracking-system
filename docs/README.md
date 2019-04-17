@@ -26,6 +26,10 @@ The core features follow:
 - Backend
 > Navigate to server folder
 
+> Move template/server/config folder to the root of the src/server folder
+
+> Provide port number in config.js, provide MongoDB URI string in db.js as well as jwt secret 
+
 > npm install
 
 > Must have a configs folder: Which contains db.js and config.js
@@ -35,38 +39,21 @@ The core features follow:
 - Frontend
 > Navigate to client folder
 
+> Move template/client/configs folder to src/client folder
+
 > Run npm install
 
-> Must have configs folder: Which contains dev.config.js
+> Run npm run start to start development server
 
+
+- Production
 > Run npm run build to generate dist production folder
 
 > A small production express server is needed to serve the dist folder
 
-> Create a folder called prod inside of the client folder
+> Move template/prod folder to src/client folder
 
-> Create a file called 'client.js' and paste the following code
+> Navigate to the folder and run npm install express
 
-<section>
-const express = require('express');
+> Run node client.js to start production server
 
-path = require('path');
-
-const history = require('connect-history-api-fallback')
-
-server = express();
-
-server.use(history();)
-
-
-var port = 80;
-
-
-server.use(express.static(path.join(__dirname, '/')));
-
-server.listen(port);
-
-
-</section>
-
-> npm node 'client.js'
