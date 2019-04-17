@@ -21,7 +21,7 @@ The core features follow:
 
 ## Installation
 
-## The .gitignore is configured to ignore configs and prod folders. Be sure to rename folders and subfolders in template from aconfigs or aprod to config and prod.
+## *** The .gitignore is configured to ignore configs and prod folders. Be sure to rename folders and subfolders in template from aconfigs or aprod to config and prod ***
 
 - Backend
 > Navigate to server folder
