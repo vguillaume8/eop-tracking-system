@@ -129,42 +129,39 @@ router.beforeEach((to, from, next) => {
   // if(user.role == 'admin') isUserAdmin = true
   
   if(to.matched.some(record => record.meta.requiresAuth)) {
-      if (localStorage.getItem('jwt') == null) {
-          next({
-              path: '/login',
-              params: { nextUrl: to.fullPath }
-          })
+    if (localStorage.getItem('jwt') == null) {
+      next({
+        path: '/login',
+        params: { nextUrl: to.fullPath }
+      })
       } else {
           let user = JSON.parse(localStorage.getItem('user'))
 
           if(to.matched.some(record => record.meta.is_admin)) {
-              if(user.role === 'admin'){
-                  next()
-              }else{
-                  next({ name: 'Forbidden'})
+            if(user.role === 'admin'){
+              next()
+            } else{
+              next({ name: 'Forbidden'})
+            }
+          } else if(to.matched.some(record => record.meta.is_advisor)){
+              if(user.role === 'advisor'){
+                next()
+              } else{
+                next({ name: 'Student'})
               }
-          }
-          else if(to.matched.some(record => record.meta.is_advisor)){
-            if(user.role === 'advisor'){
-              next()
-            }else{
-              next({ name: 'Student'})
-            }
-          }
-          else if(to.matched.some(record => record.meta.not_student)){
-            if(user.role != 'student'){
-              next()
-            }else{
-              next({ name: 'Forbidden'})
-            }
-          }
-          else if(to.matched.some(record => record.meta.admin_or_student)){
-            if(user.role != 'advisor'){
-              next()
-            }else{
-              next({ name: 'Forbidden'})
-            }
-          }
+            } else if(to.matched.some(record => record.meta.not_student)){
+              if(user.role != 'student'){
+                next()
+              }else{
+                next({ name: 'Forbidden'})
+              }
+            } else if(to.matched.some(record => record.meta.admin_or_student)){
+                if(user.role != 'advisor'){
+                  next()
+                }else{
+                  next({ name: 'Forbidden'})
+                }
+              }
           else if(to.matched.some(record => record.meta.advisor_or_student)){
             if(user.role != 'admin'){
               next()

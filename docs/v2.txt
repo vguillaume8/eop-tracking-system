@@ -16,3 +16,6 @@
     - This application is only stable for Google Chrome 
     - Download functions do not work for Mozilla Firefox
 
+6. Provide a visual report for students
+    - Very simillar to the progress report that admins an advisors can generate
+    - Should be visual and include graphs and charts of progression data

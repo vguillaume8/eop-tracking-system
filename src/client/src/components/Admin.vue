@@ -10,54 +10,35 @@
       </select>
       <h4> Users </h4>
       <div>
+        <v-client-table name="Users" :data="users" :columns="columns" :options="options">
 
-<v-client-table name="Users" :data="users" :columns="columns" :options="options">
+          <a slot="actions" slot-scope="props" class="fa fa-edit" @click.prevent="advisorAction(props.row.n_id, props.row.role, props.row.firstname, props.row.lastname)"></a>
 
-  <a slot="actions" slot-scope="props" class="fa fa-edit" @click.prevent="advisorAction(props.row.n_id, props.row.role, props.row.firstname, props.row.lastname)"></a>
-  
-
-</v-client-table>
-
-        <!-- <table class="table table-hover" id="table">
-          <thead>
-            <tr>
-              <th scope="col">Name</th>
-              <th scope="col">Role</th>
-              <th scope="col" >Email</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="u in users" :key="u.id">
-              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{capitalize(u.firstname, u.lastname)}}</td>
-              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.role}}</td>
-              <td v-bind:class="{'table-danger': u.role=='advisor', 'table-success': u.role=='admin', 'table-primary': u.role=='student'}">{{u.email}}</td>
-              <mdb-btn size="sm" color="success" @click.native="changeRole(u.n_id)">Change Role</mdb-btn>
-              <mdb-btn size="sm" color="primary" @click.native="editUser(u.n_id)"> Edit User</mdb-btn>
-              <mdb-btn size="sm" color="danger" @click.native="deleteUser(u.n_id)"> Delete User </mdb-btn>
-            </tr>
-          </tbody>
-        </table>     -->
-        <h6>Blue=student| Red=advisor| Green=admin </h6>
+        </v-client-table>   
       </div>
     </div>
 
-        <mdb-modal size="lg" v-if="roleModal" @close="roleModal = false">
+    <mdb-modal size="lg" v-if="roleModal" @close="roleModal = false">
+
       <mdb-modal-header>
         <mdb-modal-title>Actions</mdb-modal-title>
       </mdb-modal-header>
+
       <mdb-modal-body>
-         <select v-model="selected">
-        <option value="">Select a role...</option>
-        <option v-for="r in roles" :key="r.value" v-bind:value="{ value: r.value, text: r.name }">
-          {{ r.name }}
-        </option>
-      </select>
-      <a class=" btn btn-success" @click.prevent="sendRoleChange()"> Change </a>
+        <select v-model="selected">
+          <option value="">Select a role...</option>
+          <option v-for="r in roles" :key="r.value" v-bind:value="{ value: r.value, text: r.name }">
+            {{ r.name }}
+          </option>
+        </select>
+
+        <a class=" btn btn-success" @click.prevent="sendRoleChange()"> Change </a>
       </mdb-modal-body> 
+
       <mdb-modal-footer>
-        <mdb-btn color="secondary" @click.native="roleModal = false">Close</mdb-btn>
-      </mdb-modal-footer>
-    </mdb-modal>
+       <mdb-btn color="secondary" @click.native="roleModal = false">Close</mdb-btn>
+  </mdb-modal-footer>
+</mdb-modal>
   
 
       <mdb-modal size="lg" v-if="adminActionsModal" @close="adminActionsModal = false">

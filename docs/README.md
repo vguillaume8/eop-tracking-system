@@ -13,8 +13,8 @@ The core features follow:
 ## Table of Contents
 
 
-- [Installation](#installation)
 
+- [Installation](#installation)
 
 
 

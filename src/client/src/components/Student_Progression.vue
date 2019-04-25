@@ -106,6 +106,8 @@
             <mdb-modal-title>Comments</mdb-modal-title>
         </mdb-modal-header>
         <mdb-modal-body>
+            <mdb-container>
+            <mdb-row>
             <ul v-for="c in comments" :key="c.id">
                 
                 <div class="card" style="width: 18rem;">
@@ -122,6 +124,8 @@
                     </div>
                 </div>
             </ul>
+            </mdb-row>
+            </mdb-container>
           
         </mdb-modal-body> 
         <mdb-modal-footer>
