@@ -69,15 +69,22 @@
             <div v-for="bar in bars" :key="bar.id" class="row mb-1">
                 <div class="col-sm-10 pt-1">
                     <div class="col-sm-2">{{ bar.name}}:</div>
-                    <mdb-btn size="sm" color="danger" @click.native="decrementPillar(bar.name)">-</mdb-btn>
-                    <mdb-btn size="sm" color="primary" @click.native="incrementPillar(bar.name)">+</mdb-btn>
-                    <mdb-btn size="sm" color="success" @click.native="showPillarDesc(bar.name, bar.level)">View Description</mdb-btn>     
-                    <b-progress height="2rem">
+
+                    <mdb-row>
+                    <mdb-btn size="sm" color="danger" @click.native="decrementPillar(bar.name)" class="button-rounded">-</mdb-btn>
+                   
+                       
+                    <b-progress height="2rem" class="w-75 mb-2" >
                         <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant" >
                         {{bar.level}}
                         <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
                         </b-progress-bar>
                     </b-progress>
+                     <mdb-btn size="sm" color="primary" @click.native="incrementPillar(bar.name)" class="button-rounded">+</mdb-btn>
+                    </mdb-row>
+                    <div class="description">
+                    <mdb-btn size="sm" color="success" @click.native="showPillarDesc(bar.name, bar.level)">View Description</mdb-btn>  
+                    </div>
                 </div>
             </div>
         </mdb-modal-body>
@@ -367,4 +374,12 @@ export default {
 }
 </script>
 
+<style>
+.description{
+    margin: 0 auto;
+     width: 210px; 
+}
+
+
+</style>
 

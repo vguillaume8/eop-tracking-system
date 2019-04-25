@@ -71,13 +71,18 @@
             <div v-for="bar in bars" :key="bar.id" class="row mb-1">
                 <div class="col-sm-10 pt-1">
                     <div class="col-sm-2">{{ bar.name}}:</div>
-                    <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>     
-                    <b-progress height="2rem">
+                    
+                    <mdb-row> 
+                    <b-progress height="2rem" class="w-100 mb-2">
                         <b-progress-bar :value="bar.value"  :variant="bar.variant" :key="bar.variant">
                         {{bar.level}}
                         <strong>{{Math.round(bar.value * 100) / 100}}%</strong>
                         </b-progress-bar>
                     </b-progress>
+                    </mdb-row>
+                    <div class="description">
+                    <a class="btn btn-success" @click.prevent="showPillarDesc(bar.name, bar.level)">View Description</a>    
+                    </div>
                 </div>
             </div>
         </mdb-modal-body>
@@ -269,3 +274,9 @@ export default {
 </script>
 
 
+<style>
+.description{
+    margin: 0 auto;
+     width: 210px; 
+}
+</style>
