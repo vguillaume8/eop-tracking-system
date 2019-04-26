@@ -5,7 +5,7 @@ const multer = require('multer');
 const upload = multer({dest:'./uploads/'});
 const dataService = require('../services/data');
 
-let router = express.Router();
+const router = express.Router();
 
 router.get('/', dataService.getData);
 router.get('/:search', dataService.search);

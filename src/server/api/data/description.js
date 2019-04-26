@@ -1,6 +1,6 @@
 'use strict'
 
-function getDescription(type){
+function getDescription(type) {
 
     switch(type) {
         case 'SelfActulization':
@@ -57,7 +57,7 @@ function getDescription(type){
                     Accomplished: "Regularly able to express self clearly and listen with respect to others",
                     Exemplary: "Consistent clear communication and ongoing integration of new skills",
                 }
-              
+
             ]
         case 'Intellectual':
             return [
@@ -147,7 +147,7 @@ function getDescription(type){
                     Accomplished: "Working on the identified skill sets to improve on weaknesses and enhance existing strengths",
                     Exemplary: "Consisten utilization of skills and mentorships to others of skills developed",
                 },
-              
+
             ]
         case 'Community':
             return [

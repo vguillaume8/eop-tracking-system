@@ -3,7 +3,7 @@ require('mongoose-double')(mongoose);
 
 var SchemaTypes = mongoose.Schema.Types;
 const PillarSchema = new mongoose.Schema({
-    
+
     student_id: {
         type: String,
         unique: true,
@@ -48,7 +48,7 @@ const PillarSchema = new mongoose.Schema({
         Physical: SchemaTypes.Double,
         Nutritional: SchemaTypes.Double,
         Hygiene: SchemaTypes.Double,
-        Sleep: SchemaTypes.Double 
+        Sleep: SchemaTypes.Double
     },
 
     ProfessionalAcademic: {
@@ -61,6 +61,6 @@ const PillarSchema = new mongoose.Schema({
     }
 
 });
-  
 
-  module.exports = mongoose.model('Pillar', PillarSchema);
+
+module.exports = mongoose.model('Pillar', PillarSchema);

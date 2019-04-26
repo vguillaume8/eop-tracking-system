@@ -14,7 +14,7 @@ const homeController = require('../../controllers/home');
 const verifyToken = require('../../auth/verifyToken');
 const express = require('express');
 
-let router = express.Router();
+const router = express.Router();
 
 router.use('/register', registerController);
 router.use('/login', loginController);

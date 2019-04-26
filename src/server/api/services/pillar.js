@@ -4,19 +4,19 @@ const util = require('./util/util');
 const Description = require('../data/description');
 const httpResponse = require('../responses/httpresponses');
 
-function updatePillar(req, res){
+function updatePillar(req, res) {
 
-    let newPillar = new Pillar(req.body);
+    const newPillar = new Pillar(req.body);
 
-    newPillar.findOneAndUpdate({student_id: req.params.userId}, function(err){
-        
+    newPillar.findOneAndUpdate({student_id: req.params.userId}, function(err) {
+
         if(err){
             res.send(httpResponse.onCouldNotSave);
         }
-        
+
         else{
             res.send(httpResponse.onSaveSucess);
-        }   
+        }
     })
 }
 
@@ -25,7 +25,7 @@ function getPillar(req, res){
     let student_id = req.params.userId;
 
     Pillar.findOne({student_id: student_id}, function(err, pillar){
-        
+
         if(err){
             res.send(httpResponse.onCouldNotRetreive);
         }
@@ -33,11 +33,11 @@ function getPillar(req, res){
         else if(!pillar){
             res.send(httpResponse.onPillarNotFound);
         }
-        
+
         else{
-          
+
             let pillarPercentages = util.computePillarPercentages(pillar);
-         
+
             res.send(pillarPercentages);
         }
     })
@@ -47,7 +47,7 @@ function getMetaPillar(req, res){
     let student_id = req.params.userId;
 
     Pillar.findOne({student_id: student_id}, function(err, pillar){
-        
+
         if(err){
             res.send(httpResponse.onCouldNotRetreive);
         }
@@ -55,14 +55,14 @@ function getMetaPillar(req, res){
         else if(!pillar){
             res.send(httpResponse.onPillarNotFound);
         }
-        
+
         else{
             let type = req.query.type;
             let metaPillar = pillar[type];
             let metaPillarArray = [];
             let pillarNames = Object.keys(metaPillar);
             let pillarValues = Object.values(metaPillar);
-            
+
             for(var i = 1; i < pillarNames.length; i++){
                 metaPillarArray.push({
                     name: pillarNames[i],
@@ -71,20 +71,20 @@ function getMetaPillar(req, res){
                     variant: util.getVariant(pillarValues[i] * 25)
                 })
             }
-            
+
             res.json({success: true, metaArray: metaPillarArray, description: Description.getDescription(type)});
         }
     })
 }
 
 function increment(req, res){
-   
+
     Pillar.findOne({student_id: req.params.userId}, function(err, pillar){
 
         if(err){
             res.send(httpResponse.onCouldNotUpdate);
         }
-        
+
         else{
             let type = req.query.type;
             let meta = req.query.meta;
@@ -94,7 +94,7 @@ function increment(req, res){
             if(value > 4){
                 res.send(httpResponse.onMaxValue);
             }
-            
+
             else{
                 let data = {[`${type}.${meta}`]: value};
 
@@ -112,13 +112,13 @@ function increment(req, res){
 
 
 function decrement(req, res){
-   
+
     Pillar.findOne({student_id: req.params.userId}, function(err, pillar){
 
         if(err){
             res.send(httpResponse.onCouldNotUpdate);
         }
-        
+
         else{
             let type = req.query.type;
             let meta = req.query.meta;
@@ -128,10 +128,10 @@ function decrement(req, res){
             if(value < 0){
                 res.send(httpResponse.onMinValue);
             }
-            
+
             else{
                 let data = {[`${type}.${meta}`]: value};
-            
+
                 Pillar.findOneAndUpdate({student_id: req.params.userId}, data, function(err, pillar){
                     if(err){
                         res.send(httpResponse.onCouldNotUpdate);

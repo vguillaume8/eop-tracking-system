@@ -3,7 +3,7 @@
 const express = require('express');
 const advisorService = require('../services/advisor');
 
-let router = express.Router();
+const router = express.Router();
 
 router.post('/student/:userId', advisorService.addStudent); // Adds student advisor list
 router.get('/student/:userId', advisorService.getStudents); // Gets all students in advisor list

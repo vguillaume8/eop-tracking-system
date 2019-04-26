@@ -8,46 +8,46 @@ const Verify = require('../../models/user.verify');
 const Util = require('../services/util/util');
 const httpResponse = require('../responses/httpresponses');
 
-async function getData(req, res){
+async function getData(req, res) {
 
-    await User.count({}, function(err, count){
-        
-        User.count({role: "student"}, function(err, student){
-    
-            if(err){
+    await User.count({}, function(err, count) {
+
+        User.count({role: "student"}, function(err, student) {
+
+            if (err) {
                 res.send(httpResponse.onCouldNotRetreive);
             }
 
-            else{
-                User.count({role: "advisor"}, function(err, advisor){
-                    
-                    if(err){
+            else {
+                User.count({role: "advisor"}, function(err, advisor) {
+
+                    if (err) {
                         res.send(httpResponse.onCouldNotRetreive);
                     }
-                    
-                    else{
-                        User.count({role: "admin"}, function(err, admin){
-                            
-                            if(err){
+
+                    else {
+                        User.count({role: "admin"}, function(err, admin) {
+
+                            if (err) {
                                 res.send(httpResponse.onCouldNotRetreive);
                             }
 
-                            else{
+                            else {
                                 res.json({count: count, student: student, advisor: advisor, admin: admin});
                             }
                         })
-                    }    
+                    }
                 })
             }
         })
-    })  
+    })
 }
 
 function search(req, res){
     let search = req.params.search.toLowerCase();
 
     User.find({firstname: new RegExp(search)}, function(err, result){
-        
+
         if(err){
             res.send(httpResponse.onCouldNotRetreive);
         }
@@ -55,21 +55,21 @@ function search(req, res){
         else{
             res.json({search: result});
         }
-    }) 
+    })
 }
 
 async function uploadStudentData(req, res){
 
-   
+
 
     if(!req.file){
         res.send(httpResponse.onNoFileUpload);
-    } 
+    }
 
     else{
-       
+
         let path = req.file.path;
-        
+
         await fs.ReadStream(path)
             .pipe(csv())
             .on('data', function(data){
@@ -85,9 +85,9 @@ async function uploadStudentData(req, res){
                         newUser.save(error => {
 
                         if (error) {
-                            
+
                         }
-                        
+
                         else{
 
                             let newPillar = new Pillar(Util.pillarCreate(data.BANNER_ID));
@@ -95,11 +95,11 @@ async function uploadStudentData(req, res){
                             newPillar.save(error => {
 
                             if (error) {
-                                
+
                             }
-                            
+
                             else{
-                                
+
                             }
 
                             })
@@ -108,16 +108,16 @@ async function uploadStudentData(req, res){
                         // Verify.find({n_id: data.BANNER_ID}, function(err, user){
 
                         //     if(err){
-                                
+
                         //       //  res.send(httpResponse.onCouldNotUpload);
-                                
+
                         //     }
-        
+
                         //     else{
                         //         if(user.length == 0){
-                                        
+
                         //             let new_verify = new Verify({n_id: data.BANNER_ID, email: data.EMAIL, firstname: data.FIRST_NAME, lastname: data.LAST_NAME, year: Util.convertYear(data.CLASS)})
-        
+
                         //             new_verify.save(err => {
                         //                 if(err){
                         //                    throw err;
@@ -132,14 +132,14 @@ async function uploadStudentData(req, res){
                 catch(err) {
                 //error handler
                     //res.send(httpResponse.onCouldNotUpload);
-                    
+
                 }
             })
 
             fs.unlink(path, (err) => {
-                                    
+
                 if (err) {
-                    res.send(httpResponse.onCouldNotDeleteFile); 
+                    res.send(httpResponse.onCouldNotDeleteFile);
                 }
 
                 else{

@@ -8,32 +8,32 @@ const path = require('path');
 
 function downloadFile(req, res){
 
-    if(req.params.file == "pillar-word"){
+    if (req.params.file == "pillar-word") {
         res.download(path.join(__dirname + '/static/pillar-word.zip'));
     }
-    
-    else if(req.params.file == 'pillar-img'){
+
+    else if(req.params.file == 'pillar-img') {
         res.sendFile(path.join(__dirname + '/static/pillar-img.zip'));
     }
-    
+
     else{
         res.send(httpResponse.onCouldNotRetreive);
     }
 }
 
 function downloadStudentAll(req, res){
-    User.find({role: "student"}, function(err, students){
+    User.find({role: "student"}, function(err, students) {
 
-        if(err){
-           
+        if (err) {
+
             res.send(httpResponse.onCouldNotRetreive);
         }
 
-        else{
+        else {
            // console.log(students[0]);
             let data = [];
-         
-            Pillar.find({}, function(err, pillars){
+
+            Pillar.find({}, function(err, pillars) {
 
                 if(err){
                     res.send(httpResponse.onCouldNotRetreive);
@@ -43,8 +43,8 @@ function downloadStudentAll(req, res){
                     let currentPillar;
                     let pillarvalues;
 
-                    data.push(['N-ID', 'First Name', 'Last Name', 'Email', 
-                            'Year', 'Advisor', 'Self Actualization', 
+                    data.push(['N-ID', 'First Name', 'Last Name', 'Email',
+                            'Year', 'Advisor', 'Self Actualization',
                             'Emotional', 'Community', 'Intellectual',
                             'Health', 'Professional/Academic'
                         ]
@@ -53,7 +53,7 @@ function downloadStudentAll(req, res){
                     for (var i = 0; i < students.length ; i++) {
 
                         if(students[i] != null){
-                         
+
                             for(var key in pillars){
                                 if(pillars[key].student_id == students[i].n_id){
                                     currentPillar = pillars[key];
@@ -63,10 +63,10 @@ function downloadStudentAll(req, res){
                             }
 
                             if(pillarvalues != null){
-                                data.push([students[i].n_id, students[i].firstname, students[i].lastname, 
-                                    students[i].email, students[i].year, students[i].advisor, 
+                                data.push([students[i].n_id, students[i].firstname, students[i].lastname,
+                                    students[i].email, students[i].year, students[i].advisor,
                                     pillarvalues.SelfActulization, pillarvalues.Emotional, pillarvalues.Community,
-                                    pillarvalues.Intellectual, pillarvalues.Health, pillarvalues.ProfessionalAcademic 
+                                    pillarvalues.Intellectual, pillarvalues.Health, pillarvalues.ProfessionalAcademic
                                 ]);
 
                             }
@@ -75,7 +75,7 @@ function downloadStudentAll(req, res){
                                 data.push([students[i].n_id, students[i].firstname, students[i].lastname, students[i].email, students[i].year, students[i].advisor]);
 
                             }
-                        }   
+                        }
                     }
                     res.csv(data);
                 }
