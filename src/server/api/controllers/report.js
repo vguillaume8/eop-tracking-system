@@ -3,7 +3,7 @@
 const express = require('express');
 const reportService = require('../services/report');
 
-let router = express.Router();
+const router = express.Router();
 
 router.get('/:userId', reportService.getReport);
 

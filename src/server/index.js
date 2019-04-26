@@ -2,13 +2,10 @@
 
 const api = require('./api/api')();
 const config = require('./configs/config');
-let db = require('./configs/db');
+const db = require('./configs/db');
 
 // creates the server- passes in the config and database settings
 api.create(config, db);
 
 // starts express server
 api.start();
-
-
-

@@ -35,7 +35,7 @@ let router = new Router({
       component: Profile,
       meta: {
         requiresAuth: true,
-       
+
       }
     },
     {
@@ -107,7 +107,7 @@ let router = new Router({
       meta: {
         requiresAuth: true,
         is_advisor: true
-        
+
       }
     },
     {
@@ -117,7 +117,7 @@ let router = new Router({
       component: Student_Progression,
       meta: {
         requiresAuth: true,
-        
+
       }
     }
   ]
@@ -127,8 +127,8 @@ router.beforeEach((to, from, next) => {
   // let isUserAdmin = false;
   // let user = JSON.parse(localStorage.getItem('user'));
   // if(user.role == 'admin') isUserAdmin = true
-  
-  if(to.matched.some(record => record.meta.requiresAuth)) {
+
+  if (to.matched.some(record => record.meta.requiresAuth)) {
     if (localStorage.getItem('jwt') == null) {
       next({
         path: '/login',
@@ -137,35 +137,35 @@ router.beforeEach((to, from, next) => {
       } else {
           let user = JSON.parse(localStorage.getItem('user'))
 
-          if(to.matched.some(record => record.meta.is_admin)) {
+          if (to.matched.some(record => record.meta.is_admin)) {
             if(user.role === 'admin'){
               next()
             } else{
               next({ name: 'Forbidden'})
             }
-          } else if(to.matched.some(record => record.meta.is_advisor)){
-              if(user.role === 'advisor'){
+          } else if (to.matched.some(record => record.meta.is_advisor)) {
+              if (user.role === 'advisor'){
                 next()
               } else{
                 next({ name: 'Student'})
               }
-            } else if(to.matched.some(record => record.meta.not_student)){
-              if(user.role != 'student'){
+            } else if (to.matched.some(record => record.meta.not_student)) {
+              if (user.role != 'student'){
                 next()
-              }else{
+              } else {
                 next({ name: 'Forbidden'})
               }
-            } else if(to.matched.some(record => record.meta.admin_or_student)){
-                if(user.role != 'advisor'){
+            } else if (to.matched.some(record => record.meta.admin_or_student)) {
+                if (user.role != 'advisor') {
                   next()
-                }else{
+                } else {
                   next({ name: 'Forbidden'})
                 }
               }
-          else if(to.matched.some(record => record.meta.advisor_or_student)){
-            if(user.role != 'admin'){
+          else if (to.matched.some(record => record.meta.advisor_or_student)) {
+            if (user.role != 'admin') {
               next()
-            }else{
+            } else {
               next({ name: 'Forbidden'})
             }
           }
@@ -173,17 +173,15 @@ router.beforeEach((to, from, next) => {
                next()
            }
       }
-  } else if(to.matched.some(record => record.meta.guest)) {
-      if(localStorage.getItem('jwt') == null){
+  } else if (to.matched.some(record => record.meta.guest)) {
+      if (localStorage.getItem('jwt') == null){
           next()
-      }
-      else{
+      } else {
           next('/')
       }
-  }else {
-      next() 
+  } else {
+      next()
   }
 })
 
 export default router
-

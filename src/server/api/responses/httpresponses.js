@@ -162,7 +162,7 @@ module.exports = {
     onCouldNotUpload: {
         success: false,
         message: "Could not upload data"
-    },  
+    },
     onUploadSuccess: {
         success: true,
         message: "Data successfully updated"
@@ -197,6 +197,5 @@ module.exports = {
         success: true,
         message: "Record was successfully saved"
     }
-    
-    
+  
 };

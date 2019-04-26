@@ -33,9 +33,9 @@ const CommentSchema = new mongoose.Schema({
     intellectual: Boolean,
     health: Boolean,
     prof: Boolean
-   
+
 
 });
-  
 
-  module.exports = mongoose.model('Comment', CommentSchema);
+
+module.exports = mongoose.model('Comment', CommentSchema);
