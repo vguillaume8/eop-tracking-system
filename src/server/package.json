@@ -30,7 +30,7 @@
     "fs-extra": "^7.0.1",
     "html-pdf": "^2.2.0",
     "jsonwebtoken": "^8.4.0",
-    "jspdf": "^1.5.3",
+    "jspdf": "^2.5.1",
     "logger": "0.0.1",
     "mongoose": "^5.4.11",
     "mongoose-double": "0.0.1",
